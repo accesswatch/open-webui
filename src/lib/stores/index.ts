@@ -287,6 +287,13 @@ type Config = {
 		enable_direct_connections: boolean;
 		enable_version_update_check: boolean;
 		folder_max_file_count?: number;
+		enable_ldap?: boolean;
+		enable_signup_password_confirmation?: boolean;
+	};
+	onboarding?: boolean;
+	metadata?: {
+		auth_logo_position?: string;
+		login_footer?: string;
 	};
 	oauth: {
 		providers: {

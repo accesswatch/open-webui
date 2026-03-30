@@ -5,6 +5,8 @@
 	import { toast } from 'svelte-sonner';
 
 	import { onMount, getContext, tick } from 'svelte';
+	import type { Writable } from 'svelte/store';
+	import type { i18n as i18nType } from 'i18next';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 
@@ -27,13 +29,13 @@
 	import SensitiveInput from '$lib/components/common/SensitiveInput.svelte';
 	import { redirect } from '@sveltejs/kit';
 
-	const i18n = getContext('i18n');
+	const i18n = getContext<Writable<i18nType>>('i18n');
 
 	let loaded = false;
 
 	let mode = $config?.features.enable_ldap ? 'ldap' : 'signin';
 
-	let form = null;
+	let form: string | null = null;
 
 	let name = '';
 	let email = '';
@@ -42,14 +44,14 @@
 
 	let ldapUsername = '';
 
-	const setSessionUser = async (sessionUser, redirectPath: string | null = null) => {
+	const setSessionUser = async (sessionUser: { token?: string; [key: string]: unknown } | null, redirectPath: string | null = null) => {
 		if (sessionUser) {
 			console.log(sessionUser);
 			toast.success($i18n.t(`You're now logged in.`));
 			if (sessionUser.token) {
 				localStorage.token = sessionUser.token;
 			}
-			$socket.emit('user-join', { auth: { token: sessionUser.token } });
+			$socket?.emit('user-join', { auth: { token: sessionUser.token } });
 			await user.set(sessionUser);
 			await config.set(await getBackendConfig());
 
@@ -115,7 +117,7 @@
 
 	const oauthCallbackHandler = async () => {
 		// Get the value of the 'token' cookie
-		function getCookie(name) {
+		function getCookie(name: string) {
 			const match = document.cookie.match(
 				new RegExp('(?:^|; )' + name.replace(/([.$?*|{}()[\]\\/+^])/g, '\\$1') + '=([^;]*)')
 			);
@@ -154,7 +156,7 @@
 				darkImage.src = `${WEBUI_BASE_URL}/static/favicon-dark.png`;
 
 				darkImage.onload = () => {
-					logo.src = `${WEBUI_BASE_URL}/static/favicon-dark.png`;
+					(logo as HTMLImageElement).src = `${WEBUI_BASE_URL}/static/favicon-dark.png`;
 					logo.style.filter = ''; // Ensure no inversion is applied if favicon-dark.png exists
 				};
 
@@ -338,7 +340,7 @@
 												bind:value={password}
 												type="password"
 												id="password"
-												class="my-0.5 w-full text-sm outline-hidden bg-transparent placeholder:text-gray-300 dark:placeholder:text-gray-600"
+												inputClassName="my-0.5 w-full text-sm outline-hidden bg-transparent placeholder:text-gray-300 dark:placeholder:text-gray-600"
 												placeholder={$i18n.t('Enter Your Password')}
 												autocomplete={mode === 'signup' ? 'new-password' : 'current-password'}
 												name="password"
@@ -359,7 +361,7 @@
 													bind:value={confirmPassword}
 													type="password"
 													id="confirm-password"
-													class="my-0.5 w-full text-sm outline-hidden bg-transparent"
+													inputClassName="my-0.5 w-full text-sm outline-hidden bg-transparent"
 													placeholder={$i18n.t('Confirm Your Password')}
 													autocomplete="new-password"
 													name="confirm-password"
