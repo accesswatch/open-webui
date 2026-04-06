@@ -1,0 +1,2617 @@
+<h1 id="open-webui-accessibility-audit-and-remediation-plan">Open WebUI
+Accessibility Audit and Remediation Plan</h1>
+<p>Assessment Date: March 29, 2026 Repository: open-webui/open-webui
+(Svelte 5, SvelteKit 2, Tailwind CSS) Codebase: 556 .svelte files across
+src/</p>
+<hr />
+<h2 id="leadership-summary">Leadership Summary</h2>
+<h3 id="the-problem">The Problem</h3>
+<p>Open WebUI – a self-hosted AI chat platform with 60,000+ GitHub stars
+– is <strong>largely unusable</strong> for people who rely on screen
+readers, keyboard-only navigation, or other assistive technologies. A
+full WCAG 2.2 AA audit of its 556 Svelte components found systemic
+barriers:</p>
+<ul>
+<li><strong>89% of form inputs have no label.</strong> Screen reader
+users cannot tell what a field is for.</li>
+<li><strong>Zero page landmarks.</strong> Users cannot jump between the
+sidebar, chat area, and header – they must Tab through hundreds of
+elements.</li>
+<li><strong>No skip navigation link.</strong> Every page load forces
+keyboard users through the entire sidebar before reaching the chat.</li>
+<li><strong>Critical interactive controls lack keyboard
+support.</strong> The model selector, dropdowns, and collapsible
+sections require a mouse.</li>
+<li><strong>60 accessibility warnings explicitly suppressed</strong> in
+code rather than fixed.</li>
+</ul>
+<p>This is not a niche concern. The WHO estimates 16% of the global
+population has a significant disability. For an open-source project of
+this scale, accessibility gaps also create legal exposure under Section
+508, ADA, EN 301 549, and the European Accessibility Act.</p>
+<h3 id="the-plan">The Plan</h3>
+<p>We structured remediation around <strong>7 user-journey
+sprints</strong> rather than technical categories, so each sprint
+delivers a complete, testable improvement for real users:</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Sprint</th>
+<th>User Story</th>
+<th>Issues</th>
+<th>Risk Level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>I can send a message</td>
+<td>3</td>
+<td>Zero – HTML element swaps only</td>
+</tr>
+<tr>
+<td>2</td>
+<td>I can read the response</td>
+<td>3</td>
+<td>Low – headings + live region</td>
+</tr>
+<tr>
+<td>3</td>
+<td>I can act on the response</td>
+<td>2</td>
+<td>Low – CSS + keyboard shortcuts</td>
+</tr>
+<tr>
+<td>4</td>
+<td>I can pick a model</td>
+<td>2</td>
+<td>Medium – combobox behavior</td>
+</tr>
+<tr>
+<td>5</td>
+<td>I can browse my chat history</td>
+<td>2</td>
+<td>Low – sidebar headings + label</td>
+</tr>
+<tr>
+<td>6</td>
+<td>I can manage my settings</td>
+<td>4</td>
+<td>Low – headings, labels, tabs</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Cross-cutting polish</td>
+<td>22</td>
+<td>Mixed – motion, focus, ARIA, contrast, form labels, WCAG 2.2 new
+criteria</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>Total</strong></td>
+<td><strong>38</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Each sprint has a parent tracking issue with sub-issues linked
+underneath. All 45 issues (7 parents + 38 sub-issues) are on a <a
+href="https://github.com/users/accesswatch/projects/1">GitHub Project
+board</a> with sprint tagging.</p>
+<h3 id="key-design-decisions">Key Design Decisions</h3>
+<ul>
+<li><strong>Journey-first, not risk-first.</strong> Sprints 1–3 make the
+core chat flow accessible end-to-end before touching settings or admin
+pages. A user who completes Sprint 1 can meaningfully use the
+product.</li>
+<li><strong>Zero visual change, by design.</strong> The first 6 sprints
+swap HTML elements (div to heading, div to button) while keeping the
+exact same Tailwind CSS classes. Before/after screenshots should be
+pixel-identical.</li>
+<li><strong>Atomic PRs.</strong> Each sub-issue maps to one PR with one
+logical change. Maintainers review 20–100 lines, not 500-line
+refactors.</li>
+<li><strong>Upstream-aligned.</strong> The maintainer approved this
+approach in <a
+href="https://github.com/open-webui/open-webui/discussions/23212">Discussion
+#23212</a>: small PRs, handful of files, low triple-digit line changes
+max.</li>
+</ul>
+<h3 id="current-status-april-6-2026">Current Status (April 6, 2026)</h3>
+<ul>
+<li>Audit complete, plan documented</li>
+<li>45 GitHub issues created with sub-issue hierarchy (28 original + 10
+gap-analysis additions)</li>
+<li>Project board live with sprint tracking</li>
+<li>Maintainer approval received</li>
+<li>Gap analysis complete – all WCAG 2.2 AA criteria now tracked</li>
+<li>Ready to begin Sprint 1 implementation</li>
+</ul>
+<h3 id="how-to-follow-along">How to Follow Along</h3>
+<ul>
+<li><strong>Project board</strong>: <a
+href="https://github.com/users/accesswatch/projects/1">Open WebUI
+Accessibility (WCAG 2.2 AA)</a></li>
+<li><strong>Upstream discussion</strong>: <a
+href="https://github.com/open-webui/open-webui/discussions/23212">open-webui/open-webui
+Discussion #23212</a></li>
+<li><strong>Upstream tracking issue</strong>: <a
+href="https://github.com/open-webui/open-webui/issues/2790">open-webui/open-webui#2790</a></li>
+<li><strong>Fork</strong>: <a
+href="https://github.com/accesswatch/open-webui">accesswatch/open-webui</a></li>
+</ul>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#open-webui-accessibility-audit-and-remediation-plan">Open
+WebUI Accessibility Audit and Remediation Plan</a>
+<ul>
+<li><a href="#leadership-summary">Leadership Summary</a>
+<ul>
+<li><a href="#the-problem">The Problem</a></li>
+<li><a href="#the-plan">The Plan</a></li>
+<li><a href="#key-design-decisions">Key Design Decisions</a></li>
+<li><a href="#current-status-april-6-2026">Current Status (April 6,
+2026)</a></li>
+<li><a href="#how-to-follow-along">How to Follow Along</a></li>
+</ul></li>
+<li><a href="#table-of-contents">Table of Contents</a></li>
+<li><a href="#contribution-process-alignment">Contribution Process
+Alignment</a>
+<ul>
+<li><a href="#mandatory-steps-before-any-pr">Mandatory Steps Before Any
+PR</a></li>
+<li><a
+href="#important-context-accessibility-is-labeled-non-core">Important
+Context: Accessibility is Labeled “non-core”</a></li>
+<li><a href="#issue-templates">Issue Templates</a>
+<ul>
+<li><a href="#fork-vs-upstream-issues">Fork vs. Upstream Issues</a></li>
+<li><a href="#bug-report-template-for-accessibility-defects">Bug Report
+template (for accessibility defects)</a></li>
+<li><a
+href="#feature-request-template-for-new-accessibility-capabilities">Feature
+Request template (for new accessibility capabilities)</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#codebase-audit-findings">Codebase Audit Findings</a>
+<ul>
+<li><a href="#quantitative-overview">Quantitative Overview</a></li>
+<li><a href="#critical-missing-semantic-structure">Critical: Missing
+Semantic Structure</a></li>
+<li><a href="#critical-form-labeling-gap">Critical: Form Labeling
+Gap</a></li>
+<li><a href="#critical-missing-keyboard-support">Critical: Missing
+Keyboard Support</a></li>
+<li><a href="#critical-live-region-deficiency">Critical: Live Region
+Deficiency</a></li>
+<li><a href="#high-suppressed-a11y-warnings">High: Suppressed A11y
+Warnings</a></li>
+<li><a href="#high-focus-indicator-gaps">High: Focus Indicator
+Gaps</a></li>
+<li><a href="#high-missing-aria-patterns">High: Missing ARIA
+Patterns</a></li>
+<li><a href="#medium-motion-and-reduced-motion">Medium: Motion and
+Reduced Motion</a></li>
+<li><a href="#medium-missing-skip-navigation">Medium: Missing Skip
+Navigation</a></li>
+<li><a href="#component-level-findings">Component-Level Findings</a>
+<ul>
+<li><a href="#modalsvelte-good-foundation-needs-polish">Modal.svelte
+(Good foundation, needs polish)</a></li>
+<li><a href="#dropdownsvelte-needs-significant-work">Dropdown.svelte
+(Needs significant work)</a></li>
+<li><a href="#collapsiblesvelte-not-a-button">Collapsible.svelte (Not a
+button)</a></li>
+<li><a href="#tooltipsvelte-partial">Tooltip.svelte (Partial)</a></li>
+<li><a href="#sidebarsvelte-commonsidebar----not-layout">Sidebar.svelte
+(common/Sidebar – not layout)</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#existing-accessibility-history">Existing Accessibility
+History</a>
+<ul>
+<li><a
+href="#issue-277-enh-improve-accessibility-against-wcag-21-closed-june-2024">Issue
+#277: “enh: improve accessibility against WCAG 2.1” (Closed, June
+2024)</a></li>
+<li><a href="#issue-1008-enhancement-more-keyboard-shortcuts-open">Issue
+#1008: “enhancement: more keyboard shortcuts” (Open)</a></li>
+</ul></li>
+<li><a
+href="#journey-prioritized-implementation-plan">Journey-Prioritized
+Implementation Plan</a>
+<ul>
+<li><a href="#why-journey-first-instead-of-risk-first">Why Journey-First
+Instead of Risk-First</a></li>
+<li><a href="#user-journey-priority-ranking">User Journey Priority
+Ranking</a></li>
+<li><a href="#heading-gap-analysis">Heading Gap Analysis</a></li>
+<li><a
+href="#heading-implementation-principle-semantics-only-zero-visual-change">Heading
+Implementation Principle: Semantics Only, Zero Visual Change</a></li>
+<li><a href="#sprint-1-i-can-send-a-message">Sprint 1: “I can send a
+message”</a>
+<ul>
+<li><a href="#pr-1-a-add-semantic-landmarks-to-app-layout-8">PR 1-A: Add
+semantic landmarks to app layout (#8)</a></li>
+<li><a href="#pr-1-b-label-the-chat-input-9">PR 1-B: Label the chat
+input (#9)</a></li>
+<li><a href="#pr-1-c-add-page-heading-to-empty-chat-state-10">PR 1-C:
+Add page heading to empty chat state (#10)</a></li>
+</ul></li>
+<li><a href="#sprint-2-i-can-read-the-response">Sprint 2: “I can read
+the response”</a>
+<ul>
+<li><a href="#pr-2-a-make-message-sender-names-headings-11">PR 2-A: Make
+message sender names headings (#11)</a></li>
+<li><a href="#pr-2-b-add-skip-navigation-link-12">PR 2-B: Add skip
+navigation link (#12)</a></li>
+<li><a href="#pr-2-c-announce-response-completion-13">PR 2-C: Announce
+response completion (#13)</a></li>
+</ul></li>
+<li><a href="#sprint-3-i-can-act-on-the-response">Sprint 3: “I can act
+on the response”</a>
+<ul>
+<li><a
+href="#pr-3-a-make-action-buttons-visible-on-keyboard-focus-14">PR 3-A:
+Make action buttons visible on keyboard focus (#14)</a></li>
+<li><a href="#pr-3-b-add-keyboard-navigation-between-messages-15">PR
+3-B: Add keyboard navigation between messages (#15)</a></li>
+</ul></li>
+<li><a href="#sprint-4-i-can-pick-a-model">Sprint 4: “I can pick a
+model”</a>
+<ul>
+<li><a href="#pr-4-a-add-basic-keyboard-support-to-model-selector-16">PR
+4-A: Add basic keyboard support to model selector (#16)</a></li>
+<li><a href="#pr-4-b-add-combobox-aria-to-the-selector-17">PR 4-B: Add
+combobox ARIA to the selector (#17)</a></li>
+</ul></li>
+<li><a href="#sprint-5-i-can-browse-my-chat-history">Sprint 5: “I can
+browse my chat history”</a>
+<ul>
+<li><a href="#pr-5-a-add-sidebar-section-headings-18">PR 5-A: Add
+sidebar section headings (#18)</a></li>
+<li><a href="#pr-5-b-label-the-sidebar-search-input-19">PR 5-B: Label
+the sidebar search input (#19)</a></li>
+</ul></li>
+<li><a href="#sprint-6-i-can-manage-my-settings">Sprint 6: “I can manage
+my settings”</a>
+<ul>
+<li><a href="#pr-6-a-convert-modal-titles-to-headings-20">PR 6-A:
+Convert modal titles to headings (#20)</a></li>
+<li><a href="#pr-6-b-add-headings-to-settings-sections-21">PR 6-B: Add
+headings to settings sections (#21)</a></li>
+<li><a href="#pr-6-c-label-settings-form-inputs-22">PR 6-C: Label
+settings form inputs (#22)</a></li>
+<li><a href="#pr-6-d-complete-settings-tab-aria-pattern-23">PR 6-D:
+Complete settings tab ARIA pattern (#23)</a></li>
+</ul></li>
+<li><a href="#sprint-7-cross-cutting-polish">Sprint 7: Cross-cutting
+polish</a>
+<ul>
+<li><a href="#gap-analysis-additions-april-6-2026">Gap-analysis
+additions (April 6, 2026)</a></li>
+</ul></li>
+<li><a href="#additional-high-impact-scenarios">Additional High-Impact
+Scenarios</a></li>
+</ul></li>
+<li><a href="#original-phased-remediation-plan-reference">Original
+Phased Remediation Plan (Reference)</a>
+<ul>
+<li><a href="#phase-0-community-discussion">Phase 0: Community
+Discussion</a></li>
+<li><a href="#phase-1-semantic-structure-high-impact-zero-risk">Phase 1:
+Semantic Structure (High Impact, Zero Risk)</a>
+<ul>
+<li><a href="#pr-11-add-semantic-landmarks-to-app-layout">PR 1.1: Add
+semantic landmarks to app layout</a></li>
+<li><a href="#pr-12-add-skip-navigation-link">PR 1.2: Add skip
+navigation link</a></li>
+<li><a href="#pr-13-add-proper-heading-hierarchy">PR 1.3: Add proper
+heading hierarchy</a></li>
+<li><a href="#pr-14-add-prefers-reduced-motion-support">PR 1.4: Add
+prefers-reduced-motion support</a></li>
+</ul></li>
+<li><a
+href="#phase-2-labels-and-attributes-critical-impact-very-low-risk">Phase
+2: Labels and Attributes (Critical Impact, Very Low Risk)</a>
+<ul>
+<li><a href="#pr-21-label-the-chat-input">PR 2.1: Label the chat
+input</a></li>
+<li><a href="#pr-22-label-form-inputs-across-chat-components">PR 2.2:
+Label form inputs across chat components</a></li>
+<li><a href="#pr-23-label-form-inputs-across-settings-and-admin">PR 2.3:
+Label form inputs across settings and admin</a></li>
+</ul></li>
+<li><a
+href="#phase-3-isolated-component-fixes-moderate-impact-low-risk">Phase
+3: Isolated Component Fixes (Moderate Impact, Low Risk)</a>
+<ul>
+<li><a href="#pr-31-fix-modalsvelte-aria-labeling">PR 3.1: Fix
+Modal.svelte ARIA labeling</a></li>
+<li><a href="#pr-32-fix-tooltipsvelte-focus-behavior">PR 3.2: Fix
+Tooltip.svelte focus behavior</a></li>
+<li><a href="#pr-33-ensure-toast-notifications-are-announced">PR 3.3:
+Ensure toast notifications are announced</a></li>
+<li><a href="#pr-34-fix-collapsiblesvelte-accessibility">PR 3.4: Fix
+Collapsible.svelte accessibility</a></li>
+</ul></li>
+<li><a
+href="#phase-4-behavioral-component-changes-high-impact-medium-risk">Phase
+4: Behavioral Component Changes (High Impact, Medium Risk)</a>
+<ul>
+<li><a href="#pr-41-fix-dropdownsvelte-accessibility">PR 4.1: Fix
+Dropdown.svelte accessibility</a></li>
+<li><a href="#pr-42-fix-sidebar-panel-accessibility">PR 4.2: Fix Sidebar
+panel accessibility</a></li>
+<li><a href="#pr-43-add-accessible-form-validation-errors">PR 4.3: Add
+accessible form validation errors</a></li>
+</ul></li>
+<li><a
+href="#phase-5-complex-interactive-patterns-high-impact-medium-high-risk">Phase
+5: Complex Interactive Patterns (High Impact, Medium-High Risk)</a>
+<ul>
+<li><a href="#pr-51-model-selector-combobox-pattern">PR 5.1: Model
+selector combobox pattern</a></li>
+<li><a href="#pr-52-chat-message-live-regions">PR 5.2: Chat message live
+regions</a></li>
+<li><a href="#pr-53-chat-keyboard-navigation">PR 5.3: Chat keyboard
+navigation</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#pr-templates-for-each-phase">PR Templates for Each
+Phase</a></li>
+<li><a href="#testing-protocol">Testing Protocol</a>
+<ul>
+<li><a href="#screen-reader-testing-nvda-on-windows-recommended">Screen
+Reader Testing (NVDA on Windows recommended)</a></li>
+<li><a href="#keyboard-only-testing">Keyboard-Only Testing</a></li>
+<li><a href="#automated-testing">Automated Testing</a></li>
+</ul></li>
+<li><a href="#wcag-22-aa-coverage-map">WCAG 2.2 AA Coverage Map</a></li>
+<li><a href="#risk-assessment">Risk Assessment</a></li>
+<li><a href="#project-tracking">Project Tracking</a>
+<ul>
+<li><a href="#issue-map">Issue Map</a></li>
+</ul></li>
+<li><a href="#next-steps">Next Steps</a></li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="contribution-process-alignment">Contribution Process
+Alignment</h2>
+<p>Per the repository’s CONTRIBUTING.md, PR template, and issue
+templates, the following process constraints apply to all work:</p>
+<h3 id="mandatory-steps-before-any-pr">Mandatory Steps Before Any
+PR</h3>
+<ol type="1">
+<li><p><strong>Discussion First</strong>: Open a Discussion post in <a
+href="https://github.com/open-webui/open-webui/discussions">Discussions</a>
+describing the accessibility initiative and individual fix proposals
+before creating PRs. This is explicitly required for first-time
+contributors and for feature work.</p></li>
+<li><p><strong>Target the <code>dev</code> branch</strong>: All PRs must
+target <code>dev</code>. PRs targeting <code>main</code> are
+automatically closed.</p></li>
+<li><p><strong>PR Title Prefixes</strong>: Use the correct prefix for
+each PR:</p>
+<ul>
+<li><code>fix:</code> for correcting accessibility bugs (missing labels,
+broken keyboard nav)</li>
+<li><code>feat:</code> for new accessibility features (skip links, live
+regions)</li>
+<li><code>refactor:</code> for semantic HTML restructuring</li>
+</ul></li>
+<li><p><strong>Atomic PRs</strong>: Each PR must contain one logical
+change. Do not bundle skip links with form labeling. Each phase item
+below should be its own PR.</p></li>
+<li><p><strong>No AI-Only Code</strong>: All code must go through human
+review AND manual testing. Include screenshots or screen recordings
+demonstrating the fix in action.</p></li>
+<li><p><strong>CLA Agreement</strong>: The Contributor License Agreement
+checkbox must be checked on every PR.</p></li>
+<li><p><strong>Changelog Entry</strong>: Each PR must include a Keep a
+Changelog entry at the bottom.</p></li>
+<li><p><strong>Manual Testing</strong>: Every PR must include:</p>
+<ul>
+<li>Before/after screenshots</li>
+<li>Steps to reproduce the issue</li>
+<li>Confirmation the fix doesn’t break other functionality</li>
+<li>Browser testing with at minimum one screen reader (NVDA recommended
+for Windows)</li>
+</ul></li>
+<li><p><strong>Smart Defaults Over Settings</strong>: Accessibility
+fixes should be applied universally, not behind feature flags. This
+aligns with the project’s “smart defaults” design philosophy.</p></li>
+</ol>
+<h3 id="important-context-accessibility-is-labeled-non-core">Important
+Context: Accessibility is Labeled “non-core”</h3>
+<p>Both existing accessibility issues (<a
+href="https://github.com/open-webui/open-webui/issues/277">#277</a>, <a
+href="https://github.com/open-webui/open-webui/issues/1008">#1008</a>)
+carry the <code>non-core</code> label, defined as “maintainers aren’t
+looking into this/low priority.” This means:</p>
+<ul>
+<li>Keep PRs small, focused, and easy to review</li>
+<li>Do not submit large refactoring PRs</li>
+<li>Position changes as bug fixes where possible (missing labels ARE
+bugs)</li>
+<li>Be patient with review timelines</li>
+<li>Be constructive and respectful per the Code of Conduct</li>
+</ul>
+<h3 id="issue-templates">Issue Templates</h3>
+<p>The project enforces strict template compliance. CONTRIBUTING.md
+warns: “failure to follow the provided issue template, or not providing
+the requested information at all, will likely result in your issue being
+closed without further consideration.” Blank issues are disabled – every
+issue must use one of the two templates below.</p>
+<h4 id="fork-vs.-upstream-issues">Fork vs. Upstream Issues</h4>
+<p>The 45 issues for this project live on the <strong>fork</strong>
+(accesswatch/open-webui), which inherits the same templates and
+<code>blank_issues_enabled: false</code> setting. These issues must
+follow the same template structure as upstream, since:</p>
+<ul>
+<li>The fork’s template enforcement is identical to upstream</li>
+<li>Issues may be referenced in upstream PRs and discussions</li>
+<li>Template compliance demonstrates process alignment with the
+project</li>
+</ul>
+<p><strong>Sprint parent tracking issues</strong> (<a
+href="https://github.com/accesswatch/open-webui/issues/1">#1</a>–<a
+href="https://github.com/accesswatch/open-webui/issues/7">#7</a>) are an
+exception. Neither template is designed for parent/tracking issues with
+sub-issue checklists. These use a project management format with sprint
+goals, user journeys, WCAG criteria, sub-issue task lists, and
+definitions of done. This is standard practice for multi-issue
+initiatives.</p>
+<p><strong>Sub-issues</strong> (<a
+href="https://github.com/accesswatch/open-webui/issues/8">#8</a>–<a
+href="https://github.com/accesswatch/open-webui/issues/35">#35</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/36">#36</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/38">#38</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/40">#40</a>–<a
+href="https://github.com/accesswatch/open-webui/issues/47">#47</a>)
+follow the appropriate template based on their nature:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Template</th>
+<th>Sub-issues</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bug Report (<code>issue:</code>)</td>
+<td><a href="https://github.com/accesswatch/open-webui/issues/8">#8</a>,
+<a href="https://github.com/accesswatch/open-webui/issues/9">#9</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/10">#10</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/11">#11</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/14">#14</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/17">#17</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/18">#18</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/19">#19</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/20">#20</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/21">#21</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/22">#22</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/23">#23</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/24">#24</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/25">#25</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/26">#26</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/27">#27</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/28">#28</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/29">#29</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/30">#30</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/31">#31</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/32">#32</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/33">#33</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/34">#34</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/35">#35</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/36">#36</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/38">#38</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/40">#40</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/41">#41</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/42">#42</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/43">#43</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/44">#44</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/45">#45</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/46">#46</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/47">#47</a></td>
+<td>Fixing broken or missing accessibility in existing controls</td>
+</tr>
+<tr>
+<td>Feature Request (<code>feat:</code>)</td>
+<td><a
+href="https://github.com/accesswatch/open-webui/issues/12">#12</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/13">#13</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/15">#15</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/16">#16</a></td>
+<td>Adding genuinely new capabilities (skip link, live region, J/K nav,
+arrow nav)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="bug-report-template-for-accessibility-defects">Bug Report
+template (for accessibility defects)</h4>
+<p>Use this when an existing behavior is inaccessible (missing labels,
+broken keyboard nav, suppressed a11y warnings). The title auto-prefixes
+with <code>issue:</code>.</p>
+<p>Required fields:</p>
+<ol type="1">
+<li><strong>Check Existing Issues</strong> – four checkboxes confirming
+you searched open AND closed issues AND discussions</li>
+<li><strong>Installation Method</strong> – select “Git Clone” for
+accessibility audit work</li>
+<li><strong>Open WebUI Version</strong> – specify the exact version or
+commit</li>
+<li><strong>Operating System</strong> – specify OS and version</li>
+<li><strong>Browser</strong> – specify browser and version (optional but
+recommended for frontend a11y bugs)</li>
+<li><strong>Confirmation checklist</strong> – seven required checkboxes:
+<ul>
+<li>Read and followed README.md instructions</li>
+<li>Using the latest version of Open WebUI and Ollama</li>
+<li>Included browser console logs</li>
+<li>Included Docker container logs (write “N/A – frontend-only
+accessibility issue” when not applicable)</li>
+<li>Provided every relevant configuration and environment variable</li>
+<li>Listed every relevant setting influencing the setup</li>
+<li>Documented step-by-step reproduction instructions (include screen
+reader name, version, and verbatim announcements)</li>
+</ul></li>
+<li><strong>Expected Behavior</strong> – what the screen reader or
+keyboard should do</li>
+<li><strong>Actual Behavior</strong> – what actually happens (include
+screen reader announcements or lack thereof)</li>
+<li><strong>Steps to Reproduce</strong> – precise sequential steps using
+the actual UI with a screen reader</li>
+<li><strong>Logs and Screenshots</strong> – browser console output,
+accessibility tree snapshots, or screen reader output</li>
+<li><strong>Additional Information</strong> – optional context</li>
+</ol>
+<h4
+id="feature-request-template-for-new-accessibility-capabilities">Feature
+Request template (for new accessibility capabilities)</h4>
+<p>Use this for genuinely new functionality (skip links, live regions,
+new ARIA patterns). The title auto-prefixes with <code>feat:</code>.
+Only file as a Feature Request if the change is quick to implement.
+Larger features should go to the <strong>Ideas</strong> section of <a
+href="https://github.com/open-webui/open-webui/discussions">Discussions</a>
+instead – the template explicitly warns that non-trivial requests will
+be closed and force-moved to Discussions.</p>
+<p>Required fields:</p>
+<ol type="1">
+<li><strong>Check Existing Issues</strong> – confirm you searched all
+open AND closed issues and discussions</li>
+<li><strong>Verify Feature Scope</strong> – confirm the feature is quick
+to implement and belongs in Issues rather than Discussions</li>
+<li><strong>Problem Description</strong> – describe the accessibility
+barrier this feature addresses</li>
+<li><strong>Desired Solution</strong> – describe what the accessible
+behavior should be</li>
+<li><strong>Alternatives Considered</strong> – optional, describe other
+approaches evaluated</li>
+<li><strong>Additional Context</strong> – optional, include WCAG
+criteria references, screen reader test plans, or mockups</li>
+</ol>
+<hr />
+<h2 id="codebase-audit-findings">Codebase Audit Findings</h2>
+<h3 id="quantitative-overview">Quantitative Overview</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Count</th>
+<th>Assessment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total .svelte files</td>
+<td>556</td>
+<td>Large codebase</td>
+</tr>
+<tr>
+<td>Svelte a11y-ignore directives</td>
+<td>60</td>
+<td>High – willful suppression</td>
+</tr>
+<tr>
+<td><code>on:click</code> handlers (Svelte 4)</td>
+<td>922</td>
+<td>Needs keyboard audit</td>
+</tr>
+<tr>
+<td><code>&lt;button&gt;</code> elements</td>
+<td>927</td>
+<td>Good usage overall</td>
+</tr>
+<tr>
+<td><code>&lt;input&gt;</code> elements</td>
+<td>354</td>
+<td>High form density</td>
+</tr>
+<tr>
+<td><code>&lt;select&gt;</code> elements</td>
+<td>69</td>
+<td>Needs labeling audit</td>
+</tr>
+<tr>
+<td><code>&lt;textarea&gt;</code> elements</td>
+<td>63</td>
+<td>Needs labeling audit</td>
+</tr>
+<tr>
+<td><code>&lt;label&gt;</code> elements</td>
+<td>38</td>
+<td>CRITICAL: 10.7% labeling rate (481 total controls)</td>
+</tr>
+<tr>
+<td><code>&lt;form&gt;</code> elements</td>
+<td>57</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td><code>&lt;nav&gt;</code> elements</td>
+<td>10</td>
+<td>Present but insufficient</td>
+</tr>
+<tr>
+<td><code>&lt;main&gt;</code> elements</td>
+<td>0</td>
+<td>CRITICAL: Missing</td>
+</tr>
+<tr>
+<td><code>&lt;header&gt;</code> elements</td>
+<td>0</td>
+<td>CRITICAL: Missing</td>
+</tr>
+<tr>
+<td><code>&lt;footer&gt;</code> elements</td>
+<td>0</td>
+<td>Missing</td>
+</tr>
+<tr>
+<td><code>&lt;aside&gt;</code> elements</td>
+<td>0</td>
+<td>CRITICAL: Sidebar not semantic</td>
+</tr>
+<tr>
+<td><code>&lt;table&gt;</code> elements</td>
+<td>13</td>
+<td>Have headers, missing captions</td>
+</tr>
+<tr>
+<td><code>&lt;caption&gt;</code> elements</td>
+<td>0</td>
+<td>Missing for all 13 tables</td>
+</tr>
+<tr>
+<td><code>&lt;svg&gt;</code> elements</td>
+<td>395</td>
+<td>CRITICAL: 0 have aria-hidden or aria-label</td>
+</tr>
+<tr>
+<td><code>&lt;img&gt;</code> missing alt</td>
+<td>72</td>
+<td>CRITICAL: screen reader noise</td>
+</tr>
+<tr>
+<td><code>&lt;fieldset&gt;/&lt;legend&gt;</code></td>
+<td>0/0</td>
+<td>Missing for radio/checkbox groups</td>
+</tr>
+<tr>
+<td><code>aria-label</code> attributes</td>
+<td>256</td>
+<td>Moderate coverage</td>
+</tr>
+<tr>
+<td><code>aria-live</code> regions</td>
+<td>3</td>
+<td>CRITICAL for chat app</td>
+</tr>
+<tr>
+<td><code>aria-expanded</code></td>
+<td>4</td>
+<td>CRITICAL: low for dropdowns</td>
+</tr>
+<tr>
+<td><code>aria-hidden</code></td>
+<td>216</td>
+<td>High – may be masking issues</td>
+</tr>
+<tr>
+<td><code>aria-describedby</code></td>
+<td>0</td>
+<td>Missing</td>
+</tr>
+<tr>
+<td><code>aria-required</code></td>
+<td>1</td>
+<td>Missing for required fields</td>
+</tr>
+<tr>
+<td><code>aria-invalid</code></td>
+<td>0</td>
+<td>Missing for form validation</td>
+</tr>
+<tr>
+<td><code>role="dialog"</code></td>
+<td>1</td>
+<td>Low vs. actual modal count</td>
+</tr>
+<tr>
+<td><code>role="alert"</code></td>
+<td>0</td>
+<td>CRITICAL: No alert role</td>
+</tr>
+<tr>
+<td><code>role="menu"</code></td>
+<td>0</td>
+<td>CRITICAL: Menus unlabeled</td>
+</tr>
+<tr>
+<td><code>role="combobox"</code></td>
+<td>0</td>
+<td>CRITICAL: Model selector</td>
+</tr>
+<tr>
+<td>Skip links</td>
+<td>0</td>
+<td>CRITICAL: Missing</td>
+</tr>
+<tr>
+<td><code>sr-only</code> (screen reader text)</td>
+<td>13</td>
+<td>Low</td>
+</tr>
+<tr>
+<td><code>prefers-reduced-motion</code></td>
+<td>0</td>
+<td>Missing</td>
+</tr>
+<tr>
+<td><code>outline-none</code> (removed focus)</td>
+<td>44</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Focus ring replacements</td>
+<td>28</td>
+<td>Gap of approx. 16 elements</td>
+</tr>
+<tr>
+<td>Focus trap instances</td>
+<td>2</td>
+<td>Low</td>
+</tr>
+<tr>
+<td><code>tabindex</code> usage</td>
+<td>4</td>
+<td>Very low</td>
+</tr>
+<tr>
+<td>Drag-and-drop files</td>
+<td>44</td>
+<td>No keyboard alternatives</td>
+</tr>
+<tr>
+<td>Color contrast audit</td>
+<td>0</td>
+<td>CRITICAL: never performed</td>
+</tr>
+</tbody>
+</table>
+<h3 id="critical-missing-semantic-structure">Critical: Missing Semantic
+Structure</h3>
+<p><strong>WCAG 2.4.1 Bypass Blocks, 1.3.1 Info and Relationships, 4.1.2
+Name Role Value</strong></p>
+<p>The application uses almost no semantic HTML landmarks. Screen reader
+users cannot navigate by landmarks at all.</p>
+<p><strong>Current state:</strong> - <code>&lt;main&gt;</code>: 0
+instances (the chat area is wrapped in generic <code>&lt;div&gt;</code>
+elements) - <code>&lt;header&gt;</code>: 0 instances (the top bar is a
+<code>&lt;div&gt;</code>) - <code>&lt;footer&gt;</code>: 0 instances -
+<code>&lt;aside&gt;</code>: 0 instances (the sidebar is a
+<code>&lt;div&gt;</code> with CSS positioning) -
+<code>&lt;section&gt;</code>: 1 instance - <code>&lt;h1&gt;</code>: 9
+instances (heading hierarchy needs audit for proper nesting)</p>
+<p><strong>Impact</strong>: Screen reader users cannot use landmark
+navigation (a primary navigation method) to move between the sidebar,
+chat area, header, and settings. They must Tab through potentially
+hundreds of elements.</p>
+<p><strong>Files affected:</strong> -
+<code>src/routes/(app)/+layout.svelte</code> – main layout wrapper -
+<code>src/lib/components/layout/Sidebar.svelte</code> – sidebar
+component - <code>src/lib/components/chat/Chat.svelte</code> – main chat
+area (2601 lines) - <code>src/lib/components/layout/Navbar.svelte</code>
+– top navigation bar</p>
+<h3 id="critical-form-labeling-gap">Critical: Form Labeling Gap</h3>
+<p><strong>WCAG 1.3.1 Info and Relationships, 4.1.2 Name Role
+Value</strong></p>
+<p>354 <code>&lt;input&gt;</code> elements exist across the codebase,
+but only 38 <code>&lt;label&gt;</code> elements. While some inputs may
+be labeled via <code>aria-label</code> (256 total instances across all
+element types), the labeling rate is extremely low.</p>
+<p><strong>Most critical unlabeled input areas:</strong> - Chat message
+input (the primary interaction point of the entire application) - Model
+selector search input - Settings panel inputs (dozens of configuration
+fields) - Admin panel form fields - Login/registration forms</p>
+<p><strong>Impact</strong>: Screen reader users hear “edit” or “text
+field” without any context about what information to enter.</p>
+<h3 id="critical-missing-keyboard-support">Critical: Missing Keyboard
+Support</h3>
+<p><strong>WCAG 2.1.1 Keyboard, 2.1.2 No Keyboard Trap</strong></p>
+<p>60 explicit <code>svelte-ignore</code> directives suppress keyboard
+accessibility warnings:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Suppressed Warning</th>
+<th>Count</th>
+<th>WCAG Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>a11y-no-static-element-interactions</code></td>
+<td>32</td>
+<td>Interactive <code>&lt;div&gt;</code>/<code>&lt;span&gt;</code>
+elements without proper roles</td>
+</tr>
+<tr>
+<td><code>a11y-click-events-have-key-events</code></td>
+<td>19</td>
+<td>Click handlers without keyboard equivalents</td>
+</tr>
+<tr>
+<td><code>a11y-media-has-caption</code></td>
+<td>4</td>
+<td>Media without captions</td>
+</tr>
+<tr>
+<td><code>a11y-no-noninteractive-element-interactions</code></td>
+<td>2</td>
+<td>Non-interactive elements made clickable</td>
+</tr>
+<tr>
+<td><code>a11y-no-interactive-element-to-noninteractive-role</code></td>
+<td>1</td>
+<td>Role misuse</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Files with suppressed warnings (all need
+remediation):</strong></p>
+<p>Sidebar and navigation: -
+<code>src/lib/components/layout/Sidebar.svelte:651</code> -
+<code>src/lib/components/layout/Sidebar/ChatItem.svelte:477</code> -
+<code>src/lib/components/layout/Sidebar/PinnedModelItem.svelte:20</code>
+-
+<code>src/lib/components/layout/Sidebar/RecursiveFolder.svelte:509</code>
+- <code>src/lib/components/layout/Sidebar/SearchInput.svelte:300</code>
+- <code>src/lib/components/layout/Sidebar/UserMenu.svelte:80</code></p>
+<p>Common UI components: -
+<code>src/lib/components/common/Collapsible.svelte:65,66,131,132</code>
+- <code>src/lib/components/common/ConfirmDialog.svelte:101,102</code> -
+<code>src/lib/components/common/DragGhost.svelte:27,28</code> -
+<code>src/lib/components/common/Drawer.svelte:54,55</code> -
+<code>src/lib/components/common/Dropdown.svelte:164,165,171,172</code> -
+<code>src/lib/components/common/DropdownSub.svelte:108,119</code> -
+<code>src/lib/components/common/Folder.svelte:150</code> -
+<code>src/lib/components/common/ImagePreview.svelte:70,71</code> -
+<code>src/lib/components/common/Modal.svelte:90,91,92</code> -
+<code>src/lib/components/common/Sidebar.svelte:13</code> -
+<code>src/lib/components/common/ToolCallDisplay.svelte:112</code> -
+<code>src/lib/components/common/Tooltip.svelte:78</code></p>
+<p>Chat components: -
+<code>src/lib/components/chat/Messages/ResponseMessage.svelte:914</code>
+-
+<code>src/lib/components/chat/Messages/UserMessage.svelte:448,628</code>
+-
+<code>src/lib/components/chat/Messages/MultiResponseMessages.svelte:262,263,332,333</code>
+- <code>src/lib/components/chat/Messages/Markdown/*.svelte</code>
+(multiple files) -
+<code>src/lib/components/chat/ModelSelector/Selector.svelte:629</code> -
+<code>src/lib/components/chat/Suggestions.svelte:88</code></p>
+<p>File navigation: -
+<code>src/lib/components/chat/FileNav.svelte:1313</code> -
+<code>src/lib/components/chat/FileNav/*.svelte</code> (multiple
+files)</p>
+<h3 id="critical-live-region-deficiency">Critical: Live Region
+Deficiency</h3>
+<p><strong>WCAG 4.1.3 Status Messages</strong></p>
+<p>A real-time chat application with only 3 <code>aria-live</code>
+regions is a critical gap. The following dynamic content changes are NOT
+announced to screen readers:</p>
+<ul>
+<li><strong>New chat messages arriving</strong> (the core
+functionality)</li>
+<li><strong>Model response streaming</strong> (tokens appearing
+progressively)</li>
+<li><strong>Error messages</strong> (shown as toasts via svelte-sonner,
+no <code>role="alert"</code>)</li>
+<li><strong>Loading states</strong> (“Thinking…”, “Analyzing…”, spinner
+states)</li>
+<li><strong>Model switching</strong> confirmation</li>
+<li><strong>File upload progress/completion</strong></li>
+<li><strong>Search results updating</strong> in sidebar</li>
+<li><strong>Toast notifications</strong> (svelte-sonner library)</li>
+</ul>
+<p><strong>Impact</strong>: Screen reader users have no awareness of the
+application’s real-time state changes, making the chat fundamentally
+unusable.</p>
+<h3 id="high-suppressed-a11y-warnings">High: Suppressed A11y
+Warnings</h3>
+<p>See the full list above. 60 warnings suppressed, each requiring: 1.
+Removal of the <code>svelte-ignore</code> comment 2. Proper fix (add
+<code>role</code>, keyboard handler, or semantic element)</p>
+<h3 id="high-focus-indicator-gaps">High: Focus Indicator Gaps</h3>
+<p><strong>WCAG 2.4.7 Focus Visible, 2.4.11 Focus Not
+Obscured</strong></p>
+<ul>
+<li>44 instances of <code>outline-none</code> (Tailwind class that
+removes the default focus indicator)</li>
+<li>Only 28 instances of <code>focus:ring</code>,
+<code>focus-visible:ring</code>, or <code>focus:outline</code>
+replacements</li>
+<li><strong>Approximately 16 elements have their focus indicators
+removed with no replacement</strong></li>
+</ul>
+<h3 id="high-missing-aria-patterns">High: Missing ARIA Patterns</h3>
+<p><strong>WCAG 4.1.2 Name Role Value</strong></p>
+<p>Key interactive patterns missing proper ARIA:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Component</th>
+<th>Expected Pattern</th>
+<th>Current State</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model selector</td>
+<td><code>combobox</code> with <code>listbox</code></td>
+<td>No ARIA roles, <code>svelte-ignore</code> on click</td>
+</tr>
+<tr>
+<td>Dropdown menus</td>
+<td><code>menu</code> with <code>menuitem</code></td>
+<td>Generic <code>&lt;div&gt;</code> portaled to body</td>
+</tr>
+<tr>
+<td>Sidebar folder tree</td>
+<td><code>tree</code> with <code>treeitem</code></td>
+<td>Generic <code>&lt;div&gt;</code> with click handlers</td>
+</tr>
+<tr>
+<td>Collapsible sections</td>
+<td><code>button</code> with <code>aria-expanded</code></td>
+<td><code>&lt;div&gt;</code> with <code>on:pointerup</code></td>
+</tr>
+<tr>
+<td>Settings tabs</td>
+<td><code>tablist</code>/<code>tab</code>/<code>tabpanel</code></td>
+<td>10 <code>role="tab"</code> but needs audit</td>
+</tr>
+<tr>
+<td>Confirm dialogs</td>
+<td><code>alertdialog</code></td>
+<td><code>&lt;div&gt;</code> overlay</td>
+</tr>
+<tr>
+<td>Toast notifications</td>
+<td><code>role="alert"</code> or <code>role="status"</code></td>
+<td>Library default (needs verification)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="medium-motion-and-reduced-motion">Medium: Motion and Reduced
+Motion</h3>
+<p><strong>WCAG 2.3.3 Animation from Interactions</strong></p>
+<ul>
+<li>0 instances of <code>prefers-reduced-motion</code> media query
+across the entire codebase</li>
+<li>Animations are used throughout (Svelte transitions:
+<code>fade</code>, <code>slide</code>, <code>flyAndScale</code>)</li>
+<li>The <code>Collapsible.svelte</code> component uses slide transitions
+for every thinking/reasoning block</li>
+<li>The <code>Modal.svelte</code> uses <code>flyAndScale</code> entrance
+animation</li>
+<li>Chat message rendering uses transitions</li>
+</ul>
+<p>Users with vestibular disorders or motion sensitivity have no way to
+disable these animations.</p>
+<h3 id="medium-missing-skip-navigation">Medium: Missing Skip
+Navigation</h3>
+<p><strong>WCAG 2.4.1 Bypass Blocks</strong></p>
+<ul>
+<li>0 skip links in the entire application</li>
+<li>The sidebar contains navigation-level content that precedes the main
+chat area in DOM order</li>
+<li>Users must Tab through the entire sidebar to reach the chat input on
+every page load</li>
+</ul>
+<h3 id="component-level-findings">Component-Level Findings</h3>
+<h4 id="modal.svelte-good-foundation-needs-polish">Modal.svelte (Good
+foundation, needs polish)</h4>
+<ul>
+<li>Has <code>focus-trap</code> library (good)</li>
+<li>Has <code>aria-modal="true"</code> and <code>role="dialog"</code>
+(good)</li>
+<li>Has Escape key handling (good)</li>
+<li>Missing: <code>aria-labelledby</code> pointing to a dialog
+title</li>
+<li>Has 3 <code>svelte-ignore</code> directives for the backdrop click
+handler</li>
+</ul>
+<h4 id="dropdown.svelte-needs-significant-work">Dropdown.svelte (Needs
+significant work)</h4>
+<ul>
+<li>Has Escape key handling (good)</li>
+<li>Has portal for z-index stacking (good)</li>
+<li>Missing: <code>role="menu"</code> / <code>role="listbox"</code></li>
+<li>Missing: <code>aria-expanded</code> on trigger</li>
+<li>Missing: Arrow key navigation within items</li>
+<li>Missing: <code>aria-haspopup</code> on trigger</li>
+<li>Has 4 <code>svelte-ignore</code> directives</li>
+<li>Click handler on a <code>&lt;span&gt;</code> element instead of a
+<code>&lt;button&gt;</code></li>
+</ul>
+<h4 id="collapsible.svelte-not-a-button">Collapsible.svelte (Not a
+button)</h4>
+<ul>
+<li>Uses <code>&lt;div&gt;</code> with <code>on:pointerup</code> instead
+of <code>&lt;button&gt;</code></li>
+<li>Missing: <code>aria-expanded</code> state</li>
+<li>Missing: <code>aria-controls</code> pointing to content</li>
+<li>Has 4 <code>svelte-ignore</code> directives</li>
+<li>Keyboard users cannot toggle collapsible sections</li>
+</ul>
+<h4 id="tooltip.svelte-partial">Tooltip.svelte (Partial)</h4>
+<ul>
+<li>Uses tippy.js which has some built-in a11y</li>
+<li>Missing: keyboard focus trigger (tooltips should show on focus)</li>
+<li>Has 1 <code>svelte-ignore</code> for static element interaction</li>
+<li>The <code>&lt;svelte:element&gt;</code> wrapper may not be
+focusable</li>
+</ul>
+<h4 id="sidebar.svelte-commonsidebar-not-layout">Sidebar.svelte
+(common/Sidebar – not layout)</h4>
+<ul>
+<li>Slide-out panel with no ARIA</li>
+<li>Backdrop has <code>on:mousedown</code> only (no keyboard
+dismiss)</li>
+<li>No focus management on open/close</li>
+<li>No <code>aria-label</code> for the panel</li>
+<li>Has 1 <code>svelte-ignore</code> directive</li>
+</ul>
+<hr />
+<h2 id="existing-accessibility-history">Existing Accessibility
+History</h2>
+<h3
+id="issue-277-enh-improve-accessibility-against-wcag-2.1-closed-june-2024"><a
+href="https://github.com/open-webui/open-webui/issues/277">Issue
+#277</a>: “enh: improve accessibility against WCAG 2.1” (Closed, June
+2024)</h3>
+<ul>
+<li>Filed by a screen reader user: “many of the buttons are
+unlabeled”</li>
+<li>Labels: <code>enhancement</code>, <code>good first issue</code>,
+<code>help wanted</code>, <code>non-core</code></li>
+<li>7 reactions (+4, 3 eyes)</li>
+<li>Closed without full resolution – some <code>aria-label</code>
+additions were made</li>
+<li>Current state: 256 <code>aria-label</code> attributes exist, so some
+work was done</li>
+</ul>
+<h3 id="issue-1008-enhancement-more-keyboard-shortcuts-open"><a
+href="https://github.com/open-webui/open-webui/issues/1008">Issue
+#1008</a>: “enhancement: more keyboard shortcuts” (Open)</h3>
+<ul>
+<li>Still open since March 2024</li>
+<li>Labels: <code>enhancement</code>, <code>good first issue</code>,
+<code>help wanted</code>, <code>non-core</code></li>
+<li>14 reactions (+14)</li>
+<li>Notes that “current selection of shortcuts is a poor fit”</li>
+<li>Requests two-key shortcuts instead of three-key combinations</li>
+</ul>
+<hr />
+<h2 id="journey-prioritized-implementation-plan">Journey-Prioritized
+Implementation Plan</h2>
+<p>The original phased plan (preserved below for reference) groups
+changes by <strong>technical risk tier</strong> – all landmarks
+together, all labels together, all component fixes together. That
+approach has a problem: a screen reader user does not get a
+<strong>complete, usable path</strong> until multiple phases ship. You
+could land all of Phase 1 and the app is still unusable because the chat
+input has no label and the model picker is unreachable.</p>
+<p>This section reorganizes the same work around <strong>user
+journeys</strong> – the shortest path to a usable experience for each
+core workflow. Items are pulled from multiple original phases, but each
+PR stays small and atomic (handful of files, low triple-digit line
+changes, per maintainer guidance).</p>
+<h3 id="why-journey-first-instead-of-risk-first">Why Journey-First
+Instead of Risk-First</h3>
+<ul>
+<li><strong>Users benefit sooner</strong>: Sprint 1 delivers a complete
+“send a message” experience rather than “landmarks everywhere but still
+no labels”</li>
+<li><strong>Easier to justify</strong>: Each sprint solves a specific,
+demonstrable user need</li>
+<li><strong>Natural prioritization</strong>: The most-used path (send
+and read messages) ships first</li>
+<li><strong>Same PRs, different order</strong>: The work items are
+identical – only the sequence changes</li>
+</ul>
+<h3 id="user-journey-priority-ranking">User Journey Priority
+Ranking</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Journey</th>
+<th>Frequency</th>
+<th>Without Fix</th>
+<th>Sprint</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Send a message</td>
+<td>Every session, many times</td>
+<td><strong>Blocked</strong> – unlabeled input, indiscoverable model
+picker</td>
+<td>Sprint 1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Read a response</td>
+<td>Every session, many times</td>
+<td><strong>Blocked</strong> – no way to jump between messages, no
+completion announcement</td>
+<td>Sprint 2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Copy/act on a response</td>
+<td>Very frequent</td>
+<td><strong>Degraded</strong> – action buttons invisible to keyboard/SR
+without hover</td>
+<td>Sprint 3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Pick a model</td>
+<td>Frequent</td>
+<td><strong>Blocked</strong> – dropdown not keyboard-operable</td>
+<td>Sprint 4</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Browse chat history</td>
+<td>Every session</td>
+<td><strong>Degraded</strong> – sidebar works but has no semantics</td>
+<td>Sprint 5</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Manage settings</td>
+<td>Occasional</td>
+<td><strong>Degraded</strong> – missing labels and heading
+structure</td>
+<td>Sprint 6</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Cross-cutting polish</td>
+<td>–</td>
+<td>Various</td>
+<td>Sprint 7</td>
+</tr>
+</tbody>
+</table>
+<h3 id="heading-gap-analysis">Heading Gap Analysis</h3>
+<p>Adding headings is one of the highest-value, lowest-risk changes
+available. Screen reader users navigate by heading (pressing
+<strong>H</strong>) as their primary scanning method – equivalent to
+visually scanning bold text. The codebase currently has <strong>11
+heading elements across 556 Svelte files</strong>, a near-total
+absence.</p>
+<p>The following table maps every location where heading elements should
+exist, organized by user journey:</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>Location</th>
+<th>Current element</th>
+<th>Should be</th>
+<th>Heading level</th>
+<th>User journey</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Chat messages (sender name)</strong></td>
+<td><code>&lt;div&gt;</code> in Name.svelte</td>
+<td><code>&lt;h3&gt;</code></td>
+<td>h3</td>
+<td>Read response (Sprint 2)</td>
+<td><strong>Critical</strong> – enables pressing H to jump
+message-to-message through the entire conversation. ChatGPT uses this
+pattern.</td>
+</tr>
+<tr>
+<td><strong>Chat placeholder greeting</strong> (“Hello, Jeff”)</td>
+<td><code>&lt;div class="text-3xl"&gt;</code> in
+ChatPlaceholder.svelte</td>
+<td><code>&lt;h1&gt;</code></td>
+<td>h1</td>
+<td>Send message (Sprint 1)</td>
+<td><strong>High</strong> – identifies the page, gives empty-state
+orientation</td>
+</tr>
+<tr>
+<td><strong>Settings modal title</strong> (“Settings”)</td>
+<td><code>&lt;div class="text-lg font-medium"&gt;</code> in
+SettingsModal.svelte</td>
+<td><code>&lt;h1&gt;</code></td>
+<td>h1</td>
+<td>Settings (Sprint 6)</td>
+<td><strong>High</strong> – names the modal for heading nav</td>
+</tr>
+<tr>
+<td><strong>Settings section dividers</strong> (“WebUI Settings”,
+“System Prompt”, etc.)</td>
+<td><code>&lt;div class="mb-1 text-sm font-medium"&gt;</code> in
+Settings/General.svelte and 6 other files</td>
+<td><code>&lt;h2&gt;</code></td>
+<td>h2</td>
+<td>Settings (Sprint 6)</td>
+<td><strong>High</strong> – lets users jump between sections instead of
+tabbing through dozens of fields</td>
+</tr>
+<tr>
+<td><strong>Admin settings section dividers</strong> (“Config”,
+“Database”)</td>
+<td><code>&lt;div class="mb-1 text-sm font-medium"&gt;</code> in
+admin/Settings/Database.svelte</td>
+<td><code>&lt;h2&gt;</code></td>
+<td>h2</td>
+<td>Settings (Sprint 6)</td>
+<td><strong>Moderate</strong> – admin-only path</td>
+</tr>
+<tr>
+<td><strong>Modal titles across the app</strong> (36 instances:
+“Import”, “Share Chat”, “Add User”, “Edit User”, “Keyboard Shortcuts”,
+“Files”, etc.)</td>
+<td><code>&lt;div class="text-lg font-medium self-center"&gt;</code> (31
+instances are <code>&lt;div&gt;</code>, 5 already use
+<code>&lt;h1&gt;</code>)</td>
+<td><code>&lt;h1&gt;</code></td>
+<td>h1</td>
+<td>Various</td>
+<td><strong>High</strong> – 31 modals have no heading. Screen reader
+user entering a modal hears no title via heading nav. Can be done with a
+single <code>aria-labelledby</code> PR on Modal.svelte pointing to the
+first heading child, combined with converting these
+<code>&lt;div&gt;</code> titles to <code>&lt;h1&gt;</code>.</td>
+</tr>
+<tr>
+<td><strong>Sidebar section names</strong> (“Models”, “Channels”,
+“Folders”, “Chats”, “Pinned”)</td>
+<td>Label text inside Folder.svelte component (a
+<code>&lt;button&gt;</code> with nested text
+<code>&lt;div&gt;</code>)</td>
+<td><code>&lt;h2&gt;</code> (sr-only or visually styled)</td>
+<td>h2</td>
+<td>Browse chat history (Sprint 5)</td>
+<td><strong>Moderate</strong> – enables jumping between sidebar
+sections</td>
+</tr>
+<tr>
+<td><strong>Collapsible “Thinking” header</strong> (“Thought for 5
+seconds”)</td>
+<td><code>&lt;div&gt;</code> inside Collapsible.svelte</td>
+<td><code>&lt;h4&gt;</code></td>
+<td>h4</td>
+<td>Read response (Sprint 2)</td>
+<td><strong>Moderate</strong> – lets users skip or enter the reasoning
+block by heading</td>
+</tr>
+<tr>
+<td><strong>Auth page title</strong> (“Sign in” / “Sign up”)</td>
+<td><code>&lt;div class="text-2xl font-medium"&gt;</code> in
+auth/+page.svelte</td>
+<td><code>&lt;h1&gt;</code></td>
+<td>h1</td>
+<td>Sign in</td>
+<td><strong>Moderate</strong> – page identification</td>
+</tr>
+<tr>
+<td><strong>Shared chat page title</strong></td>
+<td><code>&lt;h1&gt;</code> already in routes/s/[id]/+page.svelte</td>
+<td>Already correct</td>
+<td>h1</td>
+<td>–</td>
+<td>Already done</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Summary</strong>: 11 headings exist today. Adding headings to
+the locations above would bring the count to approximately <strong>60 or
+more</strong>, distributed across every user journey. The single
+highest-value change is making Name.svelte a heading element, enabling
+message-by-message navigation.</p>
+<h3
+id="heading-implementation-principle-semantics-only-zero-visual-change">Heading
+Implementation Principle: Semantics Only, Zero Visual Change</h3>
+<p><strong>Headings exist to communicate structure to assistive
+technology, not to change how the application looks.</strong> Every
+heading change in this plan must produce a pixel-identical render. If a
+reviewer cannot tell the difference by looking at the screen, it is
+implemented correctly.</p>
+<p>Implementation rules:</p>
+<ol type="1">
+<li><p><strong>Carry forward the exact same CSS classes.</strong> When
+converting
+<code>&lt;div class="self-center font-semibold line-clamp-1 flex gap-1 items-center"&gt;</code>
+to <code>&lt;h3 class="..."&gt;</code>, keep every class. The Tailwind
+utilities already control font size, weight, spacing, and color – they
+override browser heading defaults.</p></li>
+<li><p><strong>Neutralize default heading margins.</strong> Heading
+elements add user-agent <code>margin-block</code> and potentially
+<code>display: block</code>. Add Tailwind <code>m-0</code> (or verify
+the existing classes already zero it out) to prevent layout shifts. In
+most cases the component is already inside a flex or grid container that
+suppresses block margin, so no extra class is needed – but verify
+visually.</p></li>
+<li><p><strong>Prefer element swap over sr-only insertion.</strong> If
+the existing <code>&lt;div&gt;</code> already has the right visible text
+in the right place, swap it to a heading element. Only use sr-only
+headings when the visual design has no text at all in that position
+(e.g., sidebar sections that use icon-only toggles).</p></li>
+<li><p><strong>Never add a heading just to add a heading.</strong> Each
+heading must correspond to a real content boundary that a user would
+want to jump to. “Models”, “Channels”, “System Prompt” are real section
+boundaries. An individual form field label is not.</p></li>
+<li><p><strong>Test visually after every change.</strong> Run the dev
+server, compare the page before and after, and screenshot both. The
+screenshots should be indistinguishable. Include before/after in the
+PR.</p></li>
+</ol>
+<p>This approach ensures maintainers can merge heading PRs with
+confidence – they are pure semantic upgrades with zero visual regression
+risk.</p>
+<h3 id="sprint-1-i-can-send-a-message">Sprint 1: “I can send a
+message”</h3>
+<p><strong>Parent issue</strong>: <a
+href="https://github.com/accesswatch/open-webui/issues/1">#1</a> |
+<strong>Sub-issues</strong>: <a
+href="https://github.com/accesswatch/open-webui/issues/8">#8</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/9">#9</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/10">#10</a></p>
+<p><strong>Goal</strong>: A screen reader user can land on the page,
+orient themselves, find the chat input, and send a message.</p>
+<h4 id="pr-1-a-add-semantic-landmarks-to-app-layout-8">PR 1-A: Add
+semantic landmarks to app layout (<a
+href="https://github.com/accesswatch/open-webui/issues/8">#8</a>)</h4>
+<p><em>Pulled from Phase 1, PR 1.1</em> <strong>Title</strong>:
+<code>fix: add semantic HTML landmarks for screen reader navigation</code>
+<strong>Scope</strong>: <code>src/routes/(app)/+layout.svelte</code>,
+<code>src/lib/components/layout/Sidebar.svelte</code>
+<strong>Changes</strong>: - Wrap main content area in
+<code>&lt;main&gt;</code> - Wrap top bar in <code>&lt;header&gt;</code>
+(or add <code>role="banner"</code>) - Wrap sidebar in
+<code>&lt;aside&gt;</code> with <code>aria-label="Chat history"</code>
+<strong>WCAG</strong>: 1.3.1, 2.4.1, 4.1.2 <strong>Risk</strong>: Zero –
+HTML element swaps, no logic</p>
+<h4 id="pr-1-b-label-the-chat-input-9">PR 1-B: Label the chat input (<a
+href="https://github.com/accesswatch/open-webui/issues/9">#9</a>)</h4>
+<p><em>Pulled from Phase 2, PR 2.1</em> <strong>Title</strong>:
+<code>fix: add accessible label to chat message input</code>
+<strong>Scope</strong>:
+<code>src/lib/components/chat/MessageInput.svelte</code> or the TipTap
+editor wrapper <strong>Changes</strong>: - Add <code>aria-label</code>
+describing the input (e.g., “Message” or “Chat message”) - If using
+TipTap rich text editor, ensure its <code>aria-label</code> is set
+<strong>WCAG</strong>: 1.3.1, 4.1.2 <strong>Risk</strong>: Very low –
+single attribute addition</p>
+<h4 id="pr-1-c-add-page-heading-to-empty-chat-state-10">PR 1-C: Add page
+heading to empty chat state (<a
+href="https://github.com/accesswatch/open-webui/issues/10">#10</a>)</h4>
+<p><strong>Title</strong>:
+<code>fix: add heading to chat placeholder for screen reader orientation</code>
+<strong>Scope</strong>:
+<code>src/lib/components/chat/ChatPlaceholder.svelte</code>
+<strong>Changes</strong>: - Change the “Hello, {name}”
+<code>&lt;div class="text-3xl"&gt;</code> to
+<code>&lt;h1 class="text-3xl"&gt;</code> - Zero visual change – it
+already looks like a heading, now it acts like one
+<strong>WCAG</strong>: 1.3.1, 2.4.6 <strong>Risk</strong>: Zero –
+element swap only</p>
+<p><strong>After Sprint 1</strong>: A screen reader user can land on the
+page, navigate to <code>&lt;main&gt;</code> by landmark, hear the
+“Hello” heading, find the chat input by its label, and type a message.
+The default model works without needing the model picker.</p>
+<h3 id="sprint-2-i-can-read-the-response">Sprint 2: “I can read the
+response”</h3>
+<p><strong>Parent issue</strong>: <a
+href="https://github.com/accesswatch/open-webui/issues/2">#2</a> |
+<strong>Sub-issues</strong>: <a
+href="https://github.com/accesswatch/open-webui/issues/11">#11</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/12">#12</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/13">#13</a></p>
+<p><strong>Goal</strong>: A screen reader user knows when a response
+arrives, can jump to it by heading, and can navigate between
+messages.</p>
+<h4 id="pr-2-a-make-message-sender-names-headings-11">PR 2-A: Make
+message sender names headings (<a
+href="https://github.com/accesswatch/open-webui/issues/11">#11</a>)</h4>
+<p><strong>Title</strong>:
+<code>fix: use headings for chat message sender names for screen reader navigation</code>
+<strong>Scope</strong>:
+<code>src/lib/components/chat/Messages/Name.svelte</code>
+<strong>Changes</strong>: - Change
+<code>&lt;div class="self-center font-semibold ..."&gt;</code> to
+<code>&lt;h3 class="self-center font-semibold ..."&gt;</code> - Keep the
+exact same Tailwind classes – the existing <code>font-semibold</code>,
+<code>line-clamp-1</code>, <code>flex</code>, <code>gap-1</code>,
+<code>items-center</code> already control all visual properties. The
+component is inside a flex container that suppresses block margin. No
+additional classes needed. - This is the single highest-impact heading
+change in the entire app - Matches how ChatGPT structures messages (each
+message has a heading like “ChatGPT said:”) - Enables pressing H to jump
+from message to message through the entire conversation - <strong>Zero
+visual change</strong> – the element already looks like a heading, now
+it communicates as one to AT <strong>WCAG</strong>: 1.3.1, 2.4.6
+<strong>Risk</strong>: Zero – element swap, 1 file, 1 line,
+pixel-identical render</p>
+<h4 id="pr-2-b-add-skip-navigation-link-12">PR 2-B: Add skip navigation
+link (<a
+href="https://github.com/accesswatch/open-webui/issues/12">#12</a>)</h4>
+<p><em>Pulled from Phase 1, PR 1.2</em> <strong>Title</strong>:
+<code>feat: add skip-to-content link for keyboard users</code>
+<strong>Scope</strong>: <code>src/routes/(app)/+layout.svelte</code> or
+<code>src/app.html</code> <strong>Changes</strong>: - Add
+visually-hidden skip link as first focusable element - Target the chat
+input or main content area - Style with <code>sr-only</code> that
+becomes visible on focus <strong>WCAG</strong>: 2.4.1
+<strong>Risk</strong>: Zero – purely additive</p>
+<h4 id="pr-2-c-announce-response-completion-13">PR 2-C: Announce
+response completion (<a
+href="https://github.com/accesswatch/open-webui/issues/13">#13</a>)</h4>
+<p><em>Pulled from Phase 5, PR 5.2, scoped narrowly</em>
+<strong>Title</strong>:
+<code>feat: announce chat response completion to screen readers</code>
+<strong>Scope</strong>:
+<code>src/lib/components/chat/Messages/ResponseMessage.svelte</code> or
+message container <strong>Changes</strong>: - Add a debounced
+<code>aria-live="polite"</code> announcer that says “Response complete”
+when streaming finishes - NOT token-by-token updates – only the final
+completion event - The message list already has <code>role="log"</code>
+and <code>aria-live="polite"</code> on the <code>&lt;ul&gt;</code> (in
+Messages.svelte), so this may just need a visually-hidden status element
+that updates at completion <strong>WCAG</strong>: 4.1.3
+<strong>Risk</strong>: Low – single state announcement, no flood
+risk</p>
+<p><strong>After Sprint 2</strong>: A user can send a message, hear when
+the response completes, and press H to jump between “You” and “ChatGPT”
+(or any model name) headings through the conversation. This is a
+fundamental usability milestone.</p>
+<h3 id="sprint-3-i-can-act-on-the-response">Sprint 3: “I can act on the
+response”</h3>
+<p><strong>Parent issue</strong>: <a
+href="https://github.com/accesswatch/open-webui/issues/3">#3</a> |
+<strong>Sub-issues</strong>: <a
+href="https://github.com/accesswatch/open-webui/issues/14">#14</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/15">#15</a></p>
+<p><strong>Goal</strong>: A keyboard/screen reader user can copy, edit,
+regenerate, or read aloud a response.</p>
+<h4 id="pr-3-a-make-action-buttons-visible-on-keyboard-focus-14">PR 3-A:
+Make action buttons visible on keyboard focus (<a
+href="https://github.com/accesswatch/open-webui/issues/14">#14</a>)</h4>
+<p><strong>Title</strong>:
+<code>fix: show message action buttons on keyboard focus</code>
+<strong>Scope</strong>:
+<code>src/lib/components/chat/Messages/ResponseMessage.svelte</code>
+<strong>Changes</strong>: - The copy/edit/regenerate/read-aloud buttons
+use <code>invisible group-hover:visible</code> – add
+<code>focus-within:visible</code> and <code>focus:visible</code> so
+keyboard users can discover them - Buttons already have
+<code>aria-label</code> – they just can’t be seen when using keyboard -
+CSS-only change <strong>WCAG</strong>: 2.1.1, 2.4.7
+<strong>Risk</strong>: Zero – CSS classes only</p>
+<h4 id="pr-3-b-add-keyboard-navigation-between-messages-15">PR 3-B: Add
+keyboard navigation between messages (<a
+href="https://github.com/accesswatch/open-webui/issues/15">#15</a>)</h4>
+<p><em>Pulled from Phase 5, PR 5.3, scoped narrowly to message
+traversal</em> <strong>Title</strong>:
+<code>fix: enable keyboard navigation through chat messages</code>
+<strong>Scope</strong>: Chat message list components
+<strong>Changes</strong>: - Add keyboard shortcut to move focus between
+message boundaries (e.g., J/K like GitHub) - Make message containers
+focusable with <code>tabindex="-1"</code> so they can receive
+programmatic focus - Announce the model name when arriving at a message
+<strong>WCAG</strong>: 2.1.1, 2.4.3 <strong>Risk</strong>: Low-medium –
+new keybindings must not conflict with existing shortcuts</p>
+<p><strong>After Sprint 3</strong>: A user can read a response, navigate
+to the action buttons with Tab, and use copy/edit/regenerate without a
+mouse.</p>
+<h3 id="sprint-4-i-can-pick-a-model">Sprint 4: “I can pick a model”</h3>
+<p><strong>Parent issue</strong>: <a
+href="https://github.com/accesswatch/open-webui/issues/4">#4</a> |
+<strong>Sub-issues</strong>: <a
+href="https://github.com/accesswatch/open-webui/issues/16">#16</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/17">#17</a></p>
+<p><strong>Goal</strong>: The model selector is keyboard-operable and
+screen reader-friendly.</p>
+<h4 id="pr-4-a-add-basic-keyboard-support-to-model-selector-16">PR 4-A:
+Add basic keyboard support to model selector (<a
+href="https://github.com/accesswatch/open-webui/issues/16">#16</a>)</h4>
+<p><em>Pulled from Phase 5, PR 5.1, split into behavior first</em>
+<strong>Title</strong>:
+<code>fix: add keyboard navigation to model selector dropdown</code>
+<strong>Scope</strong>:
+<code>src/lib/components/chat/ModelSelector/Selector.svelte</code>
+<strong>Changes</strong>: - Arrow keys through the option list, Enter to
+select - The <code>ModelItem.svelte</code> already has
+<code>role="option"</code>, <code>aria-selected</code>, and
+<code>aria-label</code> – the infrastructure is partially there - Focus
+on making the dropdown keyboard-operable <strong>WCAG</strong>: 2.1.1,
+4.1.2 <strong>Risk</strong>: Medium – behavior change on a complex
+component</p>
+<h4 id="pr-4-b-add-combobox-aria-to-the-selector-17">PR 4-B: Add
+combobox ARIA to the selector (<a
+href="https://github.com/accesswatch/open-webui/issues/17">#17</a>)</h4>
+<p><em>Pulled from Phase 5, PR 5.1, ARIA layer</em>
+<strong>Title</strong>:
+<code>fix: add ARIA combobox pattern to model selector</code>
+<strong>Scope</strong>:
+<code>src/lib/components/chat/ModelSelector/Selector.svelte</code>
+<strong>Changes</strong>: - Add <code>role="combobox"</code>,
+<code>aria-expanded</code>, <code>aria-activedescendant</code>,
+<code>aria-autocomplete</code> - Label the search input within the
+selector <strong>WCAG</strong>: 4.1.2 <strong>Risk</strong>: Medium –
+full combobox ARIA is complex</p>
+<p><strong>After Sprint 4</strong>: A user can search, arrow through,
+and select a model entirely by keyboard.</p>
+<h3 id="sprint-5-i-can-browse-my-chat-history">Sprint 5: “I can browse
+my chat history”</h3>
+<p><strong>Parent issue</strong>: <a
+href="https://github.com/accesswatch/open-webui/issues/5">#5</a> |
+<strong>Sub-issues</strong>: <a
+href="https://github.com/accesswatch/open-webui/issues/18">#18</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/19">#19</a></p>
+<p><strong>Goal</strong>: The sidebar has proper semantics and headings
+for section-by-section navigation.</p>
+<h4 id="pr-5-a-add-sidebar-section-headings-18">PR 5-A: Add sidebar
+section headings (<a
+href="https://github.com/accesswatch/open-webui/issues/18">#18</a>)</h4>
+<p><strong>Title</strong>:
+<code>fix: add headings to sidebar sections for screen reader navigation</code>
+<strong>Scope</strong>:
+<code>src/lib/components/common/Folder.svelte</code>,
+<code>src/lib/components/layout/Sidebar.svelte</code>
+<strong>Changes</strong>: - Add a visually-hidden
+<code>&lt;h2&gt;</code> for the overall sidebar (or rely on the
+<code>&lt;aside aria-label&gt;</code> from Sprint 1) - Make the section
+names (“Models”, “Channels”, “Folders”, “Chats”, “Pinned”) into
+<code>&lt;h3&gt;</code> elements - The Folder.svelte component renders
+the section name in a <code>&lt;div&gt;</code> inside a
+<code>&lt;button&gt;</code> – the name text itself can be wrapped in an
+<code>&lt;h3&gt;</code> or the section can have a sr-only heading before
+the Collapsible trigger <strong>WCAG</strong>: 1.3.1, 2.4.6
+<strong>Risk</strong>: Low – element additions within a contained
+component</p>
+<h4 id="pr-5-b-label-the-sidebar-search-input-19">PR 5-B: Label the
+sidebar search input (<a
+href="https://github.com/accesswatch/open-webui/issues/19">#19</a>)</h4>
+<p><em>Pulled from Phase 2, PR 2.2</em> <strong>Title</strong>:
+<code>fix: add accessible label to sidebar search input</code>
+<strong>Scope</strong>:
+<code>src/lib/components/layout/Sidebar/SearchInput.svelte</code>
+<strong>Changes</strong>: - Add <code>aria-label="Search chats"</code>
+to the search input <strong>WCAG</strong>: 1.3.1, 4.1.2
+<strong>Risk</strong>: Very low – single attribute</p>
+<p><strong>After Sprint 5</strong>: A user can press H to jump between
+“Models”, “Channels”, “Folders”, “Chats” sidebar sections, and search
+for a chat by name.</p>
+<h3 id="sprint-6-i-can-manage-my-settings">Sprint 6: “I can manage my
+settings”</h3>
+<p><strong>Parent issue</strong>: <a
+href="https://github.com/accesswatch/open-webui/issues/6">#6</a> |
+<strong>Sub-issues</strong>: <a
+href="https://github.com/accesswatch/open-webui/issues/20">#20</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/21">#21</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/22">#22</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/23">#23</a></p>
+<p><strong>Goal</strong>: Settings pages have heading hierarchy so users
+can jump between sections instead of tabbing through dozens of
+fields.</p>
+<h4 id="pr-6-a-convert-modal-titles-to-headings-20">PR 6-A: Convert
+modal titles to headings (<a
+href="https://github.com/accesswatch/open-webui/issues/20">#20</a>)</h4>
+<p><strong>Title</strong>:
+<code>fix: use heading elements for modal titles</code>
+<strong>Scope</strong>: 31 modal components (the
+<code>&lt;div class="text-lg font-medium self-center"&gt;</code>
+pattern) <strong>Changes</strong>: - Change <code>&lt;div&gt;</code> to
+<code>&lt;h1&gt;</code> for the 31 modal titles that currently use
+<code>&lt;div&gt;</code> - Keep the exact same
+<code>text-lg font-medium self-center</code> classes – these already
+override browser heading defaults for font size, weight, and alignment.
+Add <code>m-0</code> only if the heading introduces unwanted margin
+(test visually). - 5 modals already use <code>&lt;h1&gt;</code> as the
+correct pattern (AddConnectionModal, AddTerminalServerModal,
+AddToolServerModal, AttachWebpageModal,
+ManageFloatingActionButtonsModal, ManageImageCompressionModal) – follow
+their lead - This is a large scope – can be split into 2-3 PRs by area
+(chat modals, admin modals, workspace modals) - <strong>Zero visual
+change</strong> – purely semantic, AT-only improvement
+<strong>WCAG</strong>: 1.3.1, 2.4.6, 4.1.2 <strong>Risk</strong>: Zero –
+element swaps only, pixel-identical render</p>
+<h4 id="pr-6-b-add-headings-to-settings-sections-21">PR 6-B: Add
+headings to settings sections (<a
+href="https://github.com/accesswatch/open-webui/issues/21">#21</a>)</h4>
+<p><strong>Title</strong>:
+<code>fix: add heading hierarchy to user settings</code>
+<strong>Scope</strong>:
+<code>src/lib/components/chat/SettingsModal.svelte</code>,
+<code>src/lib/components/chat/Settings/*.svelte</code>
+<strong>Changes</strong>: - Change the “Settings” modal title
+<code>&lt;div&gt;</code> to <code>&lt;h1&gt;</code>
+(SettingsModal.svelte) - Change section dividers like “WebUI Settings”,
+“System Prompt”, “STT Settings”, “TTS Settings”, “Chats”, “Files” from
+<code>&lt;div class="mb-1 text-sm font-medium"&gt;</code> to
+<code>&lt;h2 class="mb-1 text-sm font-medium"&gt;</code> - The existing
+<code>text-sm font-medium mb-1</code> classes already set the visual
+size to 14px medium weight with 4px bottom margin – this will look
+identical as an <code>&lt;h2&gt;</code>. Verify no extra margin is
+introduced by the user-agent stylesheet (flex parent typically prevents
+this). - 7 files need this change (General.svelte, Audio.svelte,
+DataControls.svelte, Interface.svelte plus the admin equivalents) -
+<strong>Zero visual change</strong> – these already look like section
+headers, they just need to communicate as headings to AT
+<strong>WCAG</strong>: 1.3.1, 2.4.6 <strong>Risk</strong>: Zero –
+element swaps, pixel-identical render</p>
+<h4 id="pr-6-c-label-settings-form-inputs-22">PR 6-C: Label settings
+form inputs (<a
+href="https://github.com/accesswatch/open-webui/issues/22">#22</a>)</h4>
+<p><em>Pulled from Phase 2, PR 2.3</em> <strong>Title</strong>:
+<code>fix: add missing labels to settings form inputs</code>
+<strong>Scope</strong>:
+<code>src/lib/components/chat/Settings/**/*.svelte</code>,
+<code>src/lib/components/admin/Settings/**/*.svelte</code>
+<strong>Changes</strong>: - The field labels use
+<code>&lt;div class="self-center text-xs font-medium"&gt;</code> – these
+are already paired with inputs but not as <code>&lt;label&gt;</code>
+elements - Convert to <code>&lt;label&gt;</code> or add
+<code>aria-label</code> to each input - Large scope – split by settings
+area as needed <strong>WCAG</strong>: 1.3.1, 4.1.2, 3.3.2
+<strong>Risk</strong>: Low – attribute additions</p>
+<h4 id="pr-6-d-complete-settings-tab-aria-pattern-23">PR 6-D: Complete
+settings tab ARIA pattern (<a
+href="https://github.com/accesswatch/open-webui/issues/23">#23</a>)</h4>
+<p><strong>Title</strong>:
+<code>fix: complete ARIA tabs pattern in settings modal</code>
+<strong>Scope</strong>:
+<code>src/lib/components/chat/SettingsModal.svelte</code>
+<strong>Changes</strong>: - Add <code>role="tabpanel"</code> and
+matching <code>id</code> to each content panel - Add
+<code>aria-labelledby</code> linking panels to their tab triggers - Add
+arrow key navigation between tabs (Left/Right) - Roving
+<code>tabindex</code> (<code>0</code> on selected, <code>-1</code> on
+unselected) - Fix broken <code>aria-controls</code> references
+(currently point to nonexistent IDs) <strong>WCAG</strong>: 4.1.2
+<strong>Risk</strong>: Low – ARIA attributes and keydown handler, visual
+behavior unchanged</p>
+<p><strong>After Sprint 6</strong>: A user can open settings, press H to
+jump to “WebUI Settings”, “System Prompt”, “STT Settings”, etc., and
+find form fields by their labels.</p>
+<h3 id="sprint-7-cross-cutting-polish">Sprint 7: Cross-cutting
+polish</h3>
+<p><strong>Parent issue</strong>: <a
+href="https://github.com/accesswatch/open-webui/issues/7">#7</a> |
+<strong>Sub-issues</strong>: <a
+href="https://github.com/accesswatch/open-webui/issues/24">#24</a>–<a
+href="https://github.com/accesswatch/open-webui/issues/35">#35</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/36">#36</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/38">#38</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/40">#40</a>–<a
+href="https://github.com/accesswatch/open-webui/issues/47">#47</a></p>
+<p>Remaining items from the original phases that do not block any
+specific journey but improve overall quality:</p>
+<ol type="1">
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/24"><strong><code>prefers-reduced-motion</code></strong></a>
+– CSS-only global rule (Phase 1, PR 1.4)</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/25"><strong>Auth
+page heading</strong></a> – change login/signup
+<code>&lt;div class="text-2xl"&gt;</code> to <code>&lt;h1&gt;</code> (1
+file, 1 line)</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/26"><strong>Add
+alt text to images</strong></a> – 72 <code>&lt;img&gt;</code> elements
+missing <code>alt</code> attributes across the codebase</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/27"><strong>Collapsible
+button fix</strong></a> – replace <code>&lt;div on:pointerup&gt;</code>
+with <code>&lt;button&gt;</code>, add heading to collapsible title
+(Phase 3, PR 3.4)</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/28"><strong>Dropdown
+ARIA</strong></a> – full menu pattern (Phase 4, PR 4.1)</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/29"><strong>Modal
+<code>aria-labelledby</code></strong></a> – point to the new
+<code>&lt;h1&gt;</code> in each modal (Phase 3, PR 3.1)</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/30"><strong>Tooltip
+focus behavior</strong></a> – show on keyboard focus (Phase 3, PR
+3.2)</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/31"><strong>Resolve
+svelte-ignore a11y suppressions</strong></a> – audit and fix 57
+suppressed accessibility warnings across 37 files</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/32"><strong>Form
+validation errors</strong></a> – <code>aria-invalid</code>, error
+announcements (Phase 4, PR 4.3)</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/33"><strong>Focus-visible
+indicators</strong></a> – replace 44 <code>outline-none</code> instances
+with <code>focus-visible</code> focus rings</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/34"><strong>Sidebar
+panel focus management</strong></a> – Escape key, focus return (Phase 4,
+PR 4.2)</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/35"><strong>Add
+captions/tracks to media</strong></a> – add <code>&lt;track&gt;</code>
+elements to video and audio elements</li>
+</ol>
+<h4 id="gap-analysis-additions-april-6-2026">Gap-analysis additions
+(April 6, 2026)</h4>
+<p>The following issues were added after a WCAG 2.2 AA gap analysis
+revealed criteria not covered by the original 28 sub-issues:</p>
+<ol start="13" type="1">
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/36"><strong>Label
+admin panel form inputs (221 controls)</strong></a> – 221
+inputs/selects/textareas across 29 admin files with no programmatic
+labels</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/38"><strong>Label
+workspace and modal form inputs (83 controls)</strong></a> – 83 controls
+in workspace editors, standalone modals, and common components</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/40"><strong>Add
+aria-hidden to decorative SVG icons (395 SVGs)</strong></a> – 395
+<code>&lt;svg&gt;</code> elements with zero ARIA treatment; decorative
+icons need <code>aria-hidden="true"</code></li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/41"><strong>Run
+color contrast audit and fix failures</strong></a> – no contrast audit
+has been performed; covers all themes (dark, light, rosepine,
+rosepine-dawn)</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/42"><strong>Verify
+resize/reflow at 200% zoom and 320px viewport</strong></a> – verify
+content reflows without horizontal scrolling; test text spacing
+overrides</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/43"><strong>Verify
+focus not obscured by sticky elements</strong></a> – sticky navbar,
+toasts, and floating buttons may cover focused elements (WCAG 2.2 new
+criterion)</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/44"><strong>Add
+keyboard alternatives for drag-and-drop</strong></a> – 44 files use
+drag-and-drop with no keyboard/button alternative (WCAG 2.2 new
+criterion)</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/45"><strong>Verify
+minimum target size for interactive controls</strong></a> – audit icon
+buttons and small controls for 24x24px minimum (WCAG 2.2 new
+criterion)</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/46"><strong>Audit
+WCAG 2.2 new criteria (3.2.6, 3.3.7, 3.3.8, 1.3.2)</strong></a> – verify
+consistent help, redundant entry, accessible authentication, and
+meaningful sequence</li>
+<li><a
+href="https://github.com/accesswatch/open-webui/issues/47"><strong>Add
+captions to data tables</strong></a> – 13 tables have headers but 0
+<code>&lt;caption&gt;</code> elements</li>
+</ol>
+<h3 id="additional-high-impact-scenarios">Additional High-Impact
+Scenarios</h3>
+<p>Beyond the original plan, the heading analysis revealed these
+additional opportunities:</p>
+<ul>
+<li><strong>Code block copy button</strong> – verify CodeBlock.svelte
+copy button has <code>aria-label</code> and provides a “Copied”
+announcement (not just a visual icon swap). Users copy code
+frequently.</li>
+<li><strong>File/image upload feedback</strong> – when attaching files
+to a message, verify there is an announcement. Upload progress needs a
+live region.</li>
+<li><strong>Regenerate response state</strong> – the regenerate button
+triggers loading, streaming, then completion. The loading-to-complete
+state change needs an announcement.</li>
+<li><strong>Error states in chat</strong> – when the API fails
+mid-response, Error.svelte needs a live region to announce the
+failure.</li>
+<li><strong>New Chat button</strong> – verify the “New Chat” button in
+the sidebar/nav is a proper <code>&lt;button&gt;</code> with a label. It
+is the second most frequently pressed control.</li>
+<li><strong>Chat title in browser tab</strong> – verify the page title
+updates to reflect the current chat name (SvelteKit likely handles this,
+but worth confirming). This is how screen reader users orient across
+browser tabs.</li>
+</ul>
+<hr />
+<h2 id="original-phased-remediation-plan-reference">Original Phased
+Remediation Plan (Reference)</h2>
+<p>The original phases below group changes by technical risk tier. They
+remain valid as a reference for PR scope and details. The
+Journey-Prioritized plan above reorders these same items by user
+impact.</p>
+<p>Phases are ordered by <strong>impact-to-risk ratio</strong>. Early
+phases prove trustworthiness through zero-risk structural changes that
+maintainers can merge confidently. Once trust is established, later
+phases introduce behavioral changes with higher impact but more testing
+surface.</p>
+<p>Each PR targets the <code>dev</code> branch, touches a handful of
+files, and stays well under 300 lines changed (per maintainer guidance
+in Discussion #23212).</p>
+<h3 id="phase-0-community-discussion">Phase 0: Community Discussion</h3>
+<p><strong>Status</strong>: Posted as <a
+href="https://github.com/open-webui/open-webui/discussions/23212">Discussion
+#23212</a>. Maintainer <span class="citation"
+data-cites="Classic298">@Classic298</span> responded – green light to
+proceed with small atomic PRs. Key guidance: - Handful of files per PR,
+very low triple-digit line changes max - Test locally in dev environment
+before submitting - Follow existing code style - Use #2790 as the
+tracking issue</p>
+<h3 id="phase-1-semantic-structure-high-impact-zero-risk">Phase 1:
+Semantic Structure (High Impact, Zero Risk)</h3>
+<p><strong>Rationale</strong>: These changes swap HTML elements and add
+CSS. No JavaScript logic, no event handlers, no interactive behavior
+changes. Impossible to break functionality. They prove we can ship
+clean, safe PRs and immediately unlock landmark navigation for screen
+reader users.</p>
+<h4 id="pr-1.1-add-semantic-landmarks-to-app-layout">PR 1.1: Add
+semantic landmarks to app layout</h4>
+<p><strong>Title</strong>:
+<code>fix: add semantic HTML landmarks for screen reader navigation</code>
+<strong>Scope</strong>: <code>src/routes/(app)/+layout.svelte</code>,
+<code>src/lib/components/layout/Sidebar.svelte</code>
+<strong>Changes</strong>: - Wrap main content area in
+<code>&lt;main&gt;</code> - Wrap top bar in <code>&lt;header&gt;</code>
+(or add <code>role="banner"</code>) - Wrap sidebar in
+<code>&lt;nav&gt;</code> or <code>&lt;aside&gt;</code> with
+<code>aria-label="Chat history"</code> - Add labeled regions for major
+sections <strong>WCAG</strong>: 1.3.1, 2.4.1, 4.1.2
+<strong>Risk</strong>: Zero – HTML element swaps, no logic, no visual
+change</p>
+<h4 id="pr-1.2-add-skip-navigation-link">PR 1.2: Add skip navigation
+link</h4>
+<p><strong>Title</strong>:
+<code>feat: add skip-to-content link for keyboard users</code>
+<strong>Scope</strong>: <code>src/routes/(app)/+layout.svelte</code> or
+<code>src/app.html</code> <strong>Changes</strong>: - Add
+visually-hidden skip link as first focusable element - Target the chat
+input or main content area - Style with <code>sr-only</code> that
+becomes visible on focus <strong>WCAG</strong>: 2.4.1
+<strong>Risk</strong>: Zero – purely additive, invisible unless
+focused</p>
+<h4 id="pr-1.3-add-proper-heading-hierarchy">PR 1.3: Add proper heading
+hierarchy</h4>
+<p><strong>Title</strong>:
+<code>fix: add proper heading hierarchy to settings pages</code>
+<strong>Scope</strong>: Settings and admin page components
+<strong>Changes</strong>: - Ensure each page has one
+<code>&lt;h1&gt;</code> (page title) - Use <code>&lt;h2&gt;</code> for
+sections, <code>&lt;h3&gt;</code> for subsections - Current: only 9
+<code>&lt;h1&gt;</code>, 3 <code>&lt;h2&gt;</code>, 2
+<code>&lt;h3&gt;</code> across 556 files <strong>WCAG</strong>: 1.3.1,
+2.4.6 <strong>Risk</strong>: Zero – HTML element changes only, may need
+multiple PRs by page area</p>
+<h4 id="pr-1.4-add-prefers-reduced-motion-support">PR 1.4: Add
+prefers-reduced-motion support</h4>
+<p><strong>Title</strong>:
+<code>feat: respect prefers-reduced-motion for all transitions</code>
+<strong>Scope</strong>: <code>src/app.css</code> or global styles
+<strong>Changes</strong>: - Add global
+<code>@media (prefers-reduced-motion: reduce)</code> rule - Only affects
+users who have enabled this OS preference <strong>WCAG</strong>: 2.3.3
+<strong>Risk</strong>: Zero – CSS-only, no-op for users without the
+preference</p>
+<h3
+id="phase-2-labels-and-attributes-critical-impact-very-low-risk">Phase
+2: Labels and Attributes (Critical Impact, Very Low Risk)</h3>
+<p><strong>Rationale</strong>: Now that structural PRs have proven
+clean, safe contributions, we move to the highest-impact change:
+labeling inputs. Unlabeled inputs are the #1 complaint from screen
+reader users in #2790 and #18420. These PRs add attributes to existing
+elements – no DOM restructuring, no logic.</p>
+<h4 id="pr-2.1-label-the-chat-input">PR 2.1: Label the chat input</h4>
+<p><strong>Title</strong>:
+<code>fix: add accessible label to chat message input</code>
+<strong>Scope</strong>:
+<code>src/lib/components/chat/MessageInput.svelte</code> or the TipTap
+editor wrapper <strong>Changes</strong>: - Add <code>aria-label</code>
+describing the input (e.g., “Message” or “Chat message”) - If using
+TipTap rich text editor, ensure its <code>aria-label</code> is set - Add
+<code>aria-describedby</code> for any helper text <strong>WCAG</strong>:
+1.3.1, 4.1.2 <strong>Risk</strong>: Very low – single attribute addition
+to the most-used element</p>
+<h4 id="pr-2.2-label-form-inputs-across-chat-components">PR 2.2: Label
+form inputs across chat components</h4>
+<p><strong>Title</strong>:
+<code>fix: add missing labels to chat UI inputs</code>
+<strong>Scope</strong>: <code>src/lib/components/chat/**/*.svelte</code>
+<strong>Changes</strong>: - Label the model selector search input -
+Label file upload inputs - Label any remaining unlabeled inputs in the
+chat interface <strong>WCAG</strong>: 1.3.1, 4.1.2
+<strong>Risk</strong>: Very low – attribute additions only</p>
+<h4 id="pr-2.3-label-form-inputs-across-settings-and-admin">PR 2.3:
+Label form inputs across settings and admin</h4>
+<p><strong>Title</strong>:
+<code>fix: add missing labels to settings and admin form inputs</code>
+<strong>Scope</strong>:
+<code>src/lib/components/admin/Settings/**/*.svelte</code> and
+<code>src/lib/components/chat/Settings/**/*.svelte</code>
+<strong>Changes</strong>: - Audit all <code>&lt;input&gt;</code>
+elements and add <code>&lt;label&gt;</code> or <code>aria-label</code> -
+Add <code>aria-required="true"</code> for required fields - Add
+<code>aria-describedby</code> for inputs with helper text - May need to
+be split into multiple PRs by page area to keep scope small
+<strong>WCAG</strong>: 1.3.1, 4.1.2, 3.3.2 <strong>Risk</strong>: Low –
+attribute additions, larger scope requires careful splitting</p>
+<h3 id="phase-3-isolated-component-fixes-moderate-impact-low-risk">Phase
+3: Isolated Component Fixes (Moderate Impact, Low Risk)</h3>
+<p><strong>Rationale</strong>: Each PR targets a single shared component
+with limited blast radius. Configuration-level changes or minor element
+swaps within well-contained components.</p>
+<h4 id="pr-3.1-fix-modal.svelte-aria-labeling">PR 3.1: Fix Modal.svelte
+ARIA labeling</h4>
+<p><strong>Title</strong>:
+<code>fix: add aria-labelledby to Modal component</code>
+<strong>Scope</strong>:
+<code>src/lib/components/common/Modal.svelte</code>
+<strong>Changes</strong>: - Add <code>aria-labelledby</code> pointing to
+the first heading or title within the dialog - Pass an optional
+<code>title</code> prop for fallback <code>aria-label</code> - Remove
+<code>svelte-ignore</code> directives where proper keyboard handlers
+exist (3 removed) <strong>WCAG</strong>: 4.1.2 <strong>Risk</strong>:
+Low – attribute addition to a component that already has good focus
+management</p>
+<h4 id="pr-3.2-fix-tooltip.svelte-focus-behavior">PR 3.2: Fix
+Tooltip.svelte focus behavior</h4>
+<p><strong>Title</strong>:
+<code>fix: show tooltips on keyboard focus</code>
+<strong>Scope</strong>:
+<code>src/lib/components/common/Tooltip.svelte</code>
+<strong>Changes</strong>: - Ensure the wrapper element is focusable (add
+<code>tabindex="0"</code> or use <code>&lt;button&gt;</code>) -
+Configure tippy.js <code>trigger: 'mouseenter focus'</code> - Remove
+<code>svelte-ignore</code> directive (1 removed) <strong>WCAG</strong>:
+1.3.1, 4.1.2 <strong>Risk</strong>: Low – tippy.js configuration
+change</p>
+<h4 id="pr-3.3-ensure-toast-notifications-are-announced">PR 3.3: Ensure
+toast notifications are announced</h4>
+<p><strong>Title</strong>:
+<code>fix: ensure toast notifications are announced by screen readers</code>
+<strong>Scope</strong>: svelte-sonner configuration, possibly
+<code>src/routes/+layout.svelte</code> <strong>Changes</strong>: -
+Verify svelte-sonner renders with <code>role="alert"</code> or
+<code>role="status"</code> - If not, configure the toast container with
+appropriate ARIA - Ensure error toasts use <code>role="alert"</code>
+(assertive) - Ensure info toasts use <code>role="status"</code> (polite)
+<strong>WCAG</strong>: 4.1.3 <strong>Risk</strong>: Low – library
+configuration change</p>
+<h4 id="pr-3.4-fix-collapsible.svelte-accessibility">PR 3.4: Fix
+Collapsible.svelte accessibility</h4>
+<p><strong>Title</strong>:
+<code>fix: make Collapsible component keyboard-accessible</code>
+<strong>Scope</strong>:
+<code>src/lib/components/common/Collapsible.svelte</code>
+<strong>Changes</strong>: - Replace
+<code>&lt;div on:pointerup&gt;</code> with <code>&lt;button&gt;</code>
+element - Add <code>aria-expanded={open}</code> - Add
+<code>aria-controls</code> pointing to content panel ID - Remove
+<code>svelte-ignore</code> directives (4 removed) <strong>WCAG</strong>:
+4.1.2, 2.1.1 <strong>Risk</strong>: Low – button replacement within a
+single component, no logic change</p>
+<h3
+id="phase-4-behavioral-component-changes-high-impact-medium-risk">Phase
+4: Behavioral Component Changes (High Impact, Medium Risk)</h3>
+<p><strong>Rationale</strong>: These PRs add keyboard behaviors and
+focus management to shared components. Each one changes how the
+component responds to user interaction. Requires careful testing.</p>
+<h4 id="pr-4.1-fix-dropdown.svelte-accessibility">PR 4.1: Fix
+Dropdown.svelte accessibility</h4>
+<p><strong>Title</strong>:
+<code>fix: add ARIA menu pattern to Dropdown component</code>
+<strong>Scope</strong>:
+<code>src/lib/components/common/Dropdown.svelte</code>,
+<code>src/lib/components/common/DropdownSub.svelte</code>
+<strong>Changes</strong>: - Replace trigger <code>&lt;span&gt;</code>
+with <code>&lt;button&gt;</code> or add <code>role="button"</code> +
+<code>tabindex="0"</code> + keyboard handler - Add
+<code>aria-expanded</code> to trigger - Add
+<code>aria-haspopup="true"</code> to trigger - Add
+<code>role="menu"</code> (or <code>role="listbox"</code> depending on
+usage) to content - Add arrow key navigation within menu items - Remove
+<code>svelte-ignore</code> directives (6 removed) <strong>WCAG</strong>:
+4.1.2, 2.1.1, 1.3.1 <strong>Risk</strong>: Medium – adds keyboard
+navigation behavior, element replacement on a widely-used component</p>
+<h4 id="pr-4.2-fix-sidebar-panel-accessibility">PR 4.2: Fix Sidebar
+panel accessibility</h4>
+<p><strong>Title</strong>:
+<code>fix: add ARIA and keyboard support to Sidebar panel</code>
+<strong>Scope</strong>:
+<code>src/lib/components/common/Sidebar.svelte</code>
+<strong>Changes</strong>: - Add <code>role="complementary"</code> or
+appropriate landmark - Add <code>aria-label</code> describing the panel
+content - Add keyboard dismiss (Escape key) - Add focus management:
+focus the panel on open, return focus on close - Remove
+<code>svelte-ignore</code> directive (1 removed) <strong>WCAG</strong>:
+2.1.1, 4.1.2 <strong>Risk</strong>: Medium – adds focus management
+behavior</p>
+<h4 id="pr-4.3-add-accessible-form-validation-errors">PR 4.3: Add
+accessible form validation errors</h4>
+<p><strong>Title</strong>:
+<code>feat: add accessible form validation errors</code>
+<strong>Scope</strong>: Login, registration, settings forms
+<strong>Changes</strong>: - Add <code>aria-invalid="true"</code> when
+fields have errors - Add <code>aria-describedby</code> linking to error
+messages - Ensure error messages are announced (live region or
+<code>role="alert"</code>) <strong>WCAG</strong>: 3.3.1, 3.3.3
+<strong>Risk</strong>: Medium – requires state management logic for
+error states</p>
+<h3
+id="phase-5-complex-interactive-patterns-high-impact-medium-high-risk">Phase
+5: Complex Interactive Patterns (High Impact, Medium-High Risk)</h3>
+<p><strong>Rationale</strong>: Full ARIA widget patterns with complex
+keyboard interaction models. High impact on the core chat experience but
+highest risk of implementation issues or needing iteration.</p>
+<h4 id="pr-5.1-model-selector-combobox-pattern">PR 5.1: Model selector
+combobox pattern</h4>
+<p><strong>Title</strong>:
+<code>fix: implement ARIA combobox pattern for model selector</code>
+<strong>Scope</strong>:
+<code>src/lib/components/chat/ModelSelector/Selector.svelte</code>
+<strong>Changes</strong>: - Add <code>role="combobox"</code> to the
+input/trigger - Add <code>role="listbox"</code> to the dropdown list -
+Add <code>role="option"</code> to each model item - Add
+<code>aria-expanded</code>, <code>aria-activedescendant</code>,
+<code>aria-autocomplete</code> - Add arrow key navigation through
+options - Remove <code>svelte-ignore</code> directive (1 removed)
+<strong>WCAG</strong>: 4.1.2, 2.1.1 <strong>Risk</strong>: Medium-high –
+full ARIA combobox is one of the most complex widget patterns</p>
+<h4 id="pr-5.2-chat-message-live-regions">PR 5.2: Chat message live
+regions</h4>
+<p><strong>Title</strong>:
+<code>feat: announce new chat messages to screen readers</code>
+<strong>Scope</strong>:
+<code>src/lib/components/chat/Messages/ResponseMessage.svelte</code>,
+message container <strong>Changes</strong>: - Add
+<code>aria-live="polite"</code> to the chat message container (or a
+dedicated announcer) - Add <code>role="log"</code> to the chat message
+list - Announce completion of streamed responses - Announce “Thinking…”
+/ “Analyzing…” state changes <strong>WCAG</strong>: 4.1.3
+<strong>Risk</strong>: Medium-high – token-by-token updates could flood
+the screen reader; needs careful debouncing</p>
+<h4 id="pr-5.3-chat-keyboard-navigation">PR 5.3: Chat keyboard
+navigation</h4>
+<p><strong>Title</strong>:
+<code>fix: enable keyboard navigation through chat messages</code>
+<strong>Scope</strong>: Chat message list components
+<strong>Changes</strong>: - Add keyboard shortcuts to navigate between
+messages - Ensure message action buttons (copy, edit, regenerate) are
+keyboard-accessible - Add focus management after sending a message
+<strong>WCAG</strong>: 2.1.1, 2.4.3 <strong>Risk</strong>: Medium – new
+keybindings must not conflict with existing shortcuts or browser
+defaults</p>
+<hr />
+<h2 id="pr-templates-for-each-phase">PR Templates for Each Phase</h2>
+<p>Each PR should follow this structure (adapted from the repository’s
+pull_request_template.md):</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu"># Pull Request Checklist</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> **Target branch:** <span class="in">`dev`</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> **Description:** <span class="co">[</span><span class="ot">Concise summary below</span><span class="co">]</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> **Changelog:** Included below</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[ ]</span> **Documentation:** N/A (no user-facing behavior change) / Added to docs repo</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> **Dependencies:** No new dependencies</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> **Testing:** Manual testing with <span class="co">[</span><span class="ot">NVDA/VoiceOver</span><span class="co">]</span> screen reader, keyboard-only navigation. Screenshots below.</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> **Agentic AI Code:** This PR has gone through human review AND manual testing.</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> **Code review:** Self-reviewed</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> **Design &amp; Architecture:** Uses smart defaults, no new settings</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> **Git Hygiene:** Atomic PR, single logical change, rebased on <span class="in">`dev`</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> **Title Prefix:** <span class="co">[</span><span class="ot">fix:/feat:/refactor:</span><span class="co">]</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu"># Changelog Entry</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">### Fixed</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">Component name</span><span class="co">]</span>: <span class="co">[</span><span class="ot">What was fixed</span><span class="co">]</span> (<span class="co">[</span><span class="ot">WCAG criterion</span><span class="co">]</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">### Screenshots</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Before <span class="pp">|</span> After <span class="pp">|</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="co">[</span><span class="ot">Screen reader announcing &quot;clickable&quot; with no label</span><span class="co">]</span> <span class="pp">|</span> <span class="co">[</span><span class="ot">Screen reader announcing &quot;New chat, button&quot;</span><span class="co">]</span> <span class="pp">|</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="va">[x]</span> By submitting this pull request, I confirm that I have read and fully agree to the Contributor License Agreement (CLA), and I am providing my contributions under its terms.</span></code></pre></div>
+<hr />
+<h2 id="testing-protocol">Testing Protocol</h2>
+<p>For each PR, perform these manual tests:</p>
+<h3 id="screen-reader-testing-nvda-on-windows-recommended">Screen Reader
+Testing (NVDA on Windows recommended)</h3>
+<ol type="1">
+<li>Navigate to the affected component using Tab key</li>
+<li>Verify the component is announced with correct role, name, and
+state</li>
+<li>Verify all interactive elements can be activated with Enter or
+Space</li>
+<li>Navigate using screen reader shortcuts (H for headings, D for
+landmarks, F for forms)</li>
+<li>Record the announcement text for the before/after screenshots</li>
+</ol>
+<h3 id="keyboard-only-testing">Keyboard-Only Testing</h3>
+<ol type="1">
+<li>Tab through the entire page</li>
+<li>Verify all interactive elements receive visible focus</li>
+<li>Verify no keyboard traps (can always Tab away or Escape out)</li>
+<li>Verify focus order is logical (left-to-right, top-to-bottom)</li>
+<li>Verify dropdown/modal focus management (focus trapped inside,
+returns on close)</li>
+</ol>
+<h3 id="automated-testing">Automated Testing</h3>
+<ul>
+<li>Run <code>npx svelte-check</code> to verify no new a11y
+warnings</li>
+<li>Verify the count of <code>svelte-ignore a11y</code> directives has
+decreased</li>
+</ul>
+<hr />
+<h2 id="wcag-2.2-aa-coverage-map">WCAG 2.2 AA Coverage Map</h2>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>WCAG Criterion</th>
+<th>Current Status</th>
+<th>Issue(s) Addressing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.1.1 Non-text Content</td>
+<td>FAIL (72 img missing alt, 395 SVGs unlabeled)</td>
+<td>#26 (images), #40 (SVGs)</td>
+</tr>
+<tr>
+<td>1.2.1 Audio/Video (Prerecorded)</td>
+<td>FAIL (14 media elements, no tracks)</td>
+<td>#35</td>
+</tr>
+<tr>
+<td>1.3.1 Info and Relationships</td>
+<td>FAIL (no landmarks, low labeling, no table captions)</td>
+<td>#8, #10, #11, #15, #18, #20, #21, #25, #36, #38, #47</td>
+</tr>
+<tr>
+<td>1.3.2 Meaningful Sequence</td>
+<td>Unknown (needs manual audit)</td>
+<td>#46 (audit)</td>
+</tr>
+<tr>
+<td>1.3.3 Sensory Characteristics</td>
+<td>Unknown (needs manual audit)</td>
+<td>–</td>
+</tr>
+<tr>
+<td>1.4.1 Use of Color</td>
+<td>Unknown (needs contrast audit)</td>
+<td>#41 (audit)</td>
+</tr>
+<tr>
+<td>1.4.3 Contrast (Minimum)</td>
+<td>Unknown (never audited)</td>
+<td>#41</td>
+</tr>
+<tr>
+<td>1.4.4 Resize Text</td>
+<td>Unknown (assumed responsive, never verified)</td>
+<td>#42</td>
+</tr>
+<tr>
+<td>1.4.10 Reflow</td>
+<td>Unknown (needs 320px viewport test)</td>
+<td>#42</td>
+</tr>
+<tr>
+<td>1.4.11 Non-text Contrast</td>
+<td>Unknown (needs automated scan)</td>
+<td>#41</td>
+</tr>
+<tr>
+<td>1.4.12 Text Spacing</td>
+<td>Unknown (needs bookmarklet test)</td>
+<td>#42</td>
+</tr>
+<tr>
+<td>2.1.1 Keyboard</td>
+<td>FAIL (60 suppressed warnings)</td>
+<td>#14, #15, #16, #27, #28, #30, #31, #34</td>
+</tr>
+<tr>
+<td>2.1.2 No Keyboard Trap</td>
+<td>Partial (Modal has focus-trap)</td>
+<td>#28, #34</td>
+</tr>
+<tr>
+<td>2.3.1 Three Flashes or Below</td>
+<td>Likely PASS</td>
+<td>–</td>
+</tr>
+<tr>
+<td>2.3.3 Animation from Interactions</td>
+<td>FAIL (no reduced-motion support)</td>
+<td>#24</td>
+</tr>
+<tr>
+<td>2.4.1 Bypass Blocks</td>
+<td>FAIL (no skip links, no landmarks)</td>
+<td>#8, #12</td>
+</tr>
+<tr>
+<td>2.4.2 Page Titled</td>
+<td>Likely PASS (SvelteKit handles this)</td>
+<td>–</td>
+</tr>
+<tr>
+<td>2.4.3 Focus Order</td>
+<td>Unknown (needs manual audit)</td>
+<td>#33</td>
+</tr>
+<tr>
+<td>2.4.6 Headings and Labels</td>
+<td>FAIL (minimal heading structure)</td>
+<td>#10, #11, #18, #20, #21, #25</td>
+</tr>
+<tr>
+<td>2.4.7 Focus Visible</td>
+<td>FAIL (16 elements with removed focus ring)</td>
+<td>#14, #33</td>
+</tr>
+<tr>
+<td>2.4.11 Focus Not Obscured (Minimum)</td>
+<td>Unknown (WCAG 2.2 new)</td>
+<td>#43</td>
+</tr>
+<tr>
+<td>2.5.3 Label in Name</td>
+<td>Unknown (needs manual audit)</td>
+<td>–</td>
+</tr>
+<tr>
+<td>2.5.7 Dragging Movements</td>
+<td>FAIL (44 drag files, no keyboard alt) (WCAG 2.2 new)</td>
+<td>#44</td>
+</tr>
+<tr>
+<td>2.5.8 Target Size (Minimum)</td>
+<td>Unknown (WCAG 2.2 new)</td>
+<td>#45</td>
+</tr>
+<tr>
+<td>3.2.6 Consistent Help</td>
+<td>Unknown (WCAG 2.2 new)</td>
+<td>#46 (audit)</td>
+</tr>
+<tr>
+<td>3.3.1 Error Identification</td>
+<td>FAIL (0 aria-invalid)</td>
+<td>#32</td>
+</tr>
+<tr>
+<td>3.3.2 Labels or Instructions</td>
+<td>FAIL (10.7% labeling rate across 481 controls)</td>
+<td>#9, #19, #22, #36, #38</td>
+</tr>
+<tr>
+<td>3.3.3 Error Suggestion</td>
+<td>FAIL (no accessible errors)</td>
+<td>#32</td>
+</tr>
+<tr>
+<td>3.3.7 Redundant Entry</td>
+<td>Unknown (WCAG 2.2 new)</td>
+<td>#46 (audit)</td>
+</tr>
+<tr>
+<td>3.3.8 Accessible Authentication (Minimum)</td>
+<td>Likely PASS (standard login) (WCAG 2.2 new)</td>
+<td>#46 (audit)</td>
+</tr>
+<tr>
+<td>4.1.2 Name, Role, Value</td>
+<td>FAIL (dropdowns, collapsibles, menus)</td>
+<td>#9, #17, #22, #23, #27, #28, #29, #36, #38</td>
+</tr>
+<tr>
+<td>4.1.3 Status Messages</td>
+<td>FAIL (3 live regions in chat app)</td>
+<td>#13</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Current estimated WCAG 2.2 AA pass rate: approximately
+30-40%</strong> (based on criteria that can be assessed from static code
+analysis alone; runtime testing would likely reveal additional
+failures).</p>
+<p><strong>Coverage after all 38 issues are resolved: approximately
+90-95%</strong> (remaining 5-10% are criteria needing runtime/manual
+verification that may already pass).</p>
+<hr />
+<h2 id="risk-assessment">Risk Assessment</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Impact</th>
+<th>Risk Level</th>
+<th>Regression Potential</th>
+<th>What Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phase 0</td>
+<td>–</td>
+<td>None</td>
+<td>None</td>
+<td>Discussion only</td>
+</tr>
+<tr>
+<td>Phase 1</td>
+<td>High</td>
+<td>Zero</td>
+<td>None</td>
+<td>HTML element swaps (<code>&lt;div&gt;</code> to
+<code>&lt;main&gt;</code>/<code>&lt;header&gt;</code>), CSS media query
+– no JS, no logic</td>
+</tr>
+<tr>
+<td>Phase 2</td>
+<td>Critical</td>
+<td>Very Low</td>
+<td>Minimal</td>
+<td>Attribute additions (<code>aria-label</code>,
+<code>&lt;label&gt;</code>) – no DOM restructuring</td>
+</tr>
+<tr>
+<td>Phase 3</td>
+<td>Moderate</td>
+<td>Low</td>
+<td>Low</td>
+<td>Isolated component config changes, single element swap
+(Collapsible)</td>
+</tr>
+<tr>
+<td>Phase 4</td>
+<td>High</td>
+<td>Medium</td>
+<td>Medium</td>
+<td>New keyboard handlers, focus management, error state logic</td>
+</tr>
+<tr>
+<td>Phase 5</td>
+<td>High</td>
+<td>Medium-High</td>
+<td>Medium-High</td>
+<td>Full ARIA widget patterns, live region tuning, new keybindings</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="project-tracking">Project Tracking</h2>
+<p>All issues are tracked on the GitHub Project board and as sub-issues
+under sprint parent issues.</p>
+<ul>
+<li><strong>Project board</strong>: <a
+href="https://github.com/users/accesswatch/projects/1">Open WebUI
+Accessibility (WCAG 2.2 AA)</a></li>
+<li><strong>Repository</strong>: <a
+href="https://github.com/accesswatch/open-webui">accesswatch/open-webui</a></li>
+<li><strong>Upstream discussion</strong>: <a
+href="https://github.com/open-webui/open-webui/discussions/23212">Discussion
+#23212</a></li>
+<li><strong>Upstream tracking issue</strong>: <a
+href="https://github.com/open-webui/open-webui/issues/2790">open-webui/open-webui#2790</a></li>
+</ul>
+<h3 id="issue-map">Issue Map</h3>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>Sprint</th>
+<th>Parent</th>
+<th>Sub-issues</th>
+<th>Theme</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a
+href="https://github.com/accesswatch/open-webui/issues/1">#1</a></td>
+<td><a href="https://github.com/accesswatch/open-webui/issues/8">#8</a>,
+<a href="https://github.com/accesswatch/open-webui/issues/9">#9</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/10">#10</a></td>
+<td>I can send a message</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a
+href="https://github.com/accesswatch/open-webui/issues/2">#2</a></td>
+<td><a
+href="https://github.com/accesswatch/open-webui/issues/11">#11</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/12">#12</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/13">#13</a></td>
+<td>I can read the response</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a
+href="https://github.com/accesswatch/open-webui/issues/3">#3</a></td>
+<td><a
+href="https://github.com/accesswatch/open-webui/issues/14">#14</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/15">#15</a></td>
+<td>I can act on the response</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a
+href="https://github.com/accesswatch/open-webui/issues/4">#4</a></td>
+<td><a
+href="https://github.com/accesswatch/open-webui/issues/16">#16</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/17">#17</a></td>
+<td>I can pick a model</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a
+href="https://github.com/accesswatch/open-webui/issues/5">#5</a></td>
+<td><a
+href="https://github.com/accesswatch/open-webui/issues/18">#18</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/19">#19</a></td>
+<td>I can browse my chat history</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a
+href="https://github.com/accesswatch/open-webui/issues/6">#6</a></td>
+<td><a
+href="https://github.com/accesswatch/open-webui/issues/20">#20</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/21">#21</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/22">#22</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/23">#23</a></td>
+<td>I can manage my settings</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a
+href="https://github.com/accesswatch/open-webui/issues/7">#7</a></td>
+<td><a
+href="https://github.com/accesswatch/open-webui/issues/24">#24</a>–<a
+href="https://github.com/accesswatch/open-webui/issues/35">#35</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/36">#36</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/38">#38</a>, <a
+href="https://github.com/accesswatch/open-webui/issues/40">#40</a>–<a
+href="https://github.com/accesswatch/open-webui/issues/47">#47</a></td>
+<td>Cross-cutting polish</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total</strong>: 7 sprint parents + 38 sub-issues = 45 issues
+(28 original + 10 gap-analysis additions)</p>
+<h2 id="next-steps">Next Steps</h2>
+<ol type="1">
+<li><del>Open the Discussion post (Phase 0) and wait for maintainer
+response</del> <strong>Done</strong> – <a
+href="https://github.com/open-webui/open-webui/discussions/23212">Discussion
+#23212</a> posted March 29, 2026</li>
+<li><del>Set up GitHub Project board with sprint tracking</del>
+<strong>Done</strong> – <a
+href="https://github.com/users/accesswatch/projects/1">Project
+#1</a></li>
+<li><del>Create all 35 GitHub issues with sub-issue linking</del>
+<strong>Done</strong> – April 6, 2026</li>
+<li><del>WCAG 2.2 AA gap analysis and 10 additional issues</del>
+<strong>Done</strong> – April 6, 2026</li>
+<li>Begin Sprint 1: landmarks (<a
+href="https://github.com/accesswatch/open-webui/issues/8">#8</a>), chat
+input label (<a
+href="https://github.com/accesswatch/open-webui/issues/9">#9</a>), chat
+heading (<a
+href="https://github.com/accesswatch/open-webui/issues/10">#10</a>)</li>
+<li>Create branch from <code>dev</code> for each sub-issue (branch names
+in each issue)</li>
+<li>Include screen reader testing screenshots with each PR</li>
+<li>Track progress on the <a
+href="https://github.com/users/accesswatch/projects/1">project
+board</a></li>
+</ol>
