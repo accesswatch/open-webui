@@ -36,6 +36,7 @@
 					id="floating-message-input"
 					class="bg-transparent outline-hidden w-full flex-1 text-sm"
 					placeholder={$i18n.t('Suggest a change')}
+					aria-label={$i18n.t('Suggest a change')}
 					bind:value={inputValue}
 					autocomplete="off"
 					on:keydown={(e) => {
