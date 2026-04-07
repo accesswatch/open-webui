@@ -11,6 +11,8 @@
 
 	let modalElement = null;
 	let mounted = false;
+	let labelId = '';
+
 	// Create focus trap to trap user tabs inside modal
 	// https://www.w3.org/WAI/WCAG21/Understanding/focus-order.html
 	// https://www.w3.org/WAI/WCAG21/Understanding/keyboard.html
@@ -57,6 +59,16 @@
 
 	$: if (show && modalElement) {
 		document.body.appendChild(modalElement);
+		// Find the first heading inside the modal to use as aria-labelledby target
+		const heading = modalElement.querySelector('h1, h2, h3, h4, h5, h6');
+		if (heading) {
+			if (!heading.id) {
+				heading.id = `modal-title-${Math.random().toString(36).slice(2, 9)}`;
+			}
+			labelId = heading.id;
+		} else {
+			labelId = '';
+		}
 		focusTrap = FocusTrap.createFocusTrap(modalElement, {
 			allowOutsideClick: (e) => {
 				return (
@@ -94,6 +106,7 @@
 		bind:this={modalElement}
 		aria-modal="true"
 		role="dialog"
+		aria-labelledby={labelId || undefined}
 		class="modal fixed top-0 right-0 left-0 bottom-0 bg-black/30 dark:bg-black/60 w-full h-screen max-h-[100dvh] {containerClassName}  flex justify-center z-9999 overflow-y-auto overscroll-contain"
 		style="scrollbar-gutter: stable;"
 		in:fade={{ duration: 10 }}
