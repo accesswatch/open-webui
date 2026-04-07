@@ -419,6 +419,7 @@
 									<table
 										class="w-full text-sm text-left text-gray-600 dark:text-gray-400 table-auto"
 									>
+										<caption class="sr-only">{$i18n.t('Chats')}</caption>
 										<thead
 											class="text-xs text-gray-700 uppercase bg-transparent dark:text-gray-200 border-b-1 border-gray-50 dark:border-gray-850/30"
 										>

@@ -198,6 +198,7 @@
 			{#if queryColumns.length > 0}
 				<div class="flex-1 overflow-auto min-h-0">
 					<table class="sqlite-table w-full text-xs font-mono border-collapse">
+						<caption class="sr-only">{$i18n.t('Query Results')}</caption>
 						<thead>
 							<tr>
 								<th class="sqlite-row-num">#</th>
@@ -224,6 +225,7 @@
 			<div class="flex-1 overflow-auto min-h-0">
 				{#if columns.length > 0}
 					<table class="sqlite-table w-full text-xs font-mono border-collapse">
+						<caption class="sr-only">{$i18n.t('Table Data')}</caption>
 						<thead>
 							<tr>
 								<th class="sqlite-row-num">#</th>

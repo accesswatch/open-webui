@@ -142,6 +142,7 @@
 				? 'opacity-20'
 				: ''}"
 		>
+			<caption class="sr-only">{$i18n.t('Model Leaderboard')}</caption>
 			<thead class="text-xs text-gray-800 uppercase bg-transparent dark:text-gray-200">
 				<tr class="border-b-[1.5px] border-gray-50 dark:border-gray-850/30">
 					{#each [{ key: 'rating', label: 'RK', class: 'w-3' }, { key: 'name', label: 'Model', class: '' }, { key: 'rating', label: 'Rating', class: 'text-right w-fit' }, { key: 'won', label: 'Won', class: 'text-right w-5' }, { key: 'lost', label: 'Lost', class: 'text-right w-5' }] as col}

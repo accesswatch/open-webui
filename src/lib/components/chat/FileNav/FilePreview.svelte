@@ -442,6 +442,7 @@
 		{:else if isCsv && !showRaw && csvRows.length > 0}
 			<div class="absolute inset-0 overflow-auto px-3 pb-3">
 				<table class="csv-table text-xs font-mono border-collapse">
+					<caption class="sr-only">{$i18n.t('CSV Preview')}</caption>
 					<thead>
 						<tr>
 							<th class="csv-row-num">#</th>
