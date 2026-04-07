@@ -76,6 +76,7 @@ The `tests/a11y/` directory contains Playwright tests that run axe-core against 
 |-----------|-----------|
 | `auth.spec.ts` | Auth page has h1, labeled inputs, submit button text, no axe violations |
 | `chat.spec.ts` | Chat page has landmarks, heading hierarchy, labeled chat input, model selector label, named buttons, no axe violations |
+| `chat-messages.spec.ts` | Mocked model + streaming response: user/assistant messages render, `role="log"` with `aria-live`, conversation heading, listitem roles, action button labels (copy, regenerate), sr-only completion announcement, post-exchange axe scan |
 | `settings.spec.ts` | Settings modal has role/aria-modal, h2 title, h3 section headings, labeled search, close button, focus trap, Escape key, scoped axe scan |
 | `sidebar.spec.ts` | Sidebar toggle/new-chat/search buttons labeled, section headings, profile menu label, link text, no axe violations |
 
