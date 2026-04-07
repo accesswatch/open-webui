@@ -10,6 +10,10 @@ echo "=== Open WebUI Codespace Setup ==="
 echo "Installing frontend dependencies..."
 npm ci --force
 
+# ---------- Playwright ----------
+echo "Installing Playwright browsers for accessibility tests..."
+npx playwright install chromium --with-deps
+
 # ---------- Backend ----------
 echo "Creating Python virtual environment..."
 python -m venv .venv
