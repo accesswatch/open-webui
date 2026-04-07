@@ -1,5 +1,20 @@
 @reference "./tailwind.css";
 
+/* Keyboard focus indicators (WCAG 2.4.7 Focus Visible)
+   Show a visible focus ring for keyboard navigation on all interactive
+   elements. Uses :focus-visible so mouse clicks do not show a ring.
+   Works with Tailwind v4 outline-hidden (transparent 2px outline) by
+   overriding the outline-color to a visible value. */
+*:focus-visible {
+	outline: 2px solid var(--focus-ring-color, #3b82f6) !important;
+	outline-offset: 2px !important;
+}
+
+/* In dark mode, use a lighter blue for better contrast */
+.dark *:focus-visible {
+	--focus-ring-color: #60a5fa;
+}
+
 @font-face {
 	font-family: 'Inter';
 	src: url('/assets/fonts/Inter-Variable.ttf');
