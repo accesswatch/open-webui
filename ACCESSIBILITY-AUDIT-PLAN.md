@@ -44,14 +44,38 @@ Each sprint has a parent tracking issue with sub-issues linked underneath. All 4
 - **Atomic PRs.** Each sub-issue maps to one PR with one logical change. Maintainers review 20--100 lines, not 500-line refactors.
 - **Upstream-aligned.** The maintainer approved this approach in [Discussion #23212](https://github.com/open-webui/open-webui/discussions/23212): small PRs, handful of files, low triple-digit line changes max.
 
-### Current Status (April 6, 2026)
+### Current Status (April 9, 2026)
 
-- Audit complete, plan documented
-- 45 GitHub issues created with sub-issue hierarchy (28 original + 10 gap-analysis additions)
-- Project board live with sprint tracking
-- Maintainer approval received
-- Gap analysis complete -- all WCAG 2.2 AA criteria now tracked
-- Ready to begin Sprint 1 implementation
+**Sprints 1-5: Complete.** All 12 sub-issues have code committed and pushed.
+
+**Sprint 6: 3 of 4 complete.**
+- #20 Convert modal titles to headings -- fix-committed
+- #21 Add heading hierarchy to settings sections -- fix-committed
+- #22 Label settings form inputs -- fix-committed
+- #23 Complete settings tab ARIA pattern -- open (remaining work)
+
+**Sprint 7: 15 of 22 complete.**
+- fix-committed: #24, #25, #26, #27, #28, #29, #30, #31, #32, #33, #34, #35, #36, #40, #44, #47
+- open: #17 (S4-2 combobox ARIA), #38 (workspace/modal form labels), #41 (color contrast), #42 (resize/reflow), #43 (focus not obscured), #45 (target size), #46 (WCAG 2.2 new criteria)
+
+**Overall: 30 of 38 sub-issues have fix-committed.** 8 remain open:
+| Issue | Title | Sprint | Notes |
+|---|---|---|---|
+| #17 | Add ARIA combobox pattern to model selector | S4 | Complex ARIA pattern, needs careful implementation |
+| #23 | Complete settings tab ARIA pattern | S6 | Tab panel wiring |
+| #38 | Label workspace and modal form inputs (83 controls) | S7 | Bulk labeling pass |
+| #41 | Run color contrast audit and fix failures | S7 | Needs visual testing |
+| #42 | Verify resize/reflow at 200% zoom and 320px viewport | S7 | Needs visual testing |
+| #43 | Verify focus not obscured by sticky elements | S7 | Needs visual testing |
+| #45 | Verify minimum target size for interactive controls | S7 | Needs visual testing |
+| #46 | Audit WCAG 2.2 new criteria (3.2.6, 3.3.7, 3.3.8, 1.3.2) | S7 | Manual review needed |
+
+**Implementation branches:**
+- `a11y/phase-1-semantic-structure` -- merged
+- `a11y/phase-2-labels-and-attributes` -- merged
+- `a11y/phase-3-component-fixes` -- merged
+- `a11y/phase-4-behavioral-changes` -- merged
+- `a11y/phase-5-interactive-patterns` -- active (current work)
 
 ### How to Follow Along
 
