@@ -618,6 +618,7 @@
 					class="absolute z-10 right-2 invisible group-hover:visible focus-within:visible self-center flex items-center dark:text-gray-300"
 				>
 					<FolderMenu
+						{folderId}
 						onEdit={() => {
 							showFolderModal = true;
 						}}
@@ -630,6 +631,10 @@
 						onCreateSub={() => {
 							createSubFolderParentId = folderId;
 							showCreateSubFolderModal = true;
+						}}
+						onMove={async (targetFolderId) => {
+							await updateFolderParentIdById(localStorage.token, folderId, targetFolderId);
+							dispatch('update');
 						}}
 					>
 						<div class="p-1 dark:hover:bg-gray-850 rounded-lg touch-auto">
