@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { fade, slide } from 'svelte/transition';
+	import { onMount, tick } from 'svelte';
 
 	export let show = false;
 	export let side = 'right';
@@ -7,7 +8,31 @@
 
 	export let className = '';
 	export let duration = 100;
+
+	let panelEl: HTMLElement | null = null;
+	let previousFocus: HTMLElement | null = null;
+
+	function handleKeydown(event: KeyboardEvent) {
+		if (event.key === 'Escape' && show) {
+			show = false;
+		}
+	}
+
+	$: if (show) {
+		previousFocus = document.activeElement as HTMLElement;
+		tick().then(() => {
+			const firstFocusable = panelEl?.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+			if (firstFocusable) {
+				(firstFocusable as HTMLElement).focus();
+			}
+		});
+	} else if (previousFocus) {
+		previousFocus.focus();
+		previousFocus = null;
+	}
 </script>
+
+<svelte:window on:keydown={handleKeydown} />
 
 {#if show}
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -19,12 +44,14 @@
 		transition:fade={{ duration: duration }}
 	/>
 
-	<div
+	<aside
+		bind:this={panelEl}
+		role="complementary"
 		class="absolute z-30 shadow-xl {side === 'right' ? 'right-0' : 'left-0'} top-0 bottom-0"
 		transition:slide={{ duration: duration, axis: side === 'right' ? 'x' : 'y' }}
 	>
 		<div class="{className} h-full" style="width: {show ? width : '0px'}">
 			<slot />
 		</div>
-	</div>
+	</aside>
 {/if}
