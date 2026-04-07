@@ -174,6 +174,17 @@
 		statusEntries.length > 0 &&
 		!(statusEntries.at(-1)?.hidden ?? false);
 
+	// Screen reader announcement for streaming completion
+	let srAnnouncement = '';
+	let prevDone = message?.done ?? false;
+	$: {
+		const nowDone = message?.done ?? false;
+		if (nowDone && !prevDone) {
+			srAnnouncement = $i18n.t('Response complete');
+		}
+		prevDone = nowDone;
+	}
+
 	let edit = false;
 	let editedContent = '';
 	let editTextAreaElement: HTMLTextAreaElement;
@@ -664,6 +675,7 @@
 
 			<div>
 				<div class="chat-{message.role} w-full min-w-full markdown-prose">
+					<span class="sr-only" aria-live="polite">{srAnnouncement}</span>
 					<div>
 						{#if model?.info?.meta?.capabilities?.status_updates ?? true}
 							<StatusHistory statusHistory={message?.statusHistory} />
