@@ -41,6 +41,7 @@
 	let email = '';
 	let password = '';
 	let confirmPassword = '';
+	let passwordMismatch = false;
 
 	let ldapUsername = '';
 
@@ -82,10 +83,12 @@
 	const signUpHandler = async () => {
 		if ($config?.features?.enable_signup_password_confirmation) {
 			if (password !== confirmPassword) {
+				passwordMismatch = true;
 				toast.error($i18n.t('Passwords do not match.'));
 				return;
 			}
 		}
+		passwordMismatch = false;
 
 		const sessionUser = await userSignUp(name, email, password, generateInitialsImage(name)).catch(
 			(error) => {
@@ -366,7 +369,14 @@
 													autocomplete="new-password"
 													name="confirm-password"
 													required
+													aria-invalid={passwordMismatch}
+													aria-describedby={passwordMismatch ? 'password-error' : undefined}
 												/>
+												{#if passwordMismatch}
+													<p id="password-error" class="text-red-500 text-xs mt-1" role="alert">
+														{$i18n.t('Passwords do not match.')}
+													</p>
+												{/if}
 											</div>
 										{/if}
 									</div>
