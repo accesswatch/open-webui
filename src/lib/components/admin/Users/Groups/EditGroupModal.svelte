@@ -96,7 +96,7 @@
 <Modal size="lg" bind:show>
 	<div>
 		<div class=" flex justify-between dark:text-gray-100 px-5 pt-4 mb-1.5">
-			<div class=" text-lg font-medium self-center font-primary">
+			<h2 class=" text-lg font-medium self-center font-primary">
 				{#if custom}
 					{#if edit}
 						{$i18n.t('Edit User Group')}
@@ -106,7 +106,7 @@
 				{:else}
 					{$i18n.t('Edit Default Permissions')}
 				{/if}
-			</div>
+			</h2>
 			<button
 				class="self-center"
 				on:click={() => {

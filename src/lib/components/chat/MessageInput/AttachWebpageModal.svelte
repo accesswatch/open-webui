@@ -37,9 +37,9 @@
 <Modal bind:show size="sm">
 	<div class="flex flex-col h-full">
 		<div class="flex justify-between items-center dark:text-gray-100 px-5 pt-4 pb-1.5">
-			<h1 class="text-lg font-medium self-center font-primary">
+			<h2 class="text-lg font-medium self-center font-primary">
 				{$i18n.t('Attach Webpage')}
-			</h1>
+			</h2>
 			<button
 				class="self-center"
 				aria-label={$i18n.t('Close modal')}

@@ -141,13 +141,13 @@
 <Modal size="md" bind:show>
 	<div>
 		<div class=" flex justify-between dark:text-gray-300 px-5 pt-4 pb-1">
-			<div class=" text-lg font-medium self-center">
+			<h2 class=" text-lg font-medium self-center">
 				{#if edit}
 					{$i18n.t('Edit Channel')}
 				{:else}
 					{$i18n.t('Create Channel')}
 				{/if}
-			</div>
+			</h2>
 			<button
 				class="self-center"
 				on:click={() => {

@@ -28,11 +28,11 @@
 <Modal size="sm" bind:show>
 	<div>
 		<div class=" flex justify-between dark:text-gray-100 px-5 pt-4 mb-1.5">
-			<div class="self-center text-base">
+			<h2 class="self-center text-base">
 				<div class="flex items-center gap-0.5 shrink-0">
 					{$i18n.t('Add Access')}
 				</div>
-			</div>
+			</h2>
 			<button
 				class="self-center"
 				on:click={() => {

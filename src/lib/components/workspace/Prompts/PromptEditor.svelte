@@ -300,7 +300,7 @@
 <Modal size="lg" bind:show={showEditModal}>
 	<div class="px-5 pt-4 pb-5">
 		<div class="flex justify-between items-center mb-2">
-			<div class="text-lg font-medium">{$i18n.t('Edit Prompt')}</div>
+			<h2 class="text-lg font-medium">{$i18n.t('Edit Prompt')}</h2>
 			<button
 				class="p-1 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
 				aria-label={$i18n.t('Close')}

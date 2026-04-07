@@ -278,7 +278,7 @@
 		<div class=" pb-2">
 			<div class="flex items-start justify-between">
 				<div>
-					<div class=" font-medium text-lg dark:text-gray-100">
+					<h2 class=" font-medium text-lg dark:text-gray-100">
 						<a
 							href="#"
 							class="hover:underline line-clamp-1"
@@ -297,7 +297,7 @@
 						>
 							{item?.name ?? 'File'}
 						</a>
-					</div>
+					</h2>
 				</div>
 
 				<div>

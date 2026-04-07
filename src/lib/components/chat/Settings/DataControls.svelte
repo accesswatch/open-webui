@@ -185,7 +185,7 @@
 		/>
 
 		<div>
-			<div class="mb-1 text-sm font-medium">{$i18n.t('Chats')}</div>
+			<h3 class="mb-1 text-sm font-medium">{$i18n.t('Chats')}</h3>
 
 			<div>
 				<div class="py-0.5 flex w-full justify-between">
@@ -281,7 +281,7 @@
 		</div>
 
 		<div>
-			<div class="mb-1 text-sm font-medium">{$i18n.t('Files')}</div>
+			<h3 class="mb-1 text-sm font-medium">{$i18n.t('Files')}</h3>
 
 			<div>
 				<div class="py-0.5 flex w-full justify-between">

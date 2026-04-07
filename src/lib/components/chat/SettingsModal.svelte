@@ -587,7 +587,7 @@
 <Modal size="2xl" bind:show>
 	<div class="text-gray-700 dark:text-gray-100 mx-1">
 		<div class=" flex justify-between dark:text-gray-300 px-4 md:px-4.5 pt-4.5 pb-0.5 md:pb-2.5">
-			<div class=" text-lg font-medium self-center">{$i18n.t('Settings')}</div>
+			<h2 class=" text-lg font-medium self-center">{$i18n.t('Settings')}</h2>
 			<button
 				aria-label={$i18n.t('Close settings modal')}
 				class="self-center"

@@ -116,13 +116,13 @@
 			}}
 		>
 			<div class="px-[1.75rem] py-6 flex flex-col">
-				<div class=" text-lg font-medium dark:text-gray-200 mb-2.5">
+				<h2 class=" text-lg font-medium dark:text-gray-200 mb-2.5">
 					{#if title !== ''}
 						{title}
 					{:else}
 						{$i18n.t('Confirm your action')}
 					{/if}
-				</div>
+				</h2>
 
 				<slot>
 					<div class=" text-sm text-gray-500 flex-1">
