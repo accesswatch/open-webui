@@ -45,10 +45,26 @@
 			e.preventDefault();
 			toggleOpen();
 		}
+		function handleKeydown(e) {
+			if (e.key === 'Enter' || e.key === ' ') {
+				e.preventDefault();
+				toggleOpen();
+			} else if (e.key === 'ArrowDown' && !show) {
+				e.preventDefault();
+				toggleOpen();
+			}
+		}
 		node.addEventListener('click', handleClick);
+		node.addEventListener('keydown', handleKeydown);
+		// Set ARIA attributes on the trigger element
+		if (triggerEl) {
+			triggerEl.setAttribute('aria-haspopup', 'true');
+			triggerEl.setAttribute('aria-expanded', String(show));
+		}
 		return {
 			destroy() {
 				node.removeEventListener('click', handleClick);
+				node.removeEventListener('keydown', handleKeydown);
 			}
 		};
 	}
@@ -104,11 +120,23 @@
 	async function toggleOpen() {
 		show = !show;
 		onOpenChange(show);
+		if (triggerEl) {
+			triggerEl.setAttribute('aria-expanded', String(show));
+		}
 		if (show) {
 			await tick();
 			positionContent();
 			// Re-check after transition renders real dimensions
 			setTimeout(positionContent, 50);
+			// Focus first focusable item in content
+			await tick();
+			const firstFocusable = contentEl?.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+			if (firstFocusable) {
+				firstFocusable.focus();
+			}
+		} else if (triggerEl) {
+			// Return focus to trigger on close
+			triggerEl.focus();
 		}
 	}
 
@@ -118,6 +146,11 @@
 			positionContent();
 			setTimeout(positionContent, 50);
 		});
+		if (triggerEl) {
+			triggerEl.setAttribute('aria-expanded', 'true');
+		}
+	} else if (triggerEl) {
+		triggerEl.setAttribute('aria-expanded', 'false');
 	}
 
 	function handleWindowPointerDown(event) {
@@ -132,6 +165,23 @@
 		if (event.key === 'Escape' && show) {
 			show = false;
 			onOpenChange(false);
+			if (triggerEl) {
+				triggerEl.setAttribute('aria-expanded', 'false');
+				triggerEl.focus();
+			}
+		} else if (show && (event.key === 'ArrowDown' || event.key === 'ArrowUp')) {
+			event.preventDefault();
+			const focusable = contentEl?.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+			if (!focusable || focusable.length === 0) return;
+			const items = Array.from(focusable);
+			const currentIdx = items.indexOf(document.activeElement);
+			let nextIdx;
+			if (event.key === 'ArrowDown') {
+				nextIdx = currentIdx < items.length - 1 ? currentIdx + 1 : 0;
+			} else {
+				nextIdx = currentIdx > 0 ? currentIdx - 1 : items.length - 1;
+			}
+			items[nextIdx].focus();
 		}
 	}
 
@@ -161,21 +211,20 @@
 	on:resize={positionContent}
 />
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <span use:trigger style="display: contents; cursor: pointer;">
 	<slot />
 </span>
 
 {#if show}
-	<!-- svelte-ignore a11y-click-events-have-key-events -->
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div
 		use:portal
 		bind:this={contentEl}
+		role="menu"
 		class={contentClass}
 		transition:flyAndScale
 		on:click|stopPropagation
+		on:keydown={handleKeydown}
 	>
 		<slot name="content" />
 	</div>
