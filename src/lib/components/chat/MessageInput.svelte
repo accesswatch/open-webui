@@ -1397,6 +1397,7 @@
 												<RichTextInput
 													bind:this={chatInputElement}
 													id="chat-input"
+													ariaLabel={$i18n.t('Send a Message')}
 													editable={!showInputModal}
 													onChange={(content) => {
 														prompt = content.md;

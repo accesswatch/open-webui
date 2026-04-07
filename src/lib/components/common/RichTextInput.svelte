@@ -259,6 +259,7 @@
 	export let onSelectionUpdate = (e) => {};
 
 	export let id = '';
+	export let ariaLabel = '';
 	export let value = '';
 	export let html = '';
 
@@ -903,7 +904,7 @@
 				}
 			},
 			editorProps: {
-				attributes: { id },
+				attributes: { id, ...(ariaLabel ? { 'aria-label': ariaLabel } : {}) },
 				handleDrop: (view, event) => {
 					// Intercept sidebar chat item drops to prevent ProseMirror
 					// from inserting the raw JSON as text. The actual handling
