@@ -1,0 +1,40 @@
+{
+  "name": "Open WebUI – A11y Testing",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11-bookworm",
+
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "22"
+    }
+  },
+
+  "forwardPorts": [8080, 5173],
+  "portsAttributes": {
+    "8080": { "label": "Backend API", "onAutoForward": "notify" },
+    "5173": { "label": "Frontend Dev", "onAutoForward": "openBrowser" }
+  },
+
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+
+  "containerEnv": {
+    "WEBUI_SECRET_KEY": "dev-codespace-secret",
+    "CORS_ALLOW_ORIGIN": "http://localhost:5173;http://localhost:8080",
+    "SCARF_NO_ANALYTICS": "true",
+    "DO_NOT_TRACK": "true",
+    "ANONYMIZED_TELEMETRY": "false"
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "svelte.svelte-vscode",
+        "deque-systems.vscode-axe-linter",
+        "bradlc.vscode-tailwindcss",
+        "ms-python.python"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/workspace/.venv/bin/python"
+      }
+    }
+  }
+}
