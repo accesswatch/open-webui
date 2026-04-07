@@ -393,6 +393,12 @@
 
 {#if $user}
 	<div class="app relative">
+		<a
+			href="#main-content"
+			class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-white focus:dark:bg-gray-900 focus:text-gray-900 focus:dark:text-gray-100 focus:rounded-lg focus:shadow-lg focus:outline-2 focus:outline-offset-2 focus:outline-blue-500"
+		>
+			{$i18n.t('Skip to main content')}
+		</a>
 		<div
 			class=" text-gray-700 dark:text-gray-100 bg-white dark:bg-gray-900 h-screen max-h-[100dvh] overflow-auto flex flex-row justify-end"
 		>
