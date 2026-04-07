@@ -204,7 +204,7 @@
 
 	{#if ['dm'].includes(channel?.type)}
 		<div
-			class="ml-0.5 mr-1 invisible group-hover:visible self-center flex items-center dark:text-gray-300"
+			class="ml-0.5 mr-1 invisible group-hover:visible focus-within:visible self-center flex items-center dark:text-gray-300"
 		>
 			<button
 				type="button"
@@ -231,7 +231,7 @@
 		</div>
 	{:else if $user?.role === 'admin' || channel.user_id === $user?.id}
 		<div
-			class="ml-0.5 mr-1 invisible group-hover:visible self-center flex items-center dark:text-gray-300"
+			class="ml-0.5 mr-1 invisible group-hover:visible focus-within:visible self-center flex items-center dark:text-gray-300"
 		>
 			<button
 				type="button"

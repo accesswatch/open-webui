@@ -404,7 +404,7 @@
 
 									{#if message.timestamp}
 										<span
-											class=" self-center invisible group-hover:visible text-gray-400 text-xs font-medium uppercase ml-0.5 -mt-0.5"
+											class=" self-center invisible group-hover:visible focus-within:visible text-gray-400 text-xs font-medium uppercase ml-0.5 -mt-0.5"
 										>
 											{dayjs(message.timestamp * 1000).format('LT')}
 										</span>
@@ -430,7 +430,7 @@
 									id="merge-response-button"
 									class="{true
 										? 'visible'
-										: 'invisible group-hover:visible'} p-1 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg dark:hover:text-white hover:text-black transition"
+										: 'invisible group-hover:visible focus-within:visible'} p-1 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg dark:hover:text-white hover:text-black transition"
 									on:click={() => {
 										mergeResponsesHandler();
 									}}
