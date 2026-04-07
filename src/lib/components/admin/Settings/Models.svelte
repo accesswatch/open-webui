@@ -380,6 +380,7 @@
 				<div class="flex w-full justify-end gap-1.5">
 					{#if $user?.role === 'admin'}
 						<input
+							aria-label={$i18n.t('Models')}
 							id="models-import-input"
 							bind:this={modelsImportInputElement}
 							bind:files={importFiles}
@@ -477,6 +478,7 @@
 						<Search className="size-3.5" />
 					</div>
 					<input
+						aria-label={$i18n.t('Settings')}
 						class=" w-full text-sm py-1 rounded-r-xl outline-hidden bg-transparent"
 						bind:value={searchValue}
 						placeholder={$i18n.t('Search Models')}

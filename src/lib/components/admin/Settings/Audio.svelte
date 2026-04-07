@@ -220,6 +220,7 @@
 						<div class="flex w-full">
 							<div class="flex-1">
 								<input
+									aria-label={$i18n.t('Supported MIME Types')}
 									class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 									bind:value={STT_SUPPORTED_CONTENT_TYPES}
 									placeholder={$i18n.t(
@@ -235,6 +236,7 @@
 					<div class=" self-center text-xs font-medium">{$i18n.t('Speech-to-Text Engine')}</div>
 					<div class="flex items-center relative">
 						<select
+							aria-label={$i18n.t('Speech-to-Text Engine')}
 							class="cursor-pointer w-fit pr-8 rounded-sm px-2 p-1 text-xs bg-transparent outline-hidden text-right"
 							bind:value={STT_ENGINE}
 							placeholder={$i18n.t('Select an engine')}
@@ -253,6 +255,7 @@
 					<div>
 						<div class="mt-1 flex gap-2 mb-1">
 							<input
+								aria-label={$i18n.t('MistralAI')}
 								class="flex-1 w-full bg-transparent outline-hidden"
 								placeholder={$i18n.t('API Base URL')}
 								bind:value={STT_OPENAI_API_BASE_URL}
@@ -270,6 +273,7 @@
 						<div class="flex w-full">
 							<div class="flex-1">
 								<input
+									aria-label={$i18n.t('STT Model')}
 									list="model-list"
 									class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 									bind:value={STT_MODEL}
@@ -296,6 +300,7 @@
 						<div class="flex w-full">
 							<div class="flex-1">
 								<input
+									aria-label={$i18n.t('STT Model')}
 									class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 									bind:value={STT_MODEL}
 									placeholder={$i18n.t('Select a model (optional)')}
@@ -330,6 +335,7 @@
 							<div class="flex w-full">
 								<div class="flex-1">
 									<input
+										aria-label={$i18n.t('Azure Region')}
 										class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 										bind:value={STT_AZURE_REGION}
 										placeholder={$i18n.t('e.g., westus (leave blank for eastus)')}
@@ -343,6 +349,7 @@
 							<div class="flex w-full">
 								<div class="flex-1">
 									<input
+										aria-label={$i18n.t('Language Locales')}
 										class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 										bind:value={STT_AZURE_LOCALES}
 										placeholder={$i18n.t('e.g., en-US,ja-JP (leave blank for auto-detect)')}
@@ -356,6 +363,7 @@
 							<div class="flex w-full">
 								<div class="flex-1">
 									<input
+										aria-label={$i18n.t('Endpoint URL')}
 										class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 										bind:value={STT_AZURE_BASE_URL}
 										placeholder={$i18n.t('(leave blank for to use commercial endpoint)')}
@@ -369,6 +377,7 @@
 							<div class="flex w-full">
 								<div class="flex-1">
 									<input
+										aria-label={$i18n.t('Max Speakers')}
 										class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 										bind:value={STT_AZURE_MAX_SPEAKERS}
 										placeholder={$i18n.t('e.g., 3, 4, 5 (leave blank for default)')}
@@ -381,6 +390,7 @@
 					<div>
 						<div class="mt-1 flex gap-2 mb-1">
 							<input
+								aria-label={$i18n.t('Max Speakers')}
 								class="flex-1 w-full bg-transparent outline-hidden"
 								placeholder={$i18n.t('API Base URL')}
 								bind:value={STT_MISTRAL_API_BASE_URL}
@@ -398,6 +408,7 @@
 						<div class="flex w-full">
 							<div class="flex-1">
 								<input
+									aria-label={$i18n.t('STT Model')}
 									class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 									bind:value={STT_MODEL}
 									placeholder="voxtral-mini-latest"
@@ -423,6 +434,7 @@
 							<div class="text-xs font-medium">{$i18n.t('Use Chat Completions API')}</div>
 							<label class="relative inline-flex items-center cursor-pointer">
 								<input
+									aria-label={$i18n.t('Use Chat Completions API')}
 									type="checkbox"
 									bind:checked={STT_MISTRAL_USE_CHAT_COMPLETIONS}
 									class="sr-only peer"
@@ -445,6 +457,7 @@
 						<div class="flex w-full">
 							<div class="flex-1 mr-2">
 								<input
+									aria-label={$i18n.t('STT Model')}
 									class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 									placeholder={$i18n.t('Set whisper model')}
 									bind:value={STT_WHISPER_MODEL}
@@ -506,6 +519,7 @@
 					<div class=" self-center text-xs font-medium">{$i18n.t('Text-to-Speech Engine')}</div>
 					<div class="flex items-center relative">
 						<select
+							aria-label={$i18n.t('Text-to-Speech Engine')}
 							class="w-fit pr-8 cursor-pointer rounded-sm px-2 p-1 text-xs bg-transparent outline-hidden text-right"
 							bind:value={TTS_ENGINE}
 							placeholder={$i18n.t('Select a mode')}
@@ -536,6 +550,7 @@
 					<div>
 						<div class="mt-1 flex gap-2 mb-1">
 							<input
+								aria-label={$i18n.t('Azure AI Speech')}
 								class="flex-1 w-full bg-transparent outline-hidden"
 								placeholder={$i18n.t('API Base URL')}
 								bind:value={TTS_OPENAI_API_BASE_URL}
@@ -564,6 +579,7 @@
 							<div class="flex w-full">
 								<div class="flex-1">
 									<input
+										aria-label={$i18n.t('Azure Region')}
 										class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 										bind:value={TTS_AZURE_SPEECH_REGION}
 										placeholder={$i18n.t('e.g., westus (leave blank for eastus)')}
@@ -577,6 +593,7 @@
 							<div class="flex w-full">
 								<div class="flex-1">
 									<input
+										aria-label={$i18n.t('Endpoint URL')}
 										class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 										bind:value={TTS_AZURE_SPEECH_BASE_URL}
 										placeholder={$i18n.t('(leave blank for to use commercial endpoint)')}
@@ -594,6 +611,7 @@
 							<div class="flex w-full">
 								<div class="flex-1">
 									<select
+										aria-label={$i18n.t('TTS Voice')}
 										class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 										bind:value={TTS_VOICE}
 									>
@@ -615,6 +633,7 @@
 							<div class="flex w-full">
 								<div class="flex-1">
 									<input
+										aria-label={$i18n.t('TTS Model')}
 										list="model-list"
 										class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 										bind:value={TTS_MODEL}
@@ -657,6 +676,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('TTS Voice')}
 											list="voice-list"
 											class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 											bind:value={TTS_VOICE}
@@ -676,6 +696,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('TTS Model')}
 											list="tts-model-list"
 											class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 											bind:value={TTS_MODEL}
@@ -698,6 +719,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<Textarea
+											aria-label={$i18n.t('Additional Parameters')}
 											className="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 											bind:value={TTS_OPENAI_PARAMS}
 											placeholder={$i18n.t('Enter additional parameters in JSON format')}
@@ -714,6 +736,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('TTS Voice')}
 											list="voice-list"
 											class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 											bind:value={TTS_VOICE}
@@ -733,6 +756,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('TTS Model')}
 											list="tts-model-list"
 											class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 											bind:value={TTS_MODEL}
@@ -755,6 +779,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('TTS Voice')}
 											list="voice-list"
 											class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 											bind:value={TTS_VOICE}
@@ -782,6 +807,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('Output format')}
 											list="tts-model-list"
 											class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 											bind:value={TTS_AZURE_SPEECH_OUTPUT_FORMAT}

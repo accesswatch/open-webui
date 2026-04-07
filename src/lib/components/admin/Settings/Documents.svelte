@@ -346,6 +346,7 @@
 							</div>
 							<div class="">
 								<select
+									aria-label={$i18n.t('Content Extraction Engine')}
 									class="w-fit pr-8 rounded-sm px-2 text-xs bg-transparent outline-hidden text-right"
 									bind:value={RAGConfig.CONTENT_EXTRACTION_ENGINE}
 								>
@@ -387,6 +388,7 @@
 									</div>
 									<div class="">
 										<select
+											aria-label={$i18n.t('PDF Loader Mode')}
 											class="w-fit pr-8 rounded-sm px-2 text-xs bg-transparent outline-hidden text-right"
 											bind:value={RAGConfig.PDF_LOADER_MODE}
 										>
@@ -406,6 +408,7 @@
 									className="w-full"
 								>
 									<input
+										aria-label={$i18n.t('Single')}
 										class="flex-1 w-full text-sm bg-transparent outline-hidden"
 										placeholder={$i18n.t('Enter Datalab Marker API Base URL')}
 										bind:value={RAGConfig.DATALAB_MARKER_API_BASE_URL}
@@ -434,6 +437,7 @@
 											className="w-full"
 										>
 											<Textarea
+												aria-label={$i18n.t('Additional Config')}
 												bind:value={RAGConfig.DATALAB_MARKER_ADDITIONAL_CONFIG}
 												placeholder={$i18n.t('Enter JSON config (e.g., {"disable_links": true})')}
 											/>
@@ -558,6 +562,7 @@
 								</div>
 								<div class="">
 									<select
+										aria-label={$i18n.t('Output Format')}
 										class="w-fit pr-8 rounded-sm px-2 text-xs bg-transparent outline-hidden text-right"
 										bind:value={RAGConfig.DATALAB_MARKER_OUTPUT_FORMAT}
 									>
@@ -570,6 +575,7 @@
 						{:else if RAGConfig.CONTENT_EXTRACTION_ENGINE === 'external'}
 							<div class="my-0.5 flex gap-2 pr-2">
 								<input
+									aria-label={$i18n.t('HTML')}
 									class="flex-1 w-full text-sm bg-transparent outline-hidden"
 									placeholder={$i18n.t('Enter External Document Loader URL')}
 									bind:value={RAGConfig.EXTERNAL_DOCUMENT_LOADER_URL}
@@ -584,6 +590,7 @@
 							<div class="flex w-full mt-1">
 								<div class="flex-1 mr-2">
 									<input
+										aria-label={$i18n.t('Enter External Document Loader URL')}
 										class="flex-1 w-full text-sm bg-transparent outline-hidden"
 										placeholder={$i18n.t('Enter Tika Server URL')}
 										bind:value={RAGConfig.TIKA_SERVER_URL}
@@ -593,6 +600,7 @@
 						{:else if RAGConfig.CONTENT_EXTRACTION_ENGINE === 'docling'}
 							<div class="my-0.5 flex gap-2 pr-2">
 								<input
+									aria-label={$i18n.t('Enter Tika Server URL')}
 									class="flex-1 w-full text-sm bg-transparent outline-hidden"
 									placeholder={$i18n.t('Enter Docling Server URL')}
 									bind:value={RAGConfig.DOCLING_SERVER_URL}
@@ -611,6 +619,7 @@
 									</div>
 									<div class="flex w-full items-center relative">
 										<Textarea
+											aria-label={$i18n.t('Parameters')}
 											bind:value={RAGConfig.DOCLING_PARAMS}
 											placeholder={$i18n.t('Enter additional parameters in JSON format')}
 											minSize={100}
@@ -621,6 +630,7 @@
 						{:else if RAGConfig.CONTENT_EXTRACTION_ENGINE === 'document_intelligence'}
 							<div class="my-0.5 flex gap-2 pr-2">
 								<input
+									aria-label={$i18n.t('Parameters')}
 									class="flex-1 w-full text-sm bg-transparent outline-hidden"
 									placeholder={$i18n.t('Enter Document Intelligence Endpoint')}
 									bind:value={RAGConfig.DOCUMENT_INTELLIGENCE_ENDPOINT}
@@ -638,6 +648,7 @@
 								<div class="flex w-full">
 									<div class="flex-1 mr-2">
 										<input
+											aria-label={$i18n.t('Document Intelligence Model')}
 											class="flex-1 w-full text-sm bg-transparent outline-hidden"
 											placeholder={$i18n.t('Enter Document Intelligence Model')}
 											bind:value={RAGConfig.DOCUMENT_INTELLIGENCE_MODEL}
@@ -648,6 +659,7 @@
 						{:else if RAGConfig.CONTENT_EXTRACTION_ENGINE === 'mistral_ocr'}
 							<div class="my-0.5 flex gap-2 pr-2">
 								<input
+									aria-label={$i18n.t('Enter Document Intelligence Model')}
 									class="flex-1 w-full text-sm bg-transparent outline-hidden"
 									placeholder={$i18n.t('Enter Mistral API Base URL')}
 									bind:value={RAGConfig.MISTRAL_OCR_API_BASE_URL}
@@ -665,6 +677,7 @@
 										{$i18n.t('API Mode')}
 									</div>
 									<select
+										aria-label={$i18n.t('API Mode')}
 										class="w-fit pr-8 rounded-sm px-2 text-xs bg-transparent outline-hidden"
 										bind:value={RAGConfig.MINERU_API_MODE}
 										on:change={() => {
@@ -692,6 +705,7 @@
 							<!-- API URL -->
 							<div class="flex w-full mt-2">
 								<input
+									aria-label={$i18n.t('cloud')}
 									class="flex-1 w-full text-sm bg-transparent outline-hidden"
 									placeholder={RAGConfig.MINERU_API_MODE === 'cloud'
 										? $i18n.t('https://mineru.net/api/v4')
@@ -713,6 +727,7 @@
 										{$i18n.t('API Timeout')}
 									</div>
 									<input
+										aria-label={$i18n.t('API Timeout')}
 										class="w-16 text-sm bg-transparent outline-hidden text-right"
 										type="number"
 										min="1"
@@ -736,6 +751,7 @@
 								</div>
 								<div class="mt-1.5">
 									<Textarea
+										aria-label={$i18n.t('Parameters')}
 										bind:value={RAGConfig.MINERU_PARAMS}
 										placeholder={`{\n  "enable_ocr": false,\n  "enable_formula": true,\n  "enable_table": true,\n  "language": "en",\n  "model_version": "pipeline",\n  "page_ranges": ""\n}`}
 										minSize={100}
@@ -771,6 +787,7 @@
 							<div class=" self-center text-xs font-medium">{$i18n.t('Text Splitter')}</div>
 							<div class="flex items-center relative">
 								<select
+									aria-label={$i18n.t('Text Splitter')}
 									class="w-fit pr-8 rounded-sm px-2 text-xs bg-transparent outline-hidden text-right"
 									bind:value={RAGConfig.TEXT_SPLITTER}
 								>
@@ -804,6 +821,7 @@
 									</div>
 									<div class="self-center">
 										<input
+											aria-label={$i18n.t('Chunk Size')}
 											class=" w-full rounded-lg py-1.5 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 											type="number"
 											placeholder={$i18n.t('Enter Chunk Size')}
@@ -821,6 +839,7 @@
 
 									<div class="self-center">
 										<input
+											aria-label={$i18n.t('Chunk Overlap')}
 											class="w-full rounded-lg py-1.5 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 											type="number"
 											placeholder={$i18n.t('Enter Chunk Overlap')}
@@ -849,6 +868,7 @@
 										</div>
 										<div class="self-center">
 											<input
+												aria-label={$i18n.t('Chunk Min Size Target')}
 												class="w-full rounded-lg py-1.5 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 												type="number"
 												placeholder={$i18n.t('Enter Chunk Min Size Target')}
@@ -877,6 +897,7 @@
 								</div>
 								<div class="flex items-center relative">
 									<select
+										aria-label={$i18n.t('Embedding Model Engine')}
 										class="w-fit pr-8 rounded-sm px-2 p-1 text-xs bg-transparent outline-hidden text-right"
 										bind:value={RAG_EMBEDDING_ENGINE}
 										placeholder={$i18n.t('Select an embedding model engine')}
@@ -903,6 +924,7 @@
 							{#if RAG_EMBEDDING_ENGINE === 'openai'}
 								<div class="my-0.5 flex gap-2 pr-2">
 									<input
+										aria-label={$i18n.t('Azure OpenAI')}
 										class="flex-1 w-full text-sm bg-transparent outline-hidden"
 										placeholder={$i18n.t('API Base URL')}
 										bind:value={OpenAIUrl}
@@ -918,6 +940,7 @@
 							{:else if RAG_EMBEDDING_ENGINE === 'ollama'}
 								<div class="my-0.5 flex gap-2 pr-2">
 									<input
+										aria-label={$i18n.t('API Base URL')}
 										class="flex-1 w-full text-sm bg-transparent outline-hidden"
 										placeholder={$i18n.t('API Base URL')}
 										bind:value={OllamaUrl}
@@ -934,6 +957,7 @@
 								<div class="my-0.5 flex flex-col gap-2 pr-2 w-full">
 									<div class="flex gap-2">
 										<input
+											aria-label={$i18n.t('API Base URL')}
 											class="flex-1 w-full text-sm bg-transparent outline-hidden"
 											placeholder={$i18n.t('API Base URL')}
 											bind:value={AzureOpenAIUrl}
@@ -943,6 +967,7 @@
 									</div>
 									<div class="flex gap-2">
 										<input
+											aria-label={$i18n.t('API Base URL')}
 											class="flex-1 w-full text-sm bg-transparent outline-hidden"
 											placeholder={$i18n.t('Version')}
 											bind:value={AzureOpenAIVersion}
@@ -961,6 +986,7 @@
 									<div class="flex w-full">
 										<div class="flex-1 mr-2">
 											<input
+												aria-label={$i18n.t('Embedding Model')}
 												class="flex-1 w-full text-sm bg-transparent outline-hidden"
 												bind:value={RAG_EMBEDDING_MODEL}
 												placeholder={$i18n.t('Set embedding model')}
@@ -972,6 +998,7 @@
 									<div class="flex w-full">
 										<div class="flex-1 mr-2">
 											<input
+												aria-label={$i18n.t('Embedding Model')}
 												class="flex-1 w-full text-sm bg-transparent outline-hidden"
 												placeholder={$i18n.t('Set embedding model (e.g. {{model}})', {
 													model: RAG_EMBEDDING_MODEL.slice(-40)
@@ -1027,6 +1054,7 @@
 
 							<div class="">
 								<input
+									aria-label={$i18n.t('Embedding Batch Size')}
 									bind:value={RAG_EMBEDDING_BATCH_SIZE}
 									type="number"
 									class=" bg-transparent text-center w-14 outline-none"
@@ -1067,6 +1095,7 @@
 								</div>
 								<div class="">
 									<input
+										aria-label={$i18n.t('Embedding Concurrent Requests')}
 										bind:value={RAG_EMBEDDING_CONCURRENT_REQUESTS}
 										type="number"
 										class=" bg-transparent text-center w-14 outline-none"
@@ -1131,6 +1160,7 @@
 										</div>
 										<div class="flex items-center relative">
 											<select
+												aria-label={$i18n.t('Reranking Engine')}
 												class="w-fit pr-8 rounded-sm px-2 p-1 text-xs bg-transparent outline-hidden text-right"
 												bind:value={RAGConfig.RAG_RERANKING_ENGINE}
 												placeholder={$i18n.t('Select a reranking model engine')}
@@ -1151,6 +1181,7 @@
 									{#if RAGConfig.RAG_RERANKING_ENGINE === 'external'}
 										<div class="my-0.5 flex gap-2 pr-2">
 											<input
+												aria-label={$i18n.t('External')}
 												class="flex-1 w-full text-sm bg-transparent outline-hidden"
 												placeholder={$i18n.t('API Base URL')}
 												bind:value={RAGConfig.RAG_EXTERNAL_RERANKER_URL}
@@ -1173,6 +1204,7 @@
 										<div class="flex w-full">
 											<div class="flex-1 mr-2">
 												<input
+													aria-label={$i18n.t('Reranking Model')}
 													class="flex-1 w-full text-sm bg-transparent outline-hidden"
 													placeholder={$i18n.t('Set reranking model (e.g. {{model}})', {
 														model: 'BAAI/bge-reranker-v2-m3'
@@ -1189,6 +1221,7 @@
 								<div class=" self-center text-xs font-medium">{$i18n.t('Top K')}</div>
 								<div class="flex items-center relative">
 									<input
+										aria-label={$i18n.t('Top K')}
 										class="flex-1 w-full text-sm bg-transparent outline-hidden"
 										type="number"
 										placeholder={$i18n.t('Enter Top K')}
@@ -1204,6 +1237,7 @@
 									<div class="self-center text-xs font-medium">{$i18n.t('Top K Reranker')}</div>
 									<div class="flex items-center relative">
 										<input
+											aria-label={$i18n.t('Top K Reranker')}
 											class="flex-1 w-full text-sm bg-transparent outline-hidden"
 											type="number"
 											placeholder={$i18n.t('Enter Top K Reranker')}
@@ -1223,6 +1257,7 @@
 										</div>
 										<div class="flex items-center relative">
 											<input
+												aria-label={$i18n.t('Relevance Threshold')}
 												class="flex-1 w-full text-sm bg-transparent outline-hidden"
 												type="number"
 												step="0.01"
@@ -1278,6 +1313,7 @@
 										<div class="flex mt-0.5 space-x-2">
 											<div class=" flex-1">
 												<input
+													aria-label={$i18n.t('Custom')}
 													id="steps-range"
 													type="range"
 													min="0"
@@ -1300,6 +1336,7 @@
 											</div>
 											<div>
 												<input
+													aria-label={$i18n.t('lexical')}
 													bind:value={RAGConfig.HYBRID_BM25_WEIGHT}
 													type="number"
 													class=" bg-transparent text-center w-14"
@@ -1325,6 +1362,7 @@
 									className="w-full"
 								>
 									<Textarea
+										aria-label={$i18n.t('RAG Template')}
 										bind:value={RAGConfig.RAG_TEMPLATE}
 										placeholder={$i18n.t(
 											'Leave empty to use the default prompt, or enter a custom prompt'
@@ -1351,6 +1389,7 @@
 								placement="top-start"
 							>
 								<input
+									aria-label={$i18n.t('Allowed File Extensions')}
 									class="flex-1 w-full text-sm bg-transparent outline-hidden"
 									type="text"
 									placeholder={$i18n.t('e.g. pdf, docx, txt')}
@@ -1371,6 +1410,7 @@
 								placement="top-start"
 							>
 								<input
+									aria-label={$i18n.t('Max Upload Size')}
 									class="flex-1 w-full text-sm bg-transparent outline-hidden"
 									type="number"
 									placeholder={$i18n.t('Leave empty for unlimited')}
@@ -1392,6 +1432,7 @@
 								placement="top-start"
 							>
 								<input
+									aria-label={$i18n.t('Max Upload Count')}
 									class="flex-1 w-full text-sm bg-transparent outline-hidden"
 									type="number"
 									placeholder={$i18n.t('Leave empty for unlimited')}
@@ -1413,6 +1454,7 @@
 								placement="top-start"
 							>
 								<input
+									aria-label={$i18n.t('Image Compression Width')}
 									class="flex-1 w-full text-sm bg-transparent outline-hidden"
 									type="number"
 									placeholder={$i18n.t('Leave empty for no compression')}
@@ -1436,6 +1478,7 @@
 								placement="top-start"
 							>
 								<input
+									aria-label={$i18n.t('Image Compression Height')}
 									class="flex-1 w-full text-sm bg-transparent outline-hidden"
 									type="number"
 									placeholder={$i18n.t('Leave empty for no compression')}

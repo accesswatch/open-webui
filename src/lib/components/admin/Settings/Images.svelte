@@ -322,6 +322,7 @@
 
 								<Tooltip content={$i18n.t('Enter Model ID')} placement="top-start">
 									<input
+										aria-label={$i18n.t('Create Image')}
 										list="model-list"
 										class=" text-right text-sm bg-transparent outline-hidden max-w-full w-52"
 										bind:value={config.IMAGE_GENERATION_MODEL}
@@ -348,6 +349,7 @@
 
 								<Tooltip content={$i18n.t('Enter Image Size (e.g. 512x512)')} placement="top-start">
 									<input
+										aria-label={$i18n.t('Enter Image Size (e.g. 512x512)')}
 										class="  text-right text-sm bg-transparent outline-hidden max-w-full w-52"
 										placeholder={$i18n.t('Enter Image Size (e.g. 512x512)')}
 										bind:value={config.IMAGE_SIZE}
@@ -370,6 +372,7 @@
 										placement="top-start"
 									>
 										<input
+											aria-label={$i18n.t('Enter Number of Steps (e.g. 50)')}
 											class=" text-right text-sm bg-transparent outline-hidden"
 											placeholder={$i18n.t('Enter Number of Steps (e.g. 50)')}
 											bind:value={config.IMAGE_STEPS}
@@ -402,6 +405,7 @@
 							</div>
 
 							<select
+								aria-label={$i18n.t('Image Generation Engine')}
 								class="w-fit pr-8 cursor-pointer rounded-sm px-2 text-xs bg-transparent outline-hidden text-right"
 								bind:value={config.IMAGE_GENERATION_ENGINE}
 								placeholder={$i18n.t('Select Engine')}
@@ -426,6 +430,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('OpenAI API Base URL')}
 											class="w-full text-sm bg-transparent outline-hidden text-right"
 											placeholder={$i18n.t('API Base URL')}
 											bind:value={config.IMAGES_OPENAI_API_BASE_URL}
@@ -467,6 +472,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('OpenAI API Version')}
 											class="w-full text-sm bg-transparent outline-hidden text-right"
 											placeholder={$i18n.t('API Version')}
 											bind:value={config.IMAGES_OPENAI_API_VERSION}
@@ -487,6 +493,7 @@
 							<div class="mt-1.5 flex w-full">
 								<div class="flex-1 mr-2">
 									<Textarea
+										aria-label={$i18n.t('Additional Parameters')}
 										className="rounded-lg w-full py-2 px-3 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 										bind:value={config.IMAGES_OPENAI_API_PARAMS}
 										placeholder={$i18n.t('Enter additional parameters in JSON format')}
@@ -601,6 +608,7 @@
 							<div class="mt-1.5 flex w-full">
 								<div class="flex-1 mr-2">
 									<Textarea
+										aria-label={$i18n.t('Additional Parameters')}
 										className="rounded-lg w-full py-2 px-3 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 										bind:value={config.AUTOMATIC1111_PARAMS}
 										placeholder={$i18n.t('Enter additional parameters in JSON format')}
@@ -682,6 +690,7 @@
 
 						<div class="mb-2.5">
 							<input
+								aria-label={$i18n.t('sk-1234')}
 								id="upload-comfyui-workflow-input"
 								hidden
 								type="file"
@@ -751,6 +760,7 @@
 								/>
 								<!-- {#if config.COMFYUI_WORKFLOW}
 									<Textarea
+										aria-label={$i18n.t('Upload')}
 										class="w-full rounded-lg my-1 py-2 px-3 text-xs bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden disabled:text-gray-600 resize-none"
 										rows="10"
 										bind:value={config.COMFYUI_WORKFLOW}
@@ -784,6 +794,7 @@
 												<div class="">
 													<Tooltip content={$i18n.t('Input Key (e.g. text, unet_name, steps)')}>
 														<input
+															aria-label={$i18n.t('Input Key (e.g. text, unet_name, steps)')}
 															class="py-1 w-24 text-xs bg-transparent outline-hidden"
 															placeholder={$i18n.t('Key')}
 															bind:value={node.key}
@@ -800,6 +811,7 @@
 														placement="top-start"
 													>
 														<input
+															aria-label={$i18n.t('Key')}
 															class="w-full py-1 text-xs bg-transparent outline-hidden"
 															placeholder={$i18n.t('Node Ids')}
 															bind:value={node.node_ids}
@@ -828,6 +840,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('Gemini Base URL')}
 											class="w-full text-sm bg-transparent outline-hidden text-right"
 											placeholder={$i18n.t('API Base URL')}
 											bind:value={config.IMAGES_GEMINI_API_BASE_URL}
@@ -867,6 +880,7 @@
 								</div>
 
 								<select
+									aria-label={$i18n.t('Gemini Endpoint Method')}
 									class="w-fit pr-8 cursor-pointer rounded-sm px-2 text-xs bg-transparent outline-hidden text-right"
 									bind:value={config.IMAGES_GEMINI_ENDPOINT_METHOD}
 									placeholder={$i18n.t('Select Method')}
@@ -907,6 +921,7 @@
 
 								<Tooltip content={$i18n.t('Enter Model ID')} placement="top-start">
 									<input
+										aria-label={$i18n.t('Enter Model ID')}
 										list="model-list"
 										class="text-right text-sm bg-transparent outline-hidden max-w-full w-52"
 										bind:value={config.IMAGE_EDIT_MODEL}
@@ -932,6 +947,7 @@
 
 								<Tooltip content={$i18n.t('Enter Image Size (e.g. 512x512)')} placement="top-start">
 									<input
+										aria-label={$i18n.t('Enter Image Size (e.g. 512x512)')}
 										class="text-right text-sm bg-transparent outline-hidden max-w-full w-52"
 										placeholder={$i18n.t('Enter Image Size (e.g. 512x512)')}
 										bind:value={config.IMAGE_EDIT_SIZE}
@@ -950,6 +966,7 @@
 							</div>
 
 							<select
+								aria-label={$i18n.t('Image Edit Engine')}
 								class="w-fit pr-8 cursor-pointer rounded-sm px-2 text-xs bg-transparent outline-hidden text-right"
 								bind:value={config.IMAGE_EDIT_ENGINE}
 								placeholder={$i18n.t('Select Engine')}
@@ -973,6 +990,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('OpenAI API Base URL')}
 											class="w-full text-sm bg-transparent outline-hidden text-right"
 											placeholder={$i18n.t('API Base URL')}
 											bind:value={config.IMAGES_EDIT_OPENAI_API_BASE_URL}
@@ -1014,6 +1032,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('OpenAI API Version')}
 											class="w-full text-sm bg-transparent outline-hidden text-right"
 											placeholder={$i18n.t('API Version')}
 											bind:value={config.IMAGES_EDIT_OPENAI_API_VERSION}
@@ -1095,6 +1114,7 @@
 
 						<div class="mb-2.5">
 							<input
+								aria-label={$i18n.t('sk-1234')}
 								id="upload-comfyui-edit-workflow-input"
 								hidden
 								type="file"
@@ -1189,6 +1209,7 @@
 												<div class="">
 													<Tooltip content={$i18n.t('Input Key (e.g. text, unet_name, steps)')}>
 														<input
+															aria-label={$i18n.t('Input Key (e.g. text, unet_name, steps)')}
 															class="py-1 w-24 text-xs bg-transparent outline-hidden"
 															placeholder={$i18n.t('Key')}
 															bind:value={node.key}
@@ -1205,6 +1226,7 @@
 														placement="top-start"
 													>
 														<input
+															aria-label={$i18n.t('Key')}
 															class="w-full py-1 text-xs bg-transparent outline-hidden"
 															placeholder={$i18n.t('Node Ids')}
 															bind:value={node.node_ids}
@@ -1233,6 +1255,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('Gemini Base URL')}
 											class="w-full text-sm bg-transparent outline-hidden text-right"
 											placeholder={$i18n.t('API Base URL')}
 											bind:value={config.IMAGES_EDIT_GEMINI_API_BASE_URL}
