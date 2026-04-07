@@ -1079,4 +1079,7 @@
 	richColors
 	position="top-right"
 	closeButton
+	toastOptions={{
+		role: 'status'
+	}}
 />
