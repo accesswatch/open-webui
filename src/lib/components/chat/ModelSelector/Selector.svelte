@@ -467,6 +467,13 @@
 											class="w-full text-sm bg-transparent outline-hidden"
 											placeholder={searchPlaceholder}
 											autocomplete="off"
+											role="combobox"
+											aria-autocomplete="list"
+											aria-expanded={show}
+											aria-controls="model-selector-{id}-listbox"
+											aria-activedescendant={selectedModelIdx >= 0 && filteredItems.length > 0
+												? `model-option-${id}-${selectedModelIdx}`
+												: undefined}
 											aria-label={$i18n.t('Search In Models')}
 											on:keydown={(e) => {
 												if (e.code === 'Enter' && filteredItems.length > 0) {
@@ -629,6 +636,7 @@
 										<!-- svelte-ignore a11y-no-static-element-interactions -->
 										<div
 											class="max-h-64 overflow-y-auto"
+											id="model-selector-{id}-listbox"
 											role="listbox"
 											aria-label={$i18n.t('Available models')}
 											bind:this={listContainer}
@@ -644,6 +652,7 @@
 													{item}
 													{index}
 													{value}
+													optionId="model-option-{id}-{index}"
 													{pinModelHandler}
 													{unloadModelHandler}
 													onClick={() => {
