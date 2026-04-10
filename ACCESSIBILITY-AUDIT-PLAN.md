@@ -52,10 +52,11 @@ Each sprint has a parent tracking issue with sub-issues linked underneath. All 4
 - fix-committed: #23, #24, #25, #26, #27, #28, #29, #30, #31, #32, #33, #34, #35, #36, #38, #40, #44, #46, #47
 - open: #41 (color contrast), #42 (resize/reflow), #43 (focus not obscured), #45 (target size)
 
-**Overall: 33 of 38 sub-issues have fix-committed.** 5 remain open:
+**Sprint 4: Complete.** #17 (combobox ARIA) resolved April 10 -- overrode bits-ui DropdownMenu role conflict, added Home/End/Escape keys.
+
+**Overall: 34 of 38 sub-issues have fix-committed.** 4 remain open:
 | Issue | Title | Sprint | Notes |
 |---|---|---|---|
-| #17 | Add ARIA combobox pattern to model selector | S4 | Complex ARIA pattern, needs careful implementation |
 | #41 | Run color contrast audit and fix failures | S7 | Needs visual testing |
 | #42 | Verify resize/reflow at 200% zoom and 320px viewport | S7 | Needs visual testing |
 | #43 | Verify focus not obscured by sticky elements | S7 | Needs visual testing |
@@ -322,7 +323,7 @@ Required fields:
 | `role="dialog"` | 1 | Low vs. actual modal count |
 | `role="alert"` | 0 | CRITICAL: No alert role |
 | `role="menu"` | 0 | CRITICAL: Menus unlabeled |
-| `role="combobox"` | 0 | CRITICAL: Model selector |
+| `role="combobox"` | 1 | Resolved: Model selector (Selector.svelte) |
 | Skip links | 0 | CRITICAL: Missing |
 | `sr-only` (screen reader text) | 13 | Low |
 | `prefers-reduced-motion` | 0 | Missing |
@@ -743,8 +744,14 @@ This approach ensures maintainers can merge heading PRs with confidence -- they 
 **Changes**:
 - Add `role="combobox"`, `aria-expanded`, `aria-activedescendant`, `aria-autocomplete`
 - Label the search input within the selector
-**WCAG**: 4.1.2
+- Override bits-ui DropdownMenu `role="menu"` with `role="presentation"` on content wrapper
+- Override `aria-haspopup="menu"` to `aria-haspopup="listbox"` on trigger
+- Add Home/End key support (jump to first/last option)
+- Add explicit Escape key to close listbox and return focus to trigger
+- Add `e.preventDefault()` on ArrowDown/ArrowUp to prevent default scrolling
+**WCAG**: 4.1.2, 2.1.1
 **Risk**: Medium -- full combobox ARIA is complex
+**Status**: **Fix-committed (April 10, 2026)**
 
 **After Sprint 4**: A user can search, arrow through, and select a model entirely by keyboard.
 
