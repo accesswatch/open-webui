@@ -286,7 +286,8 @@
 </script>
 
 <div class="flex flex-col lg:flex-row w-full h-full pb-2 lg:space-x-4">
-	<div
+	<nav
+		aria-label={$i18n.t('Admin Settings')}
 		id="admin-settings-tabs-container"
 		class="tabs mx-[16px] lg:mx-0 lg:px-[16px] flex flex-row overflow-x-auto gap-2.5 max-w-full lg:gap-1 lg:flex-col lg:flex-none lg:w-50 dark:text-gray-200 text-sm font-medium text-left scrollbar-none"
 	>
@@ -325,6 +326,7 @@
 				id={tab.id}
 				href={tab.route}
 				draggable="false"
+				aria-current={selectedTab === tab.id ? 'page' : undefined}
 				class="px-0.5 py-1 min-w-fit rounded-lg flex-1 lg:flex-none flex text-right transition select-none {selectedTab ===
 				tab.id
 					? ''
@@ -501,7 +503,7 @@
 				<div class=" self-center">{$i18n.t(tab.title)}</div>
 			</a>
 		{/each}
-	</div>
+	</nav>
 
 	<div
 		class="flex-1 mt-3 lg:mt-1 px-[16px] lg:pr-[16px] lg:pl-0 overflow-y-scroll scrollbar-hidden"
