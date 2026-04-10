@@ -48,20 +48,21 @@ Each sprint has a parent tracking issue with sub-issues linked underneath. All 4
 
 **Sprints 1-6: Complete.** All 16 sub-issues have code committed and pushed.
 
-**Sprint 7: 15 of 22 complete.**
-- fix-committed: #23, #24, #25, #26, #27, #28, #29, #30, #31, #32, #33, #34, #35, #36, #40, #44, #47
-- open: #17 (S4-2 combobox ARIA), #38 (workspace/modal form labels), #41 (color contrast), #42 (resize/reflow), #43 (focus not obscured), #45 (target size), #46 (WCAG 2.2 new criteria)
+**Sprint 7: 18 of 22 complete.**
+- fix-committed: #23, #24, #25, #26, #27, #28, #29, #30, #31, #32, #33, #34, #35, #36, #38, #40, #44, #47
+- open: #41 (color contrast), #42 (resize/reflow), #43 (focus not obscured), #45 (target size), #46 (WCAG 2.2 new criteria)
 
-**Overall: 31 of 38 sub-issues have fix-committed.** 7 remain open:
+**Overall: 32 of 38 sub-issues have fix-committed.** 6 remain open:
 | Issue | Title | Sprint | Notes |
 |---|---|---|---|
 | #17 | Add ARIA combobox pattern to model selector | S4 | Complex ARIA pattern, needs careful implementation |
-| #38 | Label workspace and modal form inputs (83 controls) | S7 | Bulk labeling pass |
 | #41 | Run color contrast audit and fix failures | S7 | Needs visual testing |
 | #42 | Verify resize/reflow at 200% zoom and 320px viewport | S7 | Needs visual testing |
 | #43 | Verify focus not obscured by sticky elements | S7 | Needs visual testing |
 | #45 | Verify minimum target size for interactive controls | S7 | Needs visual testing |
 | #46 | Audit WCAG 2.2 new criteria (3.2.6, 3.3.7, 3.3.8, 1.3.2) | S7 | Manual review needed |
+
+Additionally, svelte-ignore a11y suppressions reduced from 31 to 19 (all remaining are justified).
 
 **Implementation branches:**
 - `a11y/phase-1-semantic-structure` -- merged
@@ -841,7 +842,7 @@ Remaining items from the original phases that do not block any specific journey 
 5. [**Dropdown ARIA**](https://github.com/accesswatch/open-webui/issues/28) -- full menu pattern (Phase 4, PR 4.1)
 6. [**Modal `aria-labelledby`**](https://github.com/accesswatch/open-webui/issues/29) -- point to the new `<h1>` in each modal (Phase 3, PR 3.1)
 7. [**Tooltip focus behavior**](https://github.com/accesswatch/open-webui/issues/30) -- show on keyboard focus (Phase 3, PR 3.2)
-8. [**Resolve svelte-ignore a11y suppressions**](https://github.com/accesswatch/open-webui/issues/31) -- audit and fix 57 suppressed accessibility warnings across 37 files
+8. [**Resolve svelte-ignore a11y suppressions**](https://github.com/accesswatch/open-webui/issues/31) -- audit and fix 57 suppressed accessibility warnings across 37 files (reduced from 60 to 19; remaining 19 are justified)
 9. [**Form validation errors**](https://github.com/accesswatch/open-webui/issues/32) -- `aria-invalid`, error announcements (Phase 4, PR 4.3)
 10. [**Focus-visible indicators**](https://github.com/accesswatch/open-webui/issues/33) -- replace 44 `outline-none` instances with `focus-visible` focus rings
 11. [**Sidebar panel focus management**](https://github.com/accesswatch/open-webui/issues/34) -- Escape key, focus return (Phase 4, PR 4.2)
@@ -852,7 +853,7 @@ Remaining items from the original phases that do not block any specific journey 
 The following issues were added after a WCAG 2.2 AA gap analysis revealed criteria not covered by the original 28 sub-issues:
 
 13. [**Label admin panel form inputs (221 controls)**](https://github.com/accesswatch/open-webui/issues/36) -- 221 inputs/selects/textareas across 29 admin files with no programmatic labels
-14. [**Label workspace and modal form inputs (83 controls)**](https://github.com/accesswatch/open-webui/issues/38) -- 83 controls in workspace editors, standalone modals, and common components
+14. [**Label workspace and modal form inputs (83 controls)**](https://github.com/accesswatch/open-webui/issues/38) -- 83 controls in workspace editors, standalone modals, and common components (batch 1 complete: 25 inputs labeled across 17 files)
 15. [**Add aria-hidden to decorative SVG icons (395 SVGs)**](https://github.com/accesswatch/open-webui/issues/40) -- 395 `<svg>` elements with zero ARIA treatment; decorative icons need `aria-hidden="true"`
 16. [**Run color contrast audit and fix failures**](https://github.com/accesswatch/open-webui/issues/41) -- no contrast audit has been performed; covers all themes (dark, light, rosepine, rosepine-dawn)
 17. [**Verify resize/reflow at 200% zoom and 320px viewport**](https://github.com/accesswatch/open-webui/issues/42) -- verify content reflows without horizontal scrolling; test text spacing overrides
