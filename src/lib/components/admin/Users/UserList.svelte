@@ -378,7 +378,7 @@
 									<img
 										class="rounded-full w-6 min-w-6 h-6 object-cover mr-0.5 flex-shrink-0"
 										src={`${WEBUI_API_BASE_URL}/users/${user.id}/profile/image`}
-										alt="user"
+										alt=""
 										on:error={(e) => {
 											e.currentTarget.src = '/favicon.png';
 										}}

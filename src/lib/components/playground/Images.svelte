@@ -140,7 +140,7 @@
 									>
 										<img
 											src={image.url}
-											alt=""
+											alt={$i18n.t('Generated image {{index}}', { index: index + 1 })}
 											class="w-full aspect-square object-cover rounded-lg border border-gray-100/30 dark:border-gray-850/30"
 										/>
 										<div
