@@ -6,6 +6,175 @@ Codebase: 556 .svelte files across src/
 
 ---
 
+## Start Here (Contributor Onboarding)
+
+New to the project? This section gives you full context in 2 minutes.
+
+**What is this?** A WCAG 2.2 AA accessibility remediation of [Open WebUI](https://github.com/open-webui/open-webui), a self-hosted AI chat platform with 60,000+ GitHub stars. Work happens in the [accesswatch/open-webui](https://github.com/accesswatch/open-webui) fork, then goes upstream as atomic PRs targeting the `dev` branch.
+
+**Where are we?** 30 of 38 issues are code-complete across 5 phase branches. 8 remain. Zero PRs have been submitted upstream yet. Manual testing has not started. See the [Progress Dashboard](#progress-dashboard) below.
+
+**How is work organized?** Seven user-journey sprints (not technical categories). Each sprint has a parent issue with sub-issues. All tracked on the [project board](https://github.com/users/accesswatch/projects/1).
+
+**What do I need to read?**
+
+| Document | What it tells you |
+|---|---|
+| This file (you are here) | Full audit findings, sprint structure, issue map |
+| [A11Y-CHANGELOG.md](A11Y-CHANGELOG.md) | What changed, when, with commit hashes and WCAG criteria |
+| [ACCESSIBILITY-TEST-MATRIX.md](ACCESSIBILITY-TEST-MATRIX.md) | What has been tested, what has not |
+| [ACCESSIBILITY-TESTING.md](ACCESSIBILITY-TESTING.md) | How to run the Playwright/axe-core test suite |
+| [.github/copilot-instructions.md](.github/copilot-instructions.md) | Dev rules, accessibility standards, PR conventions, Definition of Done |
+| [ACCESSIBILITY-STATUS-REPORT.md](ACCESSIBILITY-STATUS-REPORT.md) | Email-ready executive status report with sprint drill-downs |
+
+**What commands do I need?**
+
+| Task | Command |
+|---|---|
+| Setup (Windows) | `pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/setup-local.ps1` |
+| Svelte type and a11y check | `npm run check` |
+| Accessibility tests (Playwright) | `npm run test:a11y` |
+| Frontend unit tests (Vitest) | `npm run test:frontend` |
+| Backend smoke test | `.\.venv\Scripts\python.exe -m pytest test -q` |
+
+**What branch do I work on?** The current active branch is `a11y/phase-5-interactive-patterns`. See [Implementation Branches](#implementation-branches) for the full list.
+
+**When is an issue done?** See [Definition of Done](#definition-of-done) below. Code merged is not the same as done -- changelog, test matrix, and manual testing must all be complete.
+
+---
+
+## Progress Dashboard
+
+Last updated: April 10, 2026
+
+### At a Glance
+
+The following table summarizes overall project health across five dimensions.
+
+| Metric | Count | Total | Percentage |
+|---|---|---|---|
+| Issues coded | 30 | 38 | 79% |
+| Issues with automated tests | 12 | 38 | 32% |
+| Issues manually tested (SR) | 0 | 38 | 0% |
+| Issues manually tested (KB) | 0 | 38 | 0% |
+| PRs submitted upstream | 0 | 38 | 0% |
+
+### Sprint Completion Status
+
+Each sprint must pass four gates: code committed, automated tests passing, manual testing complete, and PR accepted upstream.
+
+The following table shows the completion status of each sprint across four gates.
+
+| Sprint | User Story | Issues | Code | Auto Tests | Manual Test | Upstream PR |
+|---|---|---|---|---|---|---|
+| 1 | I can send a message | 3/3 | Done | Done | Not started | Not started |
+| 2 | I can read the response | 3/3 | Done | Done | Not started | Not started |
+| 3 | I can act on the response | 2/2 | Done | Partial | Not started | Not started |
+| 4 | I can pick a model | 2/2 | Done | Partial | Not started | Not started |
+| 5 | I can browse my chat history | 2/2 | Done | Done | Not started | Not started |
+| 6 | I can manage my settings | 3/4 | 3 of 4 | Partial | Not started | Not started |
+| 7 | Cross-cutting polish | 15/22 | 15 of 22 | Partial | Not started | Not started |
+
+### Implementation Branches
+
+The following table lists all phase branches and their current status.
+
+| Branch | Phase | Status | Commits |
+|---|---|---|---|
+| `a11y/phase-1-semantic-structure` | Landmarks, headings, skip link, reduced motion | Complete | 4 |
+| `a11y/phase-2-labels-and-attributes` | Chat input label, form labels (300+ controls) | Complete | 3 |
+| `a11y/phase-3-isolated-component-fixes` | Modal, Tooltip, Toast, Collapsible fixes | Complete | 4 |
+| `a11y/phase-4-behavioral-components` | Dropdown menu, Sidebar panel, Auth validation | Complete | 3 |
+| `a11y/phase-5-interactive-patterns` | Combobox, keyboard nav, focus indicators, media, headings | Active | 15 |
+
+---
+
+## Upstream PR Tracking
+
+No PRs have been submitted to the upstream `open-webui/open-webui` repository yet. This table will track each PR from submission through merge.
+
+**Strategy**: Submit PRs in sprint order. Each sprint should be fully tested before its PRs go upstream. Group closely related issues into a single PR where they touch the same file.
+
+The following table tracks upstream PR submissions. All rows are currently pending.
+
+| Sprint | Issues | Proposed PR Title | Files Changed | Status | PR Number | Notes |
+|---|---|---|---|---|---|---|
+| 1 | #8 | fix: add semantic HTML landmarks for screen reader navigation | +layout.svelte | Pending | -- | Zero visual change |
+| 1 | #9 | fix: add accessible label to chat message input | MessageInput.svelte | Pending | -- | One aria-label attribute |
+| 1 | #10, #11 | fix: add heading hierarchy for screen reader navigation | Placeholder.svelte, Name.svelte | Pending | -- | div to h1/h3 swaps |
+| 2 | #12 | feat: add skip-to-content link for keyboard users | +layout.svelte, app.css | Pending | -- | Visually hidden until focused |
+| 2 | #13 | feat: announce streamed response completion to screen readers | ResponseMessage.svelte | Pending | -- | aria-live region |
+| 3 | #14 | fix: show message action buttons on keyboard focus | ResponseMessage.svelte CSS | Pending | -- | CSS-only change |
+| 3 | #15 | fix: add keyboard navigation between chat messages | Messages.svelte | Pending | -- | J/K key navigation |
+| 4 | #16, #17 | fix: implement ARIA combobox pattern for model selector | Selector.svelte | Pending | -- | Complex ARIA pattern |
+| 5 | #18, #19 | fix: add sidebar headings and search label | Sidebar.svelte | Pending | -- | Heading + aria-label |
+| 6 | #20, #21 | fix: add heading hierarchy to settings and modals | Multiple settings files | Pending | -- | div to heading swaps |
+| 6 | #22, #36, #38 | fix: add labels to settings and admin form inputs | 50+ settings files | Pending | -- | Largest PR, may split |
+| 7 | #24 | feat: respect prefers-reduced-motion for all transitions | app.css | Pending | -- | Global CSS rule |
+| 7 | #27 | fix: make Collapsible component keyboard-accessible | Collapsible.svelte | Pending | -- | div to button |
+| 7 | #28 | fix: add ARIA menu pattern to Dropdown component | Dropdown.svelte | Pending | -- | role="menu" |
+| 7 | #29 | fix: add aria-labelledby to Modal component | Modal.svelte | Pending | -- | ARIA linkage |
+| 7 | #30 | fix: show tooltips on keyboard focus | Tooltip.svelte | Pending | -- | tippy.js config |
+| 7 | #32 | fix: add accessible form validation errors to auth page | Auth components | Pending | -- | aria-invalid + describedby |
+| 7 | #33 | fix: add visible focus indicators for keyboard navigation | Multiple components | Pending | -- | focus-visible:ring |
+| 7 | #34 | fix: add ARIA and keyboard support to Sidebar panel | common/Sidebar.svelte | Pending | -- | Escape to close, focus return |
+| 7 | #35 | fix: add track elements for media captions | Audio/video components | Pending | -- | Empty track elements |
+| 7 | #40 | fix: add aria-hidden to decorative SVG icons | 50+ components | Pending | -- | Bulk change, may split |
+
+---
+
+## Risk and Blocker Register
+
+Last updated: April 10, 2026
+
+### Active Risks
+
+The following table lists active risks that could delay or block completion of the accessibility remediation.
+
+| ID | Risk | Impact | Likelihood | Mitigation | Owner |
+|---|---|---|---|---|---|
+| R1 | Upstream maintainer rejects PRs or goes unresponsive | High -- all work stays in fork | Medium | Maintainer green-lit approach in Discussion #23212. Keep PRs small and atomic. Follow up on stale PRs at 2-week intervals. | Jeff Bishop |
+| R2 | Upstream merges conflicting changes before our PRs land | Medium -- merge conflicts in layouts | High | Rebase phase branches weekly against upstream `main`. Monitor upstream CHANGELOG.md for layout/component changes. | Jeff Bishop |
+| R3 | Color contrast audit (#41) reveals widespread theme issues | High -- could require design system changes upstream won't accept | Medium | Run audit across all 4 themes (light, dark, her, OLED black). Document failures with screenshots. Propose Tailwind fixes that use existing color tokens. | Unassigned |
+| R4 | WCAG 2.2 new criteria audit (#46) uncovers additional issues | Medium -- scope creep | Low | Timebox audit to 8 hours. File new issues for anything found. Do not block existing sprint merges. | Unassigned |
+| R5 | No screen reader testers available for manual testing | High -- Definition of Done requires SR testing | High | Jeff Bishop can test with NVDA on Windows. Recruit VoiceOver tester from community. Document exact test steps so any volunteer can follow them (see test matrix). | Jeff Bishop |
+| R6 | Large PRs (#22/#36/#38 form labels, #40 decorative SVGs) get rejected for touching too many files | Medium -- delays sprint 6-7 completion | Medium | Pre-split into smaller PRs if needed. Discuss bundling strategy in upstream PR description. Reference Discussion #23212 approval. | Jeff Bishop |
+
+### Active Blockers
+
+The following table lists items currently blocking progress. There are no blockers at this time.
+
+| ID | Blocker | Blocks | Status | Resolution Path |
+|---|---|---|---|---|
+| -- | No active blockers at this time | -- | -- | -- |
+
+### Resolved Risks
+
+The following table lists risks that have been mitigated or resolved.
+
+| ID | Risk | Resolution | Date |
+|---|---|---|---|
+| R0 | Upstream maintainer may not want accessibility PRs | Maintainer responded positively in Discussion #23212 and approved the approach | March 30, 2026 |
+
+---
+
+## Definition of Done
+
+An accessibility issue is **not complete** until ALL of the following are true:
+
+1. **Code merged**: The fix is committed on the appropriate `a11y/phase-*` branch.
+2. **`npm run check` passes**: Zero new Svelte a11y warnings or TypeScript errors.
+3. **Automated tests pass**: `npm run test:a11y` passes (if tests exist for this issue).
+4. **Changelog updated**: Entry in the `[Unreleased]` section of [A11Y-CHANGELOG.md](A11Y-CHANGELOG.md) with issue link, WCAG criterion, and commit hash.
+5. **Test matrix updated**: Relevant checkboxes marked in [ACCESSIBILITY-TEST-MATRIX.md](ACCESSIBILITY-TEST-MATRIX.md). At minimum, Keyboard (KB) and Screen Reader (SR) categories must show Pass or N/A.
+6. **Screen reader tested**: Manually verified with NVDA (Windows) or VoiceOver (macOS). Tester name and date recorded in test matrix.
+7. **No visual regression**: Before/after screenshots confirm pixel-identical rendering (or document intentional visual changes).
+8. **Audit plan status updated**: The issue's row in this document reflects the current state.
+
+Steps 2-4 can be verified by Copilot. Steps 5-7 require human action.
+
+---
+
 ## Leadership Summary
 
 ### The Problem
