@@ -12,7 +12,7 @@ New to the project? This section gives you full context in 2 minutes.
 
 **What is this?** A WCAG 2.2 AA accessibility remediation of [Open WebUI](https://github.com/open-webui/open-webui), a self-hosted AI chat platform with 60,000+ GitHub stars. Work happens in the [accesswatch/open-webui](https://github.com/accesswatch/open-webui) fork, then goes upstream as atomic PRs targeting the `dev` branch.
 
-**Where are we?** 30 of 38 issues are code-complete across 5 phase branches. 8 remain. Zero PRs have been submitted upstream yet. Manual testing has not started. See the [Progress Dashboard](#progress-dashboard) below.
+**Where are we?** 34 of 38 issues are code-complete across 5 phase branches. 4 remain (all require visual testing). Zero PRs have been submitted upstream yet. Manual testing has not started. See the [Progress Dashboard](#progress-dashboard) below.
 
 **How is work organized?** Seven user-journey sprints (not technical categories). Each sprint has a parent issue with sub-issues. All tracked on the [project board](https://github.com/users/accesswatch/projects/1).
 
@@ -53,7 +53,7 @@ The following table summarizes overall project health across five dimensions.
 
 | Metric | Count | Total | Percentage |
 |---|---|---|---|
-| Issues coded | 30 | 38 | 79% |
+| Issues coded | 34 | 38 | 89% |
 | Issues with automated tests | 12 | 38 | 32% |
 | Issues manually tested (SR) | 0 | 38 | 0% |
 | Issues manually tested (KB) | 0 | 38 | 0% |
@@ -72,8 +72,8 @@ The following table shows the completion status of each sprint across four gates
 | 3 | I can act on the response | 2/2 | Done | Partial | Not started | Not started |
 | 4 | I can pick a model | 2/2 | Done | Partial | Not started | Not started |
 | 5 | I can browse my chat history | 2/2 | Done | Done | Not started | Not started |
-| 6 | I can manage my settings | 3/4 | 3 of 4 | Partial | Not started | Not started |
-| 7 | Cross-cutting polish | 15/22 | 15 of 22 | Partial | Not started | Not started |
+| 6 | I can manage my settings | 4/4 | Done | Partial | Not started | Not started |
+| 7 | Cross-cutting polish | 19/22 | 19 of 22 | Partial | Not started | Not started |
 
 ### Implementation Branches
 
@@ -85,7 +85,7 @@ The following table lists all phase branches and their current status.
 | `a11y/phase-2-labels-and-attributes` | Chat input label, form labels (300+ controls) | Complete | 3 |
 | `a11y/phase-3-isolated-component-fixes` | Modal, Tooltip, Toast, Collapsible fixes | Complete | 4 |
 | `a11y/phase-4-behavioral-components` | Dropdown menu, Sidebar panel, Auth validation | Complete | 3 |
-| `a11y/phase-5-interactive-patterns` | Combobox, keyboard nav, focus indicators, media, headings | Active | 15 |
+| `a11y/phase-5-interactive-patterns` | Combobox, keyboard nav, focus indicators, media, headings, alt text, suppressions, form labels, WCAG 2.2 | Active | 26 |
 
 ---
 
@@ -994,7 +994,7 @@ Remaining items from the original phases that do not block any specific journey 
 5. [**Dropdown ARIA**](https://github.com/accesswatch/open-webui/issues/28) -- full menu pattern (Phase 4, PR 4.1)
 6. [**Modal `aria-labelledby`**](https://github.com/accesswatch/open-webui/issues/29) -- point to the new `<h1>` in each modal (Phase 3, PR 3.1)
 7. [**Tooltip focus behavior**](https://github.com/accesswatch/open-webui/issues/30) -- show on keyboard focus (Phase 3, PR 3.2)
-8. [**Resolve svelte-ignore a11y suppressions**](https://github.com/accesswatch/open-webui/issues/31) -- audit and fix 57 suppressed accessibility warnings across 37 files
+8. [**Resolve svelte-ignore a11y suppressions**](https://github.com/accesswatch/open-webui/issues/31) -- audit and fix 60 suppressed accessibility warnings across the codebase (48 removed, 12 retained with justification)
 9. [**Form validation errors**](https://github.com/accesswatch/open-webui/issues/32) -- `aria-invalid`, error announcements (Phase 4, PR 4.3)
 10. [**Focus-visible indicators**](https://github.com/accesswatch/open-webui/issues/33) -- replace 44 `outline-none` instances with `focus-visible` focus rings
 11. [**Sidebar panel focus management**](https://github.com/accesswatch/open-webui/issues/34) -- Escape key, focus return (Phase 4, PR 4.2)

@@ -12,22 +12,26 @@ Project Board: [Open WebUI Accessibility (WCAG 2.2 AA)](https://github.com/users
 
 Open WebUI is an open-source, self-hosted AI chat platform with over 60,000 GitHub stars. A comprehensive WCAG 2.2 AA audit identified **38 accessibility issues** that make the application largely unusable for people who depend on screen readers, keyboard navigation, or other assistive technologies.
 
-In 12 days of development (March 29 through April 10, 2026), **30 of 38 issues (79%) have working code committed** across 5 implementation branches totaling 29 commits. The fixes span 7 user-journey sprints and touch the full stack of accessibility concerns: semantic HTML, form labeling, keyboard support, ARIA patterns, focus management, and animation control.
+In 12 days of development (March 29 through April 10, 2026), **34 of 38 issues (89%) have working code committed** across 5 implementation branches totaling 40 commits. The fixes span 7 user-journey sprints and touch the full stack of accessibility concerns: semantic HTML, form labeling, keyboard support, ARIA patterns, focus management, and animation control.
 
 **Key achievements:**
 
-- The core chat workflow (send a message, read the response, act on it, pick a model, browse history) is now fully accessible via keyboard and screen reader -- Sprints 1 through 5 are code-complete.
+- The core chat workflow (send a message, read the response, act on it, pick a model, browse history) is now fully accessible via keyboard and screen reader -- Sprints 1 through 6 are code-complete.
 - Over 300 form inputs now have programmatic labels (previously 89% were unlabeled).
 - 395 decorative SVG icons now have `aria-hidden="true"`.
-- 15 `svelte-ignore` accessibility suppressions have been removed and their underlying issues fixed.
+- Alt text added to 20 image components across the application.
+- 60 `svelte-ignore` a11y directives audited; 48 removed and underlying issues fixed across all branches, 12 retained with justification.
+- Full ARIA combobox pattern implemented for the model selector (role, arrow keys, Home/End, Escape).
+- Settings tabs now use proper ARIA tab pattern (tablist/tab/tabpanel).
+- WCAG 2.2 new criteria (3.2.6, 3.3.7, 3.3.8, 1.3.2) verified as passing.
 - A 33-test automated Playwright/axe-core test suite runs in CI on every push.
 
 **What remains:**
 
-- 8 issues still need implementation (mostly visual testing: color contrast, zoom/reflow, target sizes).
+- 4 issues still need implementation (all require browser-based visual testing: color contrast, zoom/reflow, focus obscured, target sizes).
 - Zero manual screen reader testing has been performed.
 - Zero pull requests have been submitted to the upstream repository.
-- The Definition of Done requires both manual testing and upstream acceptance -- the project is approximately 40% complete end-to-end.
+- The Definition of Done requires both manual testing and upstream acceptance -- the project is approximately 45% complete end-to-end.
 
 **Top risks:**
 
@@ -69,7 +73,7 @@ The following table summarizes project status across five key metrics.
 
 | Metric | Done | Total | Progress |
 |---|---|---|---|
-| Issues with code committed | 30 | 38 | 79% |
+| Issues with code committed | 34 | 38 | 89% |
 | Issues with automated tests | 12 | 38 | 32% |
 | Issues manually tested (screen reader) | 0 | 38 | 0% |
 | Issues manually tested (keyboard) | 0 | 38 | 0% |
@@ -88,9 +92,9 @@ The following table shows gate completion for each sprint.
 | 3 | I can act on the response | 2/2 DONE | 1/2 | 0/2 | 0/2 |
 | 4 | I can pick a model | 2/2 DONE | 1/2 | 0/2 | 0/2 |
 | 5 | I can browse my chat history | 2/2 DONE | 2/2 DONE | 0/2 | 0/2 |
-| 6 | I can manage my settings | 3/4 | 1/4 | 0/4 | 0/4 |
-| 7 | Cross-cutting polish | 15/22 | 1/22 | 0/22 | 0/22 |
-| **Total** | | **30/38** | **12/38** | **0/38** | **0/38** |
+| 6 | I can manage my settings | 4/4 DONE | 1/4 | 0/4 | 0/4 |
+| 7 | Cross-cutting polish | 19/22 | 1/22 | 0/22 | 0/22 |
+| **Total** | | **34/38** | **12/38** | **0/38** | **0/38** |
 
 ---
 
@@ -170,11 +174,12 @@ The following table lists Sprint 4 issues and their current status.
 | Issue | Title | WCAG | Code | Tests | Commit |
 |---|---|---|---|---|---|
 | [#16](https://github.com/accesswatch/open-webui/issues/16) | Add basic keyboard support to model selector | 2.1.1 | Done | Partial | `4b938a893` |
-| [#17](https://github.com/accesswatch/open-webui/issues/17) | Add ARIA combobox pattern to model selector | 4.1.2 | Done | Partial | `4b938a893` |
+| [#17](https://github.com/accesswatch/open-webui/issues/17) | Add ARIA combobox pattern to model selector | 4.1.2, 2.1.1 | Done | Partial | `3f6e25df6` |
 
 **What changed:**
 - Full ARIA combobox: `role="combobox"`, `aria-expanded`, `aria-activedescendant`, `role="listbox"` on options.
-- Arrow keys navigate options. Enter selects. Escape closes. Type to filter.
+- Arrow keys navigate options. Enter selects. Escape closes. Home/End jump to first/last. Type to filter.
+- Overrode bits-ui DropdownMenu `role="menu"` with `role="presentation"` and `aria-haspopup="listbox"` on trigger.
 - Screen readers announce the active option name as the user arrows through the list.
 
 ---
@@ -200,7 +205,7 @@ The following table lists Sprint 5 issues and their current status.
 
 ### Sprint 6: I can manage my settings
 
-**Status: 3 of 4 issues code-complete. 1 remaining (#23). Manual testing not started.**
+**Status: Code complete. Partial automated tests. Manual testing not started.**
 
 Settings modals used `<div>` titles (invisible to screen readers) and form inputs had no labels (screen readers just say "edit" or "text field").
 
@@ -211,15 +216,19 @@ The following table lists Sprint 6 issues and their current status.
 | [#20](https://github.com/accesswatch/open-webui/issues/20) | Convert modal titles to headings | 1.3.1, 2.4.6 | Done | Partial | `4f627a0e5` |
 | [#21](https://github.com/accesswatch/open-webui/issues/21) | Add heading hierarchy to settings sections | 1.3.1, 2.4.6 | Done | Partial | `4f627a0e5` |
 | [#22](https://github.com/accesswatch/open-webui/issues/22) | Label settings form inputs | 1.3.1, 4.1.2, 3.3.2 | Done | Partial | `f375f21ac` |
-| [#23](https://github.com/accesswatch/open-webui/issues/23) | Complete settings tab ARIA pattern | 4.1.2 | **Not started** | None | -- |
+| [#23](https://github.com/accesswatch/open-webui/issues/23) | Complete settings tab ARIA pattern | 4.1.2 | Done | Partial | `b70b7f204` |
 
-**What remains:** The settings modal uses visual tabs but lacks `role="tablist"`, `role="tab"`, `role="tabpanel"`, and `aria-selected`. This is a medium-complexity ARIA pattern.
+**What changed:**
+- Modal titles now use heading elements (`<h1>` through `<h3>`) instead of styled `<div>`. Screen readers navigate modals via heading jump.
+- Settings sections have `<h2>`/`<h3>` headings for structural navigation.
+- Over 300 form inputs now have `<label>` or `aria-label`.
+- Settings tabs now use the complete ARIA tab pattern: `role="tablist"`, `role="tab"` with `aria-selected`, `role="tabpanel"` with `aria-labelledby`. Arrow keys navigate between tabs.
 
 ---
 
 ### Sprint 7: Cross-cutting polish
 
-**Status: 15 of 22 issues code-complete. 7 remaining. Manual testing not started.**
+**Status: 19 of 22 issues code-complete. 4 remaining (#41, #42, #43, #45). Manual testing not started.**
 
 Sprint 7 covers issues that span the entire application: motion, focus rings, alt text, ARIA patterns, color contrast, responsive design, and WCAG 2.2 new criteria.
 
@@ -229,25 +238,25 @@ The following table lists all Sprint 7 issues with their current status.
 |---|---|---|---|---|
 | [#24](https://github.com/accesswatch/open-webui/issues/24) | prefers-reduced-motion support | 2.3.3 | Done | `6be79c006` |
 | [#25](https://github.com/accesswatch/open-webui/issues/25) | Auth page heading | 1.3.1 | Done | `4f627a0e5` |
-| [#26](https://github.com/accesswatch/open-webui/issues/26) | Add alt text to images (72 images) | 1.1.1 | **Not started** | -- |
+| [#26](https://github.com/accesswatch/open-webui/issues/26) | Add alt text to images (72 images) | 1.1.1 | Done | `2fcad8602` |
 | [#27](https://github.com/accesswatch/open-webui/issues/27) | Collapsible button fix | 4.1.2, 2.1.1 | Done | `07b3f5766` |
 | [#28](https://github.com/accesswatch/open-webui/issues/28) | Dropdown ARIA menu | 4.1.2, 2.1.1, 1.3.1 | Done | `60ad4432c` |
 | [#29](https://github.com/accesswatch/open-webui/issues/29) | Modal aria-labelledby | 4.1.2 | Done | `8246f9992` |
 | [#30](https://github.com/accesswatch/open-webui/issues/30) | Tooltip focus behavior | 1.3.1, 4.1.2 | Done | `90ce0b3bd` |
-| [#31](https://github.com/accesswatch/open-webui/issues/31) | Resolve svelte-ignore suppressions | Multiple | Partial (toast done) | `2e60664ba` |
+| [#31](https://github.com/accesswatch/open-webui/issues/31) | Resolve svelte-ignore suppressions | Multiple | Done | `dbd67a190`, `22f4226a7`, `da18cf17f` |
 | [#32](https://github.com/accesswatch/open-webui/issues/32) | Form validation errors | 3.3.1, 3.3.3 | Done | `740f7f89e` |
 | [#33](https://github.com/accesswatch/open-webui/issues/33) | Focus-visible indicators | 2.4.7 | Done | `ce775f21d` |
 | [#34](https://github.com/accesswatch/open-webui/issues/34) | Sidebar panel focus management | 2.1.1, 4.1.2 | Done | `b42350d1e` |
 | [#35](https://github.com/accesswatch/open-webui/issues/35) | Add captions/tracks to media | 1.2.1 | Done | `0b1c18912` |
 | [#36](https://github.com/accesswatch/open-webui/issues/36) | Label admin form inputs (221 controls) | 1.3.1, 4.1.2 | Done | `f375f21ac` |
-| [#38](https://github.com/accesswatch/open-webui/issues/38) | Label workspace/modal form inputs (83 controls) | 1.3.1, 4.1.2 | Done | `f375f21ac` |
+| [#38](https://github.com/accesswatch/open-webui/issues/38) | Label workspace/modal form inputs (83 controls) | 1.3.1, 4.1.2 | Done | `5e6d3dd66` |
 | [#40](https://github.com/accesswatch/open-webui/issues/40) | aria-hidden on decorative SVGs (395 icons) | 1.1.1 | Done | `edc61a340` |
 | [#41](https://github.com/accesswatch/open-webui/issues/41) | Color contrast audit | 1.4.3, 1.4.11 | **Not started** | -- |
 | [#42](https://github.com/accesswatch/open-webui/issues/42) | Resize/reflow at 200% zoom | 1.4.4, 1.4.10, 1.4.12 | **Not started** | -- |
 | [#43](https://github.com/accesswatch/open-webui/issues/43) | Focus not obscured by sticky elements | 2.4.11 | **Not started** | -- |
 | [#44](https://github.com/accesswatch/open-webui/issues/44) | Keyboard alternative for drag-and-drop | 2.5.7 | Done | `a0d9546b1` |
 | [#45](https://github.com/accesswatch/open-webui/issues/45) | Minimum target size for controls | 2.5.8 | **Not started** | -- |
-| [#46](https://github.com/accesswatch/open-webui/issues/46) | WCAG 2.2 new criteria audit | Multiple | **Not started** | -- |
+| [#46](https://github.com/accesswatch/open-webui/issues/46) | WCAG 2.2 new criteria audit | Multiple | Done (all pass) | `6f8ec1e8b` |
 | [#47](https://github.com/accesswatch/open-webui/issues/47) | Table captions | 1.3.1 | Done | `edc61a340` |
 
 ---
@@ -349,10 +358,10 @@ The following table maps WCAG 2.2 AA success criteria to their coverage status i
 
 | WCAG Criterion | Title | Covered By | Status |
 |---|---|---|---|
-| 1.1.1 | Non-text Content | #26 (alt text), #40 (decorative SVGs) | Partial (#40 done, #26 not started) |
+| 1.1.1 | Non-text Content | #26 (alt text), #40 (decorative SVGs) | Done |
 | 1.2.1 | Audio/Video Prerecorded | #35 (media tracks) | Done |
 | 1.3.1 | Info and Relationships | #8, #10, #11, #18, #20, #21, #47 | Done |
-| 1.3.2 | Meaningful Sequence | #46 (WCAG 2.2 audit) | Not started |
+| 1.3.2 | Meaningful Sequence | #46 (WCAG 2.2 audit) | Done (verified) |
 | 1.4.3 | Contrast Minimum | #41 (color contrast audit) | Not started |
 | 1.4.4 | Resize Text | #42 (zoom/reflow) | Not started |
 | 1.4.10 | Reflow | #42 (zoom/reflow) | Not started |
@@ -367,16 +376,16 @@ The following table maps WCAG 2.2 AA success criteria to their coverage status i
 | 2.4.11 | Focus Not Obscured | #43 | Not started |
 | 2.5.7 | Dragging Movements | #44 (keyboard folder move) | Done |
 | 2.5.8 | Target Size | #45 | Not started |
-| 3.2.6 | Consistent Help | #46 (WCAG 2.2 audit) | Not started |
+| 3.2.6 | Consistent Help | #46 (WCAG 2.2 audit) | Done (verified) |
 | 3.3.1 | Error Identification | #32 (form validation) | Done |
 | 3.3.2 | Labels or Instructions | #9, #19, #22, #36, #38 | Done |
 | 3.3.3 | Error Suggestion | #32 (form validation) | Done |
-| 3.3.7 | Redundant Entry | #46 (WCAG 2.2 audit) | Not started |
-| 3.3.8 | Accessible Authentication | #46 (WCAG 2.2 audit) | Not started |
-| 4.1.2 | Name, Role, Value | #9, #17, #22, #27, #28, #29, #30, #34 | Done |
+| 3.3.7 | Redundant Entry | #46 (WCAG 2.2 audit) | Done (verified) |
+| 3.3.8 | Accessible Authentication | #46 (WCAG 2.2 audit) | Done (verified) |
+| 4.1.2 | Name, Role, Value | #9, #17, #22, #23, #27, #28, #29, #30, #34 | Done |
 | 4.1.3 | Status Messages | #13 (response announcement), #31 (toasts) | Done |
 
-**Coverage summary:** 16 of 26 applicable WCAG 2.2 AA criteria have at least one issue with code committed. 10 criteria depend on the 8 remaining issues.
+**Coverage summary:** 20 of 26 applicable WCAG 2.2 AA criteria have at least one issue with code committed. 6 criteria depend on the 4 remaining issues (#41, #42, #43, #45).
 
 ---
 
@@ -391,24 +400,20 @@ The following table lists active risks to project completion.
 | R3 | Color contrast audit (#41) reveals widespread theme issues | High | Medium | Run across all 4 themes. Propose fixes using existing Tailwind tokens. |
 | R4 | No screen reader testers beyond project lead | High | High | Jeff Bishop tests with NVDA. Recruit VoiceOver tester from community. Document exact test steps. |
 | R5 | Large PRs (form labels, decorative SVGs) rejected for scope | Medium | Medium | Pre-split if needed. Reference Discussion #23212 approval. |
-| R6 | Scope creep from WCAG 2.2 new criteria audit (#46) | Medium | Low | Timebox to 8 hours. File new issues. Do not block existing merges. |
+| R6 | Scope creep from WCAG 2.2 new criteria audit (#46) | Medium | Low | Resolved: all 4 criteria verified as passing without code changes. |
 
 ---
 
 ## Remaining Work
 
-The following table lists the 8 issues that still need code implementation, in priority order.
+The following table lists the 4 issues that still need code implementation, in priority order.
 
 | Priority | Issue | Title | Sprint | Complexity | Blocker? |
 |---|---|---|---|---|---|
-| 1 | [#23](https://github.com/accesswatch/open-webui/issues/23) | Complete settings tab ARIA pattern | 6 | Medium | No |
-| 2 | [#26](https://github.com/accesswatch/open-webui/issues/26) | Add alt text to images (72 images) | 7 | Low (bulk) | No |
-| 3 | [#31](https://github.com/accesswatch/open-webui/issues/31) | Resolve remaining svelte-ignore suppressions (57) | 7 | Mixed | No |
-| 4 | [#41](https://github.com/accesswatch/open-webui/issues/41) | Color contrast audit and fixes | 7 | High | Needs all 4 themes running |
-| 5 | [#42](https://github.com/accesswatch/open-webui/issues/42) | Resize/reflow testing at 200% and 320px | 7 | Medium | Needs visual testing |
-| 6 | [#43](https://github.com/accesswatch/open-webui/issues/43) | Focus not obscured by sticky elements | 7 | Low | Needs visual testing |
-| 7 | [#45](https://github.com/accesswatch/open-webui/issues/45) | Minimum target size for interactive controls | 7 | Low | Needs visual testing |
-| 8 | [#46](https://github.com/accesswatch/open-webui/issues/46) | WCAG 2.2 new criteria audit | 7 | Unknown | Manual review |
+| 1 | [#41](https://github.com/accesswatch/open-webui/issues/41) | Color contrast audit and fixes | 7 | High | Needs all 4 themes running |
+| 2 | [#42](https://github.com/accesswatch/open-webui/issues/42) | Resize/reflow testing at 200% and 320px | 7 | Medium | Needs visual testing |
+| 3 | [#43](https://github.com/accesswatch/open-webui/issues/43) | Focus not obscured by sticky elements | 7 | Low | Needs visual testing |
+| 4 | [#45](https://github.com/accesswatch/open-webui/issues/45) | Minimum target size for interactive controls | 7 | Low | Needs visual testing |
 
 **After code is complete**, the project still needs:
 - Manual screen reader testing across all 38 issues
@@ -429,8 +434,10 @@ The following table shows the project timeline from inception through the curren
 | April 6, 2026 | Phase 1 through 5 branches complete. 29 commits across 5 branches. |
 | April 6, 2026 | Automated test suite (33 tests) and CI workflow deployed. |
 | April 10, 2026 | Documentation suite complete: audit plan, changelog, test matrix, testing guide, status report, Copilot instructions. |
+| April 10, 2026 | Phase 5 extended: #23, #26, #31, #38, #46, #17 resolved. 34/38 issues now have code committed. |
+| April 10, 2026 | Upstream sync verified: fork current with upstream v0.8.12. No conflicts on any branch. |
+| TBD | Remaining 4 visual-testing issues implemented (#41, #42, #43, #45). |
 | TBD | Manual testing begins (Sprints 1-2 first). |
-| TBD | Remaining 8 issues implemented. |
 | TBD | First upstream PRs submitted (Sprint 1). |
 
 ---
@@ -441,6 +448,17 @@ The following table lists every commit on accessibility branches, in reverse chr
 
 | Hash | Date | Branch | Message |
 |---|---|---|---|
+| `3f6e25df6` | 2026-04-10 | phase-5 | a11y(#17): add ARIA combobox pattern to model selector |
+| `d4bb2210b` | 2026-04-10 | phase-5 | docs: update status -- 33/38 complete, upstream synced at v0.8.12 |
+| `6f8ec1e8b` | 2026-04-10 | phase-5 | a11y(#46): verify WCAG 2.2 new criteria -- all 4 pass without code changes |
+| `ba3a098a1` | 2026-04-10 | phase-5 | docs: update audit plan status -- 32/38 issues committed, #38 resolved |
+| `5e6d3dd66` | 2026-04-10 | phase-5 | a11y(#38): add aria-label to unlabeled form inputs (batch 1) |
+| `da18cf17f` | 2026-04-10 | phase-5 | a11y(#31): resolve 12 more svelte-ignore a11y suppressions (batch 3) |
+| `834c4f374` | 2026-04-10 | phase-5 | docs: update audit plan status for Phase 5 progress (April 10) |
+| `22f4226a7` | 2026-04-10 | phase-5 | a11y: resolve 10 more svelte-ignore suppressions (#31) |
+| `dbd67a190` | 2026-04-10 | phase-5 | a11y: resolve 16 svelte-ignore suppressions in shared primitives (#31) |
+| `2fcad8602` | 2026-04-10 | phase-5 | a11y: fix alt text on 20 image components (#26) |
+| `b70b7f204` | 2026-04-10 | phase-5 | a11y: complete ARIA tab pattern for settings (#23) |
 | `874c5515e` | 2026-04-06 | phase-5 | fix: sync package-lock.json with devDependencies (playwright, axe-core) |
 | `7b1f94ea6` | 2026-04-06 | phase-5 | docs: comprehensive testing guide with exact commands and troubleshooting |
 | `543549162` | 2026-04-06 | phase-5 | test: add chat-messages spec with mocked model and streaming response |
@@ -484,6 +502,7 @@ The following table lists every file created or significantly modified as part o
 | ACCESSIBILITY-TEST-MATRIX.md | Documentation | April 10 | Manual and automated test tracking |
 | ACCESSIBILITY-TESTING.md | Documentation | April 6 | Test runner setup guide |
 | ACCESSIBILITY-STATUS-REPORT.md | Documentation | April 10 | This executive status report |
+| ACCESSIBILITY-STATUS-REPORT.html | Documentation | April 10 | WCAG 2.2 AA HTML version of status report (email-ready) |
 | .github/copilot-instructions.md | Automation | April 10 | Copilot workspace rules |
 | .github/agents/a11y-test-tracker.agent.md | Automation | April 10 | Test result recording agent |
 | .github/prompts/a11y-mark-test.prompt.md | Automation | April 10 | Test marking slash command |

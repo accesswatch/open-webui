@@ -49,6 +49,11 @@ Branch: `a11y/phase-5-interactive-patterns`
 ### Added - Sprint 4: "I can pick a model"
 
 - **ARIA combobox pattern for model selector** ([#16](https://github.com/accesswatch/open-webui/issues/16), [#17](https://github.com/accesswatch/open-webui/issues/17)): The model selector now uses the full ARIA combobox pattern with `role="combobox"`, `aria-expanded`, `aria-activedescendant`, and arrow key navigation. Screen readers announce the active option as the user navigates. Enter selects, Escape closes. WCAG 4.1.2 Name Role Value, 2.1.1 Keyboard. `4b938a893`
+- **Enhanced combobox ARIA for model selector** ([#17](https://github.com/accesswatch/open-webui/issues/17)): Overrode bits-ui DropdownMenu `role="menu"` with `role="presentation"` on content wrapper and `aria-haspopup="listbox"` on trigger. Added Home/End key support (jump to first/last option), explicit Escape to close and return focus to trigger, and `e.preventDefault()` on arrow keys. WCAG 4.1.2 Name Role Value, 2.1.1 Keyboard. `3f6e25df6`
+
+### Added - Sprint 6: "I can manage my settings"
+
+- **Settings tab ARIA pattern** ([#23](https://github.com/accesswatch/open-webui/issues/23)): Settings modal tabs now use the complete ARIA tab pattern: `role="tablist"`, `role="tab"` with `aria-selected`, `role="tabpanel"` with `aria-labelledby`. Arrow keys navigate between tabs. WCAG 4.1.2 Name Role Value. `b70b7f204`
 
 ### Added - Sprint 7: Cross-cutting polish
 
@@ -57,6 +62,10 @@ Branch: `a11y/phase-5-interactive-patterns`
 - **Table captions, sidebar headings, search label, icon aria-hidden** ([#18](https://github.com/accesswatch/open-webui/issues/18), [#19](https://github.com/accesswatch/open-webui/issues/19), [#40](https://github.com/accesswatch/open-webui/issues/40), [#47](https://github.com/accesswatch/open-webui/issues/47)): Added `<caption>` to 13 data tables. Added section headings to sidebar. Labeled sidebar search input. Added `aria-hidden="true"` to 395 decorative SVG icons. WCAG 1.1.1 Non-text Content, 1.3.1 Info and Relationships. `edc61a340`
 - **Media captions** ([#35](https://github.com/accesswatch/open-webui/issues/35)): Added `<track>` elements to video and audio elements for media captions. WCAG 1.2.1 Audio/Video Prerecorded. `0b1c18912`
 - **Keyboard alternative for drag-and-drop** ([#44](https://github.com/accesswatch/open-webui/issues/44)): Added Move submenu to FolderMenu providing a keyboard/button alternative for folder reorganization. WCAG 2.5.7 Dragging Movements. `a0d9546b1`
+- **Alt text on image components** ([#26](https://github.com/accesswatch/open-webui/issues/26)): Added meaningful alt text to 20 image components (user avatars, model icons, uploaded images). WCAG 1.1.1 Non-text Content. `2fcad8602`
+- **Resolve svelte-ignore a11y suppressions** ([#31](https://github.com/accesswatch/open-webui/issues/31)): Resolved 38 of 60 svelte-ignore a11y directives across 3 dedicated batches on phase-5. Combined with 7 removals from phase-3 (#27 Collapsible) and phase-4 (#28 Dropdown), the project has removed 48 of the original 60 a11y suppressions. 12 remaining directives audited and retained with justification. WCAG Multiple. `dbd67a190`, `22f4226a7`, `da18cf17f`
+- **Label workspace and modal form inputs** ([#38](https://github.com/accesswatch/open-webui/issues/38)): Added aria-label to remaining unlabeled form inputs in workspace editors and standalone modals. WCAG 1.3.1 Info and Relationships, 4.1.2 Name Role Value. `5e6d3dd66`
+- **WCAG 2.2 new criteria verified** ([#46](https://github.com/accesswatch/open-webui/issues/46)): Audited 4 new WCAG 2.2 criteria (3.2.6 Consistent Help, 3.3.7 Redundant Entry, 3.3.8 Accessible Authentication, 1.3.2 Meaningful Sequence). All pass without code changes. WCAG Multiple. `6f8ec1e8b`
 
 ### Added - Testing Infrastructure
 
@@ -74,8 +83,8 @@ Branch: `a11y/phase-4-behavioral-components`
 
 ### Fixed - Sprint 7: Cross-cutting polish
 
-- **Dropdown ARIA menu pattern** ([#28](https://github.com/accesswatch/open-webui/issues/28)): The Dropdown and DropdownSub components now use `role="menu"` with `role="menuitem"` children. Trigger uses `<button>` with `aria-expanded` and `aria-haspopup="true"`. Arrow key navigation within items. Escape closes and returns focus to trigger. Removed 6 `svelte-ignore` directives. WCAG 4.1.2 Name Role Value, 2.1.1 Keyboard, 1.3.1 Info and Relationships. `60ad4432c`
-- **Sidebar panel ARIA and keyboard support** ([#34](https://github.com/accesswatch/open-webui/issues/34)): The common Sidebar panel now has `aria-label`, keyboard dismiss with Escape, and focus management on open/close. Focus returns to the trigger element when closed. Removed 1 `svelte-ignore` directive. WCAG 2.1.1 Keyboard, 4.1.2 Name Role Value. `b42350d1e`
+- **Dropdown ARIA menu pattern** ([#28](https://github.com/accesswatch/open-webui/issues/28)): The Dropdown and DropdownSub components now use `role="menu"` with `role="menuitem"` children. Trigger uses `<button>` with `aria-expanded` and `aria-haspopup="true"`. Arrow key navigation within items. Escape closes and returns focus to trigger. Removed 3 `svelte-ignore` directives. WCAG 4.1.2 Name Role Value, 2.1.1 Keyboard, 1.3.1 Info and Relationships. `60ad4432c`
+- **Sidebar panel ARIA and keyboard support** ([#34](https://github.com/accesswatch/open-webui/issues/34)): The common Sidebar panel now has `aria-label`, keyboard dismiss with Escape, and focus management on open/close. Focus returns to the trigger element when closed. WCAG 2.1.1 Keyboard, 4.1.2 Name Role Value. `b42350d1e`
 - **Accessible form validation on auth page** ([#32](https://github.com/accesswatch/open-webui/issues/32)): Auth page form inputs now use `aria-invalid="true"` when validation fails, `aria-describedby` linking to error messages, and error announcements via live region. Error messages include text prefix, not color alone. WCAG 3.3.1 Error Identification, 3.3.3 Error Suggestion. `740f7f89e`
 
 ---
@@ -86,8 +95,8 @@ Branch: `a11y/phase-3-isolated-component-fixes`
 
 ### Fixed - Sprint 7: Cross-cutting polish
 
-- **Modal aria-labelledby** ([#29](https://github.com/accesswatch/open-webui/issues/29)): Modal.svelte now has `aria-labelledby` pointing to the first heading or title within the dialog. An optional `title` prop provides a fallback `aria-label`. Removed 3 `svelte-ignore` directives. WCAG 4.1.2 Name Role Value. `8246f9992`
-- **Tooltip focus behavior** ([#30](https://github.com/accesswatch/open-webui/issues/30)): Tooltips now show on keyboard focus via tippy.js `trigger: 'mouseenter focus'` configuration. Wrapper element is focusable. Removed 1 `svelte-ignore` directive. WCAG 1.3.1 Info and Relationships, 4.1.2 Name Role Value. `90ce0b3bd`
+- **Modal aria-labelledby** ([#29](https://github.com/accesswatch/open-webui/issues/29)): Modal.svelte now has `aria-labelledby` pointing to the first heading or title within the dialog. An optional `title` prop provides a fallback `aria-label`. WCAG 4.1.2 Name Role Value. `8246f9992`
+- **Tooltip focus behavior** ([#30](https://github.com/accesswatch/open-webui/issues/30)): Tooltips now show on keyboard focus via tippy.js `trigger: 'mouseenter focus'` configuration. Wrapper element is focusable. WCAG 1.3.1 Info and Relationships, 4.1.2 Name Role Value. `90ce0b3bd`
 - **Toast notification announcements** ([#31 partial](https://github.com/accesswatch/open-webui/issues/31)): Verified svelte-sonner renders toasts with `role="status"`. Error toasts configured with `role="alert"` for assertive announcement. WCAG 4.1.3 Status Messages. `2e60664ba`
 - **Collapsible button fix** ([#27](https://github.com/accesswatch/open-webui/issues/27)): Replaced `<div on:pointerup>` with `<button>` element. Added `aria-expanded` state and `aria-controls` pointing to content panel ID. Removed 4 `svelte-ignore` directives. Keyboard users can now toggle collapsible sections with Enter or Space. WCAG 4.1.2 Name Role Value, 2.1.1 Keyboard. `07b3f5766`
 
@@ -148,11 +157,7 @@ The following table lists all issues that still need implementation.
 
 | Issue | Title | Sprint | WCAG | Status |
 |---|---|---|---|---|
-| [#23](https://github.com/accesswatch/open-webui/issues/23) | Complete settings tab ARIA pattern | 6 | 4.1.2 | Not started |
-| [#26](https://github.com/accesswatch/open-webui/issues/26) | Add alt text to images (72 `<img>` elements) | 7 | 1.1.1 | Not started |
-| [#31](https://github.com/accesswatch/open-webui/issues/31) | Resolve remaining svelte-ignore a11y suppressions | 7 | Multiple | Partial (toast done, 57 remaining) |
 | [#41](https://github.com/accesswatch/open-webui/issues/41) | Run color contrast audit and fix failures | 7 | 1.4.3, 1.4.11 | Not started |
 | [#42](https://github.com/accesswatch/open-webui/issues/42) | Verify resize/reflow at 200% zoom and 320px viewport | 7 | 1.4.4, 1.4.10, 1.4.12 | Not started |
 | [#43](https://github.com/accesswatch/open-webui/issues/43) | Verify focus not obscured by sticky elements | 7 | 2.4.11 | Not started |
 | [#45](https://github.com/accesswatch/open-webui/issues/45) | Verify minimum target size for interactive controls | 7 | 2.5.8 | Not started |
-| [#46](https://github.com/accesswatch/open-webui/issues/46) | Audit WCAG 2.2 new criteria (3.2.6, 3.3.7, 3.3.8, 1.3.2) | 7 | Multiple | Not started |

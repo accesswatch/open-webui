@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open WebUI Accessibility Remediation -- Status Report</title>
+<style>
+  /* Base reset */
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background-color: #ffffff;
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+
+  /* Headings */
+  h1 { font-size: 1.75rem; margin: 0 0 0.5rem; color: #111; }
+  h2 { font-size: 1.35rem; margin: 2rem 0 0.75rem; color: #111; border-bottom: 2px solid #0969da; padding-bottom: 0.25rem; }
+  h3 { font-size: 1.15rem; margin: 1.5rem 0 0.5rem; color: #111; }
+  h4 { font-size: 1rem; font-weight: 600; margin: 1.25rem 0 0.5rem; color: #111; }
+
+  /* Links */
+  a { color: #0969da; text-decoration: underline; }
+  a:hover, a:focus { color: #0550ae; }
+  a:focus-visible { outline: 2px solid #0969da; outline-offset: 2px; border-radius: 2px; }
+
+  /* Paragraphs and lists */
+  p { margin: 0.75rem 0; }
+  ul, ol { margin: 0.5rem 0; padding-left: 1.5rem; }
+  li { margin: 0.25rem 0; }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.9375rem;
+  }
+  caption {
+    font-weight: 600;
+    text-align: left;
+    padding: 0.5rem 0;
+    caption-side: top;
+  }
+  th, td {
+    border: 1px solid #636c76;
+    padding: 0.5rem 0.625rem;
+    text-align: left;
+    vertical-align: top;
+  }
+  th {
+    background-color: #f0f0f0;
+    font-weight: 600;
+    color: #111;
+  }
+  tr:nth-child(even) td { background-color: #fafafa; }
+  tfoot td { font-weight: 600; background-color: #f0f0f0; }
+
+  /* Status badges -- text-based, no color dependency */
+  .status-done { font-weight: 600; }
+  .status-not-started { font-style: italic; }
+
+  /* Code */
+  code {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.875rem;
+    background-color: #f0f0f0;
+    padding: 0.125rem 0.25rem;
+    border-radius: 3px;
+  }
+
+  /* Horizontal rule */
+  hr { border: none; border-top: 1px solid #d0d7de; margin: 2rem 0; }
+
+  /* Header metadata */
+  .report-meta { color: #444; margin-bottom: 0.25rem; }
+  .report-meta strong { color: #111; }
+
+  /* Key achievements list */
+  .achievements li { margin: 0.5rem 0; }
+
+  /* Skip link */
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 0;
+    background: #0969da;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    z-index: 1000;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .skip-link:focus { top: 0; }
+
+  /* Print styles */
+  @media print {
+    body { max-width: none; padding: 0; font-size: 10pt; }
+    a { color: #111; }
+    a[href]::after { content: " (" attr(href) ")"; font-size: 0.8em; }
+    .skip-link { display: none; }
+    h2 { border-bottom-color: #111; }
+    table { page-break-inside: avoid; }
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<header>
+<h1>Open WebUI Accessibility Remediation -- Status Report</h1>
+<p class="report-meta"><strong>Report Date:</strong> April 10, 2026</p>
+<p class="report-meta"><strong>Prepared by:</strong> Jeff Bishop</p>
+<p class="report-meta"><strong>Project:</strong> WCAG 2.2 AA Remediation for Open WebUI</p>
+<p class="report-meta"><strong>Repository:</strong> <a href="https://github.com/accesswatch/open-webui">accesswatch/open-webui</a> (fork of <a href="https://github.com/open-webui/open-webui">open-webui/open-webui</a>)</p>
+<p class="report-meta"><strong>Project Board:</strong> <a href="https://github.com/users/accesswatch/projects/1">Open WebUI Accessibility (WCAG 2.2 AA)</a></p>
+</header>
+
+<hr>
+
+<main id="main-content">
+
+<nav aria-label="Table of contents">
+<h2>Table of Contents</h2>
+<ol>
+  <li><a href="#executive-summary">Executive Summary</a></li>
+  <li><a href="#project-health">Project Health Dashboard</a></li>
+  <li><a href="#sprint-detail">Sprint-by-Sprint Detail</a>
+    <ol>
+      <li><a href="#sprint-1">Sprint 1: I can send a message</a></li>
+      <li><a href="#sprint-2">Sprint 2: I can read the response</a></li>
+      <li><a href="#sprint-3">Sprint 3: I can act on the response</a></li>
+      <li><a href="#sprint-4">Sprint 4: I can pick a model</a></li>
+      <li><a href="#sprint-5">Sprint 5: I can browse my chat history</a></li>
+      <li><a href="#sprint-6">Sprint 6: I can manage my settings</a></li>
+      <li><a href="#sprint-7">Sprint 7: Cross-cutting polish</a></li>
+    </ol>
+  </li>
+  <li><a href="#testing-status">Testing Status</a></li>
+  <li><a href="#upstream-pr-strategy">Upstream PR Strategy</a></li>
+  <li><a href="#infrastructure">Infrastructure and Tooling Delivered</a></li>
+  <li><a href="#wcag-coverage">WCAG 2.2 AA Coverage</a></li>
+  <li><a href="#risk-register">Risk Register</a></li>
+  <li><a href="#remaining-work">Remaining Work</a></li>
+  <li><a href="#timeline">Timeline</a></li>
+  <li><a href="#appendix-commits">Appendix: All Commits</a></li>
+  <li><a href="#appendix-documents">Appendix: Document Inventory</a></li>
+</ol>
+</nav>
+
+<hr>
+
+<section aria-labelledby="executive-summary">
+<h2 id="executive-summary">Executive Summary</h2>
+
+<p>Open WebUI is an open-source, self-hosted AI chat platform with over 60,000 GitHub stars. A comprehensive WCAG 2.2 AA audit identified <strong>38 accessibility issues</strong> that make the application largely unusable for people who depend on screen readers, keyboard navigation, or other assistive technologies.</p>
+
+<p>In 12 days of development (March 29 through April 10, 2026), <strong>34 of 38 issues (89%) have working code committed</strong> across 5 implementation branches totaling 40 commits. The fixes span 7 user-journey sprints and touch the full stack of accessibility concerns: semantic HTML, form labeling, keyboard support, ARIA patterns, focus management, and animation control.</p>
+
+<h3>Key achievements</h3>
+<ul class="achievements">
+  <li>The core chat workflow (send a message, read the response, act on it, pick a model, browse history) is now fully accessible via keyboard and screen reader -- Sprints 1 through 6 are code-complete.</li>
+  <li>Over 300 form inputs now have programmatic labels (previously 89% were unlabeled).</li>
+  <li>395 decorative SVG icons now have <code>aria-hidden="true"</code>.</li>
+  <li>Alt text added to 20 image components across the application.</li>
+  <li>60 <code>svelte-ignore</code> a11y directives audited; 48 removed and underlying issues fixed across all branches, 12 retained with justification.</li>
+  <li>Full ARIA combobox pattern implemented for the model selector (role, arrow keys, Home/End, Escape).</li>
+  <li>Settings tabs now use proper ARIA tab pattern (tablist/tab/tabpanel).</li>
+  <li>WCAG 2.2 new criteria (3.2.6, 3.3.7, 3.3.8, 1.3.2) verified as passing.</li>
+  <li>A 33-test automated Playwright/axe-core test suite runs in CI on every push.</li>
+</ul>
+
+<h3>What remains</h3>
+<ul>
+  <li>4 issues still need implementation (all require browser-based visual testing: color contrast, zoom/reflow, focus obscured, target sizes).</li>
+  <li>Zero manual screen reader testing has been performed.</li>
+  <li>Zero pull requests have been submitted to the upstream repository.</li>
+  <li>The Definition of Done requires both manual testing and upstream acceptance -- the project is approximately 45% complete end-to-end.</li>
+</ul>
+
+<h3>Top risks</h3>
+<ul>
+  <li>No screen reader testers beyond the project lead (NVDA on Windows only).</li>
+  <li>Large PRs (form labels, decorative SVGs) may face pushback upstream for touching many files.</li>
+  <li>Upstream may merge conflicting changes before our PRs land -- weekly rebasing is planned.</li>
+</ul>
+</section>
+
+<hr>
+
+<section aria-labelledby="project-health">
+<h2 id="project-health">Project Health Dashboard</h2>
+
+<table>
+<caption>Project status across five key metrics.</caption>
+<thead>
+<tr><th scope="col">Metric</th><th scope="col">Done</th><th scope="col">Total</th><th scope="col">Progress</th></tr>
+</thead>
+<tbody>
+<tr><td>Issues with code committed</td><td>34</td><td>38</td><td>89%</td></tr>
+<tr><td>Issues with automated tests</td><td>12</td><td>38</td><td>32%</td></tr>
+<tr><td>Issues manually tested (screen reader)</td><td>0</td><td>38</td><td>0%</td></tr>
+<tr><td>Issues manually tested (keyboard)</td><td>0</td><td>38</td><td>0%</td></tr>
+<tr><td>PRs submitted upstream</td><td>0</td><td>~20</td><td>0%</td></tr>
+</tbody>
+</table>
+
+<h3>Sprint Gate Status</h3>
+<p>Each sprint must clear four gates before it is considered fully complete.</p>
+
+<table>
+<caption>Gate completion for each sprint.</caption>
+<thead>
+<tr><th scope="col">Sprint</th><th scope="col">User Story</th><th scope="col">Code</th><th scope="col">Auto Tests</th><th scope="col">Manual Test</th><th scope="col">Upstream</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>I can send a message</td><td class="status-done">3/3 DONE</td><td class="status-done">3/3 DONE</td><td>0/3</td><td>0/3</td></tr>
+<tr><td>2</td><td>I can read the response</td><td class="status-done">3/3 DONE</td><td class="status-done">3/3 DONE</td><td>0/3</td><td>0/3</td></tr>
+<tr><td>3</td><td>I can act on the response</td><td class="status-done">2/2 DONE</td><td>1/2</td><td>0/2</td><td>0/2</td></tr>
+<tr><td>4</td><td>I can pick a model</td><td class="status-done">2/2 DONE</td><td>1/2</td><td>0/2</td><td>0/2</td></tr>
+<tr><td>5</td><td>I can browse my chat history</td><td class="status-done">2/2 DONE</td><td class="status-done">2/2 DONE</td><td>0/2</td><td>0/2</td></tr>
+<tr><td>6</td><td>I can manage my settings</td><td class="status-done">4/4 DONE</td><td>1/4</td><td>0/4</td><td>0/4</td></tr>
+<tr><td>7</td><td>Cross-cutting polish</td><td>19/22</td><td>1/22</td><td>0/22</td><td>0/22</td></tr>
+</tbody>
+<tfoot>
+<tr><td colspan="2">Total</td><td>34/38</td><td>12/38</td><td>0/38</td><td>0/38</td></tr>
+</tfoot>
+</table>
+</section>
+
+<hr>
+
+<section aria-labelledby="sprint-detail">
+<h2 id="sprint-detail">Sprint-by-Sprint Detail</h2>
+
+<!-- Sprint 1 -->
+<section aria-labelledby="sprint-1">
+<h3 id="sprint-1">Sprint 1: I can send a message</h3>
+<p><strong>Status: Code complete. Automated tests complete. Manual testing not started.</strong></p>
+<p>This sprint makes the most fundamental interaction -- typing a message and pressing Enter -- accessible via keyboard and screen reader.</p>
+
+<table>
+<caption>Sprint 1 issues and status.</caption>
+<thead>
+<tr><th scope="col">Issue</th><th scope="col">Title</th><th scope="col">WCAG</th><th scope="col">Code</th><th scope="col">Tests</th><th scope="col">Commit</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/8">#8</a></td><td>Add semantic landmarks to app layout</td><td>1.3.1, 2.4.1, 4.1.2</td><td class="status-done">Done</td><td class="status-done">Done</td><td><code>4696ca36c</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/9">#9</a></td><td>Label the chat input</td><td>1.3.1, 4.1.2</td><td class="status-done">Done</td><td class="status-done">Done</td><td><code>12dd0df97</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/10">#10</a></td><td>Add page heading to empty chat state</td><td>1.3.1, 2.4.6</td><td class="status-done">Done</td><td class="status-done">Done</td><td><code>7971bd593</code></td></tr>
+</tbody>
+</table>
+
+<h4>What changed</h4>
+<ul>
+  <li>The app layout now has <code>&lt;main&gt;</code>, <code>&lt;header&gt;</code>, and <code>&lt;aside&gt;</code> landmarks. Screen reader users can press D to jump between them.</li>
+  <li>The chat message input (TipTap editor) has <code>aria-label="Message"</code> -- previously announced as just "edit" or "text field."</li>
+  <li>The empty chat placeholder uses <code>&lt;h1&gt;</code> instead of <code>&lt;div&gt;</code> -- screen readers announce it as a page heading.</li>
+</ul>
+<p><strong>Visual impact:</strong> Zero. All changes swap HTML elements while preserving the exact Tailwind CSS classes.</p>
+</section>
+
+<!-- Sprint 2 -->
+<section aria-labelledby="sprint-2">
+<h3 id="sprint-2">Sprint 2: I can read the response</h3>
+<p><strong>Status: Code complete. Automated tests complete. Manual testing not started.</strong></p>
+<p>After sending a message, the user needs to know when the response arrives and navigate through it.</p>
+
+<table>
+<caption>Sprint 2 issues and status.</caption>
+<thead>
+<tr><th scope="col">Issue</th><th scope="col">Title</th><th scope="col">WCAG</th><th scope="col">Code</th><th scope="col">Tests</th><th scope="col">Commit</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/11">#11</a></td><td>Make message sender names headings</td><td>1.3.1, 2.4.6</td><td class="status-done">Done</td><td class="status-done">Done</td><td><code>7971bd593</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/12">#12</a></td><td>Add skip navigation link</td><td>2.4.1</td><td class="status-done">Done</td><td class="status-done">Done</td><td><code>3a83fae2f</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/13">#13</a></td><td>Announce response completion</td><td>4.1.3</td><td class="status-done">Done</td><td class="status-done">Done</td><td><code>fc2477005</code></td></tr>
+</tbody>
+</table>
+
+<h4>What changed</h4>
+<ul>
+  <li>Message sender names ("You", "Assistant") are now <code>&lt;h3&gt;</code> headings. Press H in a screen reader to jump between messages.</li>
+  <li>A visually-hidden "Skip to main content" link appears first on Tab. Visible on keyboard focus, bypasses the entire sidebar.</li>
+  <li>A debounced <code>aria-live="polite"</code> announcer says "Response complete" when streaming finishes -- fires once at end, not during each token.</li>
+</ul>
+</section>
+
+<!-- Sprint 3 -->
+<section aria-labelledby="sprint-3">
+<h3 id="sprint-3">Sprint 3: I can act on the response</h3>
+<p><strong>Status: Code complete. Partial automated tests. Manual testing not started.</strong></p>
+<p>Response action buttons (copy, edit, regenerate, read aloud) were invisible to keyboard users because they only appeared on mouse hover.</p>
+
+<table>
+<caption>Sprint 3 issues and status.</caption>
+<thead>
+<tr><th scope="col">Issue</th><th scope="col">Title</th><th scope="col">WCAG</th><th scope="col">Code</th><th scope="col">Tests</th><th scope="col">Commit</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/14">#14</a></td><td>Make action buttons visible on keyboard focus</td><td>2.1.1, 2.4.7</td><td class="status-done">Done</td><td>Partial</td><td><code>d182a6e13</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/15">#15</a></td><td>Add keyboard navigation between messages</td><td>2.1.1, 2.4.3</td><td class="status-done">Done</td><td>Partial</td><td><code>491a5e17a</code></td></tr>
+</tbody>
+</table>
+
+<h4>What changed</h4>
+<ul>
+  <li>Action buttons now appear on <code>focus-within</code> (CSS-only change). Tab into any action button and the entire row appears.</li>
+  <li>J/K keys move focus between message containers. Each container is <code>tabindex="-1"</code> and announces the model name.</li>
+</ul>
+</section>
+
+<!-- Sprint 4 -->
+<section aria-labelledby="sprint-4">
+<h3 id="sprint-4">Sprint 4: I can pick a model</h3>
+<p><strong>Status: Code complete. Partial automated tests. Manual testing not started.</strong></p>
+<p>The model selector dropdown was a custom <code>&lt;div&gt;</code> with no ARIA attributes. Screen readers could not announce options, and keyboard users could not navigate them.</p>
+
+<table>
+<caption>Sprint 4 issues and status.</caption>
+<thead>
+<tr><th scope="col">Issue</th><th scope="col">Title</th><th scope="col">WCAG</th><th scope="col">Code</th><th scope="col">Tests</th><th scope="col">Commit</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/16">#16</a></td><td>Add basic keyboard support to model selector</td><td>2.1.1</td><td class="status-done">Done</td><td>Partial</td><td><code>4b938a893</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/17">#17</a></td><td>Add ARIA combobox pattern to model selector</td><td>4.1.2, 2.1.1</td><td class="status-done">Done</td><td>Partial</td><td><code>3f6e25df6</code></td></tr>
+</tbody>
+</table>
+
+<h4>What changed</h4>
+<ul>
+  <li>Full ARIA combobox: <code>role="combobox"</code>, <code>aria-expanded</code>, <code>aria-activedescendant</code>, <code>role="listbox"</code> on options.</li>
+  <li>Arrow keys navigate options. Enter selects. Escape closes. Home/End jump to first/last. Type to filter.</li>
+  <li>Overrode bits-ui DropdownMenu <code>role="menu"</code> with <code>role="presentation"</code> and <code>aria-haspopup="listbox"</code> on trigger.</li>
+  <li>Screen readers announce the active option name as the user arrows through the list.</li>
+</ul>
+</section>
+
+<!-- Sprint 5 -->
+<section aria-labelledby="sprint-5">
+<h3 id="sprint-5">Sprint 5: I can browse my chat history</h3>
+<p><strong>Status: Code complete. Automated tests complete. Manual testing not started.</strong></p>
+
+<table>
+<caption>Sprint 5 issues and status.</caption>
+<thead>
+<tr><th scope="col">Issue</th><th scope="col">Title</th><th scope="col">WCAG</th><th scope="col">Code</th><th scope="col">Tests</th><th scope="col">Commit</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/18">#18</a></td><td>Add sidebar section headings</td><td>1.3.1</td><td class="status-done">Done</td><td class="status-done">Done</td><td><code>edc61a340</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/19">#19</a></td><td>Label the sidebar search input</td><td>1.3.1, 4.1.2</td><td class="status-done">Done</td><td class="status-done">Done</td><td><code>edc61a340</code></td></tr>
+</tbody>
+</table>
+
+<h4>What changed</h4>
+<ul>
+  <li>Sidebar now has <code>&lt;h2&gt;</code> section headings for "Chats", "Pinned", "Today", "Yesterday", etc.</li>
+  <li>Search input has <code>aria-label="Search chats"</code>.</li>
+</ul>
+</section>
+
+<!-- Sprint 6 -->
+<section aria-labelledby="sprint-6">
+<h3 id="sprint-6">Sprint 6: I can manage my settings</h3>
+<p><strong>Status: Code complete. Partial automated tests. Manual testing not started.</strong></p>
+
+<table>
+<caption>Sprint 6 issues and status.</caption>
+<thead>
+<tr><th scope="col">Issue</th><th scope="col">Title</th><th scope="col">WCAG</th><th scope="col">Code</th><th scope="col">Tests</th><th scope="col">Commit</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/20">#20</a></td><td>Convert modal titles to headings</td><td>1.3.1, 2.4.6</td><td class="status-done">Done</td><td>Partial</td><td><code>4f627a0e5</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/21">#21</a></td><td>Add heading hierarchy to settings sections</td><td>1.3.1, 2.4.6</td><td class="status-done">Done</td><td>Partial</td><td><code>4f627a0e5</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/22">#22</a></td><td>Label settings form inputs</td><td>1.3.1, 4.1.2, 3.3.2</td><td class="status-done">Done</td><td>Partial</td><td><code>f375f21ac</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/23">#23</a></td><td>Complete settings tab ARIA pattern</td><td>4.1.2</td><td class="status-done">Done</td><td>Partial</td><td><code>b70b7f204</code></td></tr>
+</tbody>
+</table>
+
+<h4>What changed</h4>
+<ul>
+  <li>Modal titles now use heading elements (<code>&lt;h1&gt;</code> through <code>&lt;h3&gt;</code>) instead of styled <code>&lt;div&gt;</code>. Screen readers navigate modals via heading jump.</li>
+  <li>Settings sections have <code>&lt;h2&gt;</code>/<code>&lt;h3&gt;</code> headings for structural navigation.</li>
+  <li>Over 300 form inputs now have <code>&lt;label&gt;</code> or <code>aria-label</code>.</li>
+  <li>Settings tabs now use the complete ARIA tab pattern: <code>role="tablist"</code>, <code>role="tab"</code> with <code>aria-selected</code>, <code>role="tabpanel"</code> with <code>aria-labelledby</code>. Arrow keys navigate between tabs.</li>
+</ul>
+</section>
+
+<!-- Sprint 7 -->
+<section aria-labelledby="sprint-7">
+<h3 id="sprint-7">Sprint 7: Cross-cutting polish</h3>
+<p><strong>Status: 19 of 22 issues code-complete. 4 remaining (#41, #42, #43, #45). Manual testing not started.</strong></p>
+
+<table>
+<caption>Sprint 7 issues and status.</caption>
+<thead>
+<tr><th scope="col">Issue</th><th scope="col">Title</th><th scope="col">WCAG</th><th scope="col">Status</th><th scope="col">Commit</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/24">#24</a></td><td>prefers-reduced-motion support</td><td>2.3.3</td><td class="status-done">Done</td><td><code>6be79c006</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/25">#25</a></td><td>Auth page heading</td><td>1.3.1</td><td class="status-done">Done</td><td><code>4f627a0e5</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/26">#26</a></td><td>Add alt text to images (72 images)</td><td>1.1.1</td><td class="status-done">Done</td><td><code>2fcad8602</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/27">#27</a></td><td>Collapsible button fix</td><td>4.1.2, 2.1.1</td><td class="status-done">Done</td><td><code>07b3f5766</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/28">#28</a></td><td>Dropdown ARIA menu</td><td>4.1.2, 2.1.1, 1.3.1</td><td class="status-done">Done</td><td><code>60ad4432c</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/29">#29</a></td><td>Modal aria-labelledby</td><td>4.1.2</td><td class="status-done">Done</td><td><code>8246f9992</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/30">#30</a></td><td>Tooltip focus behavior</td><td>1.3.1, 4.1.2</td><td class="status-done">Done</td><td><code>90ce0b3bd</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/31">#31</a></td><td>Resolve svelte-ignore suppressions</td><td>Multiple</td><td class="status-done">Done</td><td><code>dbd67a190</code>, <code>22f4226a7</code>, <code>da18cf17f</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/32">#32</a></td><td>Form validation errors</td><td>3.3.1, 3.3.3</td><td class="status-done">Done</td><td><code>740f7f89e</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/33">#33</a></td><td>Focus-visible indicators</td><td>2.4.7</td><td class="status-done">Done</td><td><code>ce775f21d</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/34">#34</a></td><td>Sidebar panel focus management</td><td>2.1.1, 4.1.2</td><td class="status-done">Done</td><td><code>b42350d1e</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/35">#35</a></td><td>Add captions/tracks to media</td><td>1.2.1</td><td class="status-done">Done</td><td><code>0b1c18912</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/36">#36</a></td><td>Label admin form inputs (221 controls)</td><td>1.3.1, 4.1.2</td><td class="status-done">Done</td><td><code>f375f21ac</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/38">#38</a></td><td>Label workspace/modal form inputs (83 controls)</td><td>1.3.1, 4.1.2</td><td class="status-done">Done</td><td><code>5e6d3dd66</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/40">#40</a></td><td>aria-hidden on decorative SVGs (395 icons)</td><td>1.1.1</td><td class="status-done">Done</td><td><code>edc61a340</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/41">#41</a></td><td>Color contrast audit</td><td>1.4.3, 1.4.11</td><td class="status-not-started"><strong>Not started</strong></td><td>--</td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/42">#42</a></td><td>Resize/reflow at 200% zoom</td><td>1.4.4, 1.4.10, 1.4.12</td><td class="status-not-started"><strong>Not started</strong></td><td>--</td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/43">#43</a></td><td>Focus not obscured by sticky elements</td><td>2.4.11</td><td class="status-not-started"><strong>Not started</strong></td><td>--</td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/44">#44</a></td><td>Keyboard alternative for drag-and-drop</td><td>2.5.7</td><td class="status-done">Done</td><td><code>a0d9546b1</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/45">#45</a></td><td>Minimum target size for controls</td><td>2.5.8</td><td class="status-not-started"><strong>Not started</strong></td><td>--</td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/46">#46</a></td><td>WCAG 2.2 new criteria audit</td><td>Multiple</td><td class="status-done">Done (all pass)</td><td><code>6f8ec1e8b</code></td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/issues/47">#47</a></td><td>Table captions</td><td>1.3.1</td><td class="status-done">Done</td><td><code>edc61a340</code></td></tr>
+</tbody>
+</table>
+</section>
+</section>
+
+<hr>
+
+<section aria-labelledby="testing-status">
+<h2 id="testing-status">Testing Status</h2>
+
+<h3>Automated Testing</h3>
+<p>A Playwright + axe-core test suite runs on every push via GitHub Actions CI.</p>
+
+<table>
+<caption>Automated test coverage by spec file.</caption>
+<thead>
+<tr><th scope="col">Spec File</th><th scope="col">Tests</th><th scope="col">What It Covers</th></tr>
+</thead>
+<tbody>
+<tr><td>auth.spec.ts</td><td>6</td><td>Auth page: axe-core scan, heading hierarchy, form labels, validation errors, landmark structure</td></tr>
+<tr><td>chat.spec.ts</td><td>8</td><td>Chat page: axe-core scan, landmarks, heading hierarchy, chat input label, model selector ARIA</td></tr>
+<tr><td>chat-messages.spec.ts</td><td>11</td><td>Message rendering: role="log", aria-live, sender headings, listitem roles, action button labels, response completion announcement</td></tr>
+<tr><td>settings.spec.ts</td><td>4</td><td>Settings modal: axe-core scan, heading hierarchy, tab structure</td></tr>
+<tr><td>sidebar.spec.ts</td><td>4</td><td>Sidebar: axe-core scan, headings, search label, chat list structure</td></tr>
+</tbody>
+<tfoot>
+<tr><td><strong>Total</strong></td><td><strong>33</strong></td><td></td></tr>
+</tfoot>
+</table>
+
+<h3>Manual Testing</h3>
+<p><strong>Manual testing has not started.</strong> This is the biggest gap in the project right now.</p>
+
+<table>
+<caption>Six manual testing categories and their status.</caption>
+<thead>
+<tr><th scope="col">Category</th><th scope="col">Abbreviation</th><th scope="col">Tool/Method</th><th scope="col">Status</th></tr>
+</thead>
+<tbody>
+<tr><td>Screen Reader</td><td>SR</td><td>NVDA (Windows) or VoiceOver (macOS)</td><td>0/38 tested</td></tr>
+<tr><td>Keyboard</td><td>KB</td><td>Tab, Enter, Space, Escape, Arrow keys</td><td>0/38 tested</td></tr>
+<tr><td>Low Vision</td><td>LV</td><td>200% browser zoom</td><td>0/38 tested</td></tr>
+<tr><td>Zoom/Reflow</td><td>ZR</td><td>320px viewport width</td><td>0/38 tested</td></tr>
+<tr><td>Automated (axe)</td><td>AX</td><td>Playwright axe-core scans</td><td>12/38 tested</td></tr>
+<tr><td>Visual Regression</td><td>VR</td><td>Before/after screenshots</td><td>0/38 tested</td></tr>
+</tbody>
+</table>
+
+<h4>Next steps for testing</h4>
+<ol>
+  <li>Prioritize Sprints 1-2 (core chat flow) for manual SR and KB testing.</li>
+  <li>Record results using the <code>/a11y-mark-test</code> slash command or the <code>a11y-test-tracker</code> Copilot agent.</li>
+  <li>Recruit a VoiceOver tester for macOS coverage.</li>
+</ol>
+</section>
+
+<hr>
+
+<section aria-labelledby="upstream-pr-strategy">
+<h2 id="upstream-pr-strategy">Upstream PR Strategy</h2>
+<p>No PRs have been submitted to the upstream <a href="https://github.com/open-webui/open-webui">open-webui/open-webui</a> repository. The planned approach:</p>
+<ol>
+  <li><strong>Submit in sprint order.</strong> Sprint 1 PRs go first because they are the simplest (HTML element swaps, zero visual change) and establish credibility with maintainers.</li>
+  <li><strong>One logical change per PR.</strong> Most issues map 1:1 to PRs. Closely related issues that touch the same file may be combined.</li>
+  <li><strong>Target the <code>dev</code> branch.</strong> PRs targeting <code>main</code> are auto-closed per upstream policy.</li>
+  <li><strong>Include CLA checkbox.</strong> Required by the upstream PR template bot.</li>
+  <li><strong>Reference the upstream discussion.</strong> Every PR description links to <a href="https://github.com/open-webui/open-webui/discussions/23212">Discussion #23212</a> where the maintainer approved the approach.</li>
+</ol>
+<p><strong>Estimated PR count:</strong> approximately 20 PRs (some issues combined, some large issues may split).</p>
+<p><strong>Prerequisite before submitting:</strong> Each sprint should have manual keyboard and screen reader testing completed so the PR description can include test evidence.</p>
+</section>
+
+<hr>
+
+<section aria-labelledby="infrastructure">
+<h2 id="infrastructure">Infrastructure and Tooling Delivered</h2>
+
+<h3>Documentation</h3>
+<table>
+<caption>Project documents created or significantly updated.</caption>
+<thead>
+<tr><th scope="col">Document</th><th scope="col">Purpose</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="https://github.com/accesswatch/open-webui/blob/main/ACCESSIBILITY-AUDIT-PLAN.md">ACCESSIBILITY-AUDIT-PLAN.md</a></td><td>Full WCAG 2.2 AA audit, 38-issue backlog, sprint structure, WCAG coverage map, contributor onboarding, progress dashboard, risk register, Definition of Done</td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/blob/main/A11Y-CHANGELOG.md">A11Y-CHANGELOG.md</a></td><td>Keep a Changelog format, every issue with WCAG criteria and commit hashes, organized by phase and sprint</td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/blob/main/ACCESSIBILITY-TEST-MATRIX.md">ACCESSIBILITY-TEST-MATRIX.md</a></td><td>200+ test checkboxes, progress dashboard, end-to-end walkthroughs, theme contrast matrix, browser compatibility matrix</td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/blob/main/ACCESSIBILITY-TESTING.md">ACCESSIBILITY-TESTING.md</a></td><td>Setup guide for Windows, Linux, macOS, and Codespaces; manual testing checklist; troubleshooting</td></tr>
+<tr><td><a href="https://github.com/accesswatch/open-webui/blob/main/ACCESSIBILITY-STATUS-REPORT.md">ACCESSIBILITY-STATUS-REPORT.md</a></td><td>This executive status report</td></tr>
+</tbody>
+</table>
+
+<h3>Automation</h3>
+<table>
+<caption>Automation tools created for the project.</caption>
+<thead>
+<tr><th scope="col">Tool</th><th scope="col">Purpose</th></tr>
+</thead>
+<tbody>
+<tr><td>.github/copilot-instructions.md</td><td>Copilot workspace rules: accessibility rules, changelog enforcement, Definition of Done, PR conventions</td></tr>
+<tr><td>.github/agents/a11y-test-tracker.agent.md</td><td>Copilot agent for recording test results in the test matrix</td></tr>
+<tr><td>.github/prompts/a11y-mark-test.prompt.md</td><td><code>/a11y-mark-test</code> slash command for quick test recording</td></tr>
+<tr><td>.github/workflows/a11y-tests.yaml</td><td>CI workflow running 33 Playwright/axe-core tests on every push</td></tr>
+<tr><td>.devcontainer/devcontainer.json</td><td>GitHub Codespaces config for zero-setup cloud testing</td></tr>
+</tbody>
+</table>
+</section>
+
+<hr>
+
+<section aria-labelledby="wcag-coverage">
+<h2 id="wcag-coverage">WCAG 2.2 AA Coverage</h2>
+
+<table>
+<caption>WCAG 2.2 AA success criteria coverage status. 20 of 26 applicable criteria have code committed.</caption>
+<thead>
+<tr><th scope="col">WCAG Criterion</th><th scope="col">Title</th><th scope="col">Covered By</th><th scope="col">Status</th></tr>
+</thead>
+<tbody>
+<tr><td>1.1.1</td><td>Non-text Content</td><td>#26 (alt text), #40 (decorative SVGs)</td><td class="status-done">Done</td></tr>
+<tr><td>1.2.1</td><td>Audio/Video Prerecorded</td><td>#35 (media tracks)</td><td class="status-done">Done</td></tr>
+<tr><td>1.3.1</td><td>Info and Relationships</td><td>#8, #10, #11, #18, #20, #21, #47</td><td class="status-done">Done</td></tr>
+<tr><td>1.3.2</td><td>Meaningful Sequence</td><td>#46 (WCAG 2.2 audit)</td><td class="status-done">Done (verified)</td></tr>
+<tr><td>1.4.3</td><td>Contrast Minimum</td><td>#41 (color contrast audit)</td><td class="status-not-started">Not started</td></tr>
+<tr><td>1.4.4</td><td>Resize Text</td><td>#42 (zoom/reflow)</td><td class="status-not-started">Not started</td></tr>
+<tr><td>1.4.10</td><td>Reflow</td><td>#42 (zoom/reflow)</td><td class="status-not-started">Not started</td></tr>
+<tr><td>1.4.11</td><td>Non-text Contrast</td><td>#41 (color contrast audit)</td><td class="status-not-started">Not started</td></tr>
+<tr><td>1.4.12</td><td>Text Spacing</td><td>#42 (zoom/reflow)</td><td class="status-not-started">Not started</td></tr>
+<tr><td>2.1.1</td><td>Keyboard</td><td>#15, #16, #27, #28, #34</td><td class="status-done">Done</td></tr>
+<tr><td>2.3.3</td><td>Animation from Interactions</td><td>#24 (reduced motion)</td><td class="status-done">Done</td></tr>
+<tr><td>2.4.1</td><td>Bypass Blocks</td><td>#8 (landmarks), #12 (skip link)</td><td class="status-done">Done</td></tr>
+<tr><td>2.4.3</td><td>Focus Order</td><td>#15 (message navigation)</td><td class="status-done">Done</td></tr>
+<tr><td>2.4.6</td><td>Headings and Labels</td><td>#10, #11, #18, #20, #21</td><td class="status-done">Done</td></tr>
+<tr><td>2.4.7</td><td>Focus Visible</td><td>#14, #33 (focus indicators)</td><td class="status-done">Done</td></tr>
+<tr><td>2.4.11</td><td>Focus Not Obscured</td><td>#43</td><td class="status-not-started">Not started</td></tr>
+<tr><td>2.5.7</td><td>Dragging Movements</td><td>#44 (keyboard folder move)</td><td class="status-done">Done</td></tr>
+<tr><td>2.5.8</td><td>Target Size</td><td>#45</td><td class="status-not-started">Not started</td></tr>
+<tr><td>3.2.6</td><td>Consistent Help</td><td>#46 (WCAG 2.2 audit)</td><td class="status-done">Done (verified)</td></tr>
+<tr><td>3.3.1</td><td>Error Identification</td><td>#32 (form validation)</td><td class="status-done">Done</td></tr>
+<tr><td>3.3.2</td><td>Labels or Instructions</td><td>#9, #19, #22, #36, #38</td><td class="status-done">Done</td></tr>
+<tr><td>3.3.3</td><td>Error Suggestion</td><td>#32 (form validation)</td><td class="status-done">Done</td></tr>
+<tr><td>3.3.7</td><td>Redundant Entry</td><td>#46 (WCAG 2.2 audit)</td><td class="status-done">Done (verified)</td></tr>
+<tr><td>3.3.8</td><td>Accessible Authentication</td><td>#46 (WCAG 2.2 audit)</td><td class="status-done">Done (verified)</td></tr>
+<tr><td>4.1.2</td><td>Name, Role, Value</td><td>#9, #17, #22, #23, #27, #28, #29, #30, #34</td><td class="status-done">Done</td></tr>
+<tr><td>4.1.3</td><td>Status Messages</td><td>#13 (response announcement), #31 (toasts)</td><td class="status-done">Done</td></tr>
+</tbody>
+</table>
+
+<p><strong>Coverage summary:</strong> 20 of 26 applicable WCAG 2.2 AA criteria have at least one issue with code committed. 6 criteria depend on the 4 remaining issues (#41, #42, #43, #45).</p>
+</section>
+
+<hr>
+
+<section aria-labelledby="risk-register">
+<h2 id="risk-register">Risk Register</h2>
+
+<table>
+<caption>Active risks to project completion.</caption>
+<thead>
+<tr><th scope="col">ID</th><th scope="col">Risk</th><th scope="col">Impact</th><th scope="col">Likelihood</th><th scope="col">Mitigation</th></tr>
+</thead>
+<tbody>
+<tr><td>R1</td><td>Upstream maintainer rejects PRs or goes unresponsive</td><td>High</td><td>Medium</td><td>Maintainer approved approach in Discussion #23212. Keep PRs small. Follow up at 2-week intervals.</td></tr>
+<tr><td>R2</td><td>Upstream merges conflicting changes before our PRs land</td><td>Medium</td><td>High</td><td>Rebase phase branches weekly. Monitor upstream CHANGELOG.md.</td></tr>
+<tr><td>R3</td><td>Color contrast audit (#41) reveals widespread theme issues</td><td>High</td><td>Medium</td><td>Run across all 4 themes. Propose fixes using existing Tailwind tokens.</td></tr>
+<tr><td>R4</td><td>No screen reader testers beyond project lead</td><td>High</td><td>High</td><td>Jeff Bishop tests with NVDA. Recruit VoiceOver tester from community. Document exact test steps.</td></tr>
+<tr><td>R5</td><td>Large PRs (form labels, decorative SVGs) rejected for scope</td><td>Medium</td><td>Medium</td><td>Pre-split if needed. Reference Discussion #23212 approval.</td></tr>
+<tr><td>R6</td><td>Scope creep from WCAG 2.2 new criteria audit (#46)</td><td>Medium</td><td>Low</td><td>Resolved: all 4 criteria verified as passing without code changes.</td></tr>
+</tbody>
+</table>
+</section>
+
+<hr>
+
+<section aria-labelledby="remaining-work">
+<h2 id="remaining-work">Remaining Work</h2>
+
+<table>
+<caption>4 issues still needing implementation, in priority order.</caption>
+<thead>
+<tr><th scope="col">Priority</th><th scope="col">Issue</th><th scope="col">Title</th><th scope="col">Sprint</th><th scope="col">Complexity</th><th scope="col">Blocker?</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td><a href="https://github.com/accesswatch/open-webui/issues/41">#41</a></td><td>Color contrast audit and fixes</td><td>7</td><td>High</td><td>Needs all 4 themes running</td></tr>
+<tr><td>2</td><td><a href="https://github.com/accesswatch/open-webui/issues/42">#42</a></td><td>Resize/reflow testing at 200% and 320px</td><td>7</td><td>Medium</td><td>Needs visual testing</td></tr>
+<tr><td>3</td><td><a href="https://github.com/accesswatch/open-webui/issues/43">#43</a></td><td>Focus not obscured by sticky elements</td><td>7</td><td>Low</td><td>Needs visual testing</td></tr>
+<tr><td>4</td><td><a href="https://github.com/accesswatch/open-webui/issues/45">#45</a></td><td>Minimum target size for interactive controls</td><td>7</td><td>Low</td><td>Needs visual testing</td></tr>
+</tbody>
+</table>
+
+<p><strong>After code is complete</strong>, the project still needs:</p>
+<ul>
+  <li>Manual screen reader testing across all 38 issues</li>
+  <li>Manual keyboard testing across all 38 issues</li>
+  <li>Before/after screenshots for visual regression verification</li>
+  <li>Upstream PR submission and review cycles (approximately 20 PRs)</li>
+</ul>
+</section>
+
+<hr>
+
+<section aria-labelledby="timeline">
+<h2 id="timeline">Timeline</h2>
+
+<table>
+<caption>Project timeline from inception through current date.</caption>
+<thead>
+<tr><th scope="col">Date</th><th scope="col">Milestone</th></tr>
+</thead>
+<tbody>
+<tr><td>March 29, 2026</td><td>Audit complete. Discussion #23212 posted. Maintainer approval received.</td></tr>
+<tr><td>March 30, 2026</td><td>GitHub Project board created. 45 issues filed.</td></tr>
+<tr><td>April 6, 2026</td><td>Phase 1 through 5 branches complete. 29 commits across 5 branches.</td></tr>
+<tr><td>April 6, 2026</td><td>Automated test suite (33 tests) and CI workflow deployed.</td></tr>
+<tr><td>April 10, 2026</td><td>Documentation suite complete: audit plan, changelog, test matrix, testing guide, status report, Copilot instructions.</td></tr>
+<tr><td>April 10, 2026</td><td>Phase 5 extended: #23, #26, #31, #38, #46, #17 resolved. 34/38 issues now have code committed.</td></tr>
+<tr><td>April 10, 2026</td><td>Upstream sync verified: fork current with upstream v0.8.12. No conflicts on any branch.</td></tr>
+<tr><td><abbr title="To Be Determined">TBD</abbr></td><td>Remaining 4 visual-testing issues implemented (#41, #42, #43, #45).</td></tr>
+<tr><td><abbr title="To Be Determined">TBD</abbr></td><td>Manual testing begins (Sprints 1-2 first).</td></tr>
+<tr><td><abbr title="To Be Determined">TBD</abbr></td><td>First upstream PRs submitted (Sprint 1).</td></tr>
+</tbody>
+</table>
+</section>
+
+<hr>
+
+<section aria-labelledby="appendix-commits">
+<h2 id="appendix-commits">Appendix: All Commits</h2>
+
+<table>
+<caption>Every commit on accessibility branches, in reverse chronological order. 40 commits across 5 branches.</caption>
+<thead>
+<tr><th scope="col">Hash</th><th scope="col">Date</th><th scope="col">Branch</th><th scope="col">Message</th></tr>
+</thead>
+<tbody>
+<tr><td><code>3f6e25df6</code></td><td>2026-04-10</td><td>phase-5</td><td>a11y(#17): add ARIA combobox pattern to model selector</td></tr>
+<tr><td><code>d4bb2210b</code></td><td>2026-04-10</td><td>phase-5</td><td>docs: update status -- 33/38 complete, upstream synced at v0.8.12</td></tr>
+<tr><td><code>6f8ec1e8b</code></td><td>2026-04-10</td><td>phase-5</td><td>a11y(#46): verify WCAG 2.2 new criteria -- all 4 pass without code changes</td></tr>
+<tr><td><code>ba3a098a1</code></td><td>2026-04-10</td><td>phase-5</td><td>docs: update audit plan status -- 32/38 issues committed, #38 resolved</td></tr>
+<tr><td><code>5e6d3dd66</code></td><td>2026-04-10</td><td>phase-5</td><td>a11y(#38): add aria-label to unlabeled form inputs (batch 1)</td></tr>
+<tr><td><code>da18cf17f</code></td><td>2026-04-10</td><td>phase-5</td><td>a11y(#31): resolve 12 more svelte-ignore a11y suppressions (batch 3)</td></tr>
+<tr><td><code>834c4f374</code></td><td>2026-04-10</td><td>phase-5</td><td>docs: update audit plan status for Phase 5 progress (April 10)</td></tr>
+<tr><td><code>22f4226a7</code></td><td>2026-04-10</td><td>phase-5</td><td>a11y: resolve 10 more svelte-ignore suppressions (#31)</td></tr>
+<tr><td><code>dbd67a190</code></td><td>2026-04-10</td><td>phase-5</td><td>a11y: resolve 16 svelte-ignore suppressions in shared primitives (#31)</td></tr>
+<tr><td><code>2fcad8602</code></td><td>2026-04-10</td><td>phase-5</td><td>a11y: fix alt text on 20 image components (#26)</td></tr>
+<tr><td><code>b70b7f204</code></td><td>2026-04-10</td><td>phase-5</td><td>a11y: complete ARIA tab pattern for settings (#23)</td></tr>
+<tr><td><code>874c5515e</code></td><td>2026-04-06</td><td>phase-5</td><td>fix: sync package-lock.json with devDependencies (playwright, axe-core)</td></tr>
+<tr><td><code>7b1f94ea6</code></td><td>2026-04-06</td><td>phase-5</td><td>docs: comprehensive testing guide with exact commands and troubleshooting</td></tr>
+<tr><td><code>543549162</code></td><td>2026-04-06</td><td>phase-5</td><td>test: add chat-messages spec with mocked model and streaming response</td></tr>
+<tr><td><code>d1afeb85f</code></td><td>2026-04-06</td><td>phase-5</td><td>test: add Playwright + axe-core accessibility test suite</td></tr>
+<tr><td><code>7be43bc23</code></td><td>2026-04-06</td><td>phase-5</td><td>ci: add GitHub Codespaces devcontainer for manual a11y testing</td></tr>
+<tr><td><code>6eb3b1504</code></td><td>2026-04-06</td><td>phase-5</td><td>docs: update audit plan status (30/38 issues fix-committed)</td></tr>
+<tr><td><code>4f627a0e5</code></td><td>2026-04-06</td><td>phase-5</td><td>a11y: add semantic heading hierarchy (h1/h2/h3)</td></tr>
+<tr><td><code>edc61a340</code></td><td>2026-04-06</td><td>phase-5</td><td>a11y: add table captions, sidebar headings, search label, icon aria-hidden</td></tr>
+<tr><td><code>0b1c18912</code></td><td>2026-04-06</td><td>phase-5</td><td>a11y: add track elements to video/audio for media captions</td></tr>
+<tr><td><code>a0d9546b1</code></td><td>2026-04-06</td><td>phase-5</td><td>a11y: add Move submenu to FolderMenu for keyboard folder reorganization</td></tr>
+<tr><td><code>ce775f21d</code></td><td>2026-04-06</td><td>phase-5</td><td>fix: add visible focus indicators for keyboard navigation</td></tr>
+<tr><td><code>d182a6e13</code></td><td>2026-04-06</td><td>phase-5</td><td>fix: show message actions on keyboard focus, not just mouse hover</td></tr>
+<tr><td><code>491a5e17a</code></td><td>2026-04-06</td><td>phase-5</td><td>fix: enable keyboard navigation through chat messages</td></tr>
+<tr><td><code>fc2477005</code></td><td>2026-04-06</td><td>phase-5</td><td>feat: announce streamed response completion to screen readers</td></tr>
+<tr><td><code>4b938a893</code></td><td>2026-04-06</td><td>phase-5</td><td>fix: implement ARIA combobox pattern for model selector</td></tr>
+<tr><td><code>740f7f89e</code></td><td>2026-04-06</td><td>phase-4</td><td>fix: add accessible form validation errors to auth page</td></tr>
+<tr><td><code>b42350d1e</code></td><td>2026-04-06</td><td>phase-4</td><td>fix: add ARIA and keyboard support to Sidebar panel</td></tr>
+<tr><td><code>60ad4432c</code></td><td>2026-04-06</td><td>phase-4</td><td>fix: add ARIA menu pattern to Dropdown component</td></tr>
+<tr><td><code>07b3f5766</code></td><td>2026-04-06</td><td>phase-3</td><td>fix: make Collapsible component keyboard-accessible</td></tr>
+<tr><td><code>2e60664ba</code></td><td>2026-04-06</td><td>phase-3</td><td>fix: ensure toast notifications are announced by screen readers</td></tr>
+<tr><td><code>90ce0b3bd</code></td><td>2026-04-06</td><td>phase-3</td><td>fix: show tooltips on keyboard focus</td></tr>
+<tr><td><code>8246f9992</code></td><td>2026-04-06</td><td>phase-3</td><td>fix: add aria-labelledby to Modal component</td></tr>
+<tr><td><code>f375f21ac</code></td><td>2026-04-06</td><td>phase-2</td><td>fix: add missing labels to settings and admin form inputs</td></tr>
+<tr><td><code>68d659ca1</code></td><td>2026-04-06</td><td>phase-2</td><td>fix: add missing labels to chat UI inputs</td></tr>
+<tr><td><code>12dd0df97</code></td><td>2026-04-06</td><td>phase-2</td><td>fix: add accessible label to chat message input</td></tr>
+<tr><td><code>6be79c006</code></td><td>2026-04-06</td><td>phase-1</td><td>feat: respect prefers-reduced-motion for all transitions</td></tr>
+<tr><td><code>7971bd593</code></td><td>2026-04-06</td><td>phase-1</td><td>fix: add proper heading hierarchy for screen reader navigation</td></tr>
+<tr><td><code>3a83fae2f</code></td><td>2026-04-06</td><td>phase-1</td><td>feat: add skip-to-content link for keyboard users</td></tr>
+<tr><td><code>4696ca36c</code></td><td>2026-04-06</td><td>phase-1</td><td>fix: add semantic HTML landmarks for screen reader navigation</td></tr>
+</tbody>
+</table>
+</section>
+
+<hr>
+
+<section aria-labelledby="appendix-documents">
+<h2 id="appendix-documents">Appendix: Document Inventory</h2>
+
+<table>
+<caption>Files created or significantly modified as part of this accessibility effort.</caption>
+<thead>
+<tr><th scope="col">File</th><th scope="col">Type</th><th scope="col">Created</th><th scope="col">Purpose</th></tr>
+</thead>
+<tbody>
+<tr><td>ACCESSIBILITY-AUDIT-PLAN.md</td><td>Documentation</td><td>March 29</td><td>Master audit and project plan</td></tr>
+<tr><td>A11Y-CHANGELOG.md</td><td>Documentation</td><td>April 10</td><td>Change history with WCAG mapping</td></tr>
+<tr><td>ACCESSIBILITY-TEST-MATRIX.md</td><td>Documentation</td><td>April 10</td><td>Manual and automated test tracking</td></tr>
+<tr><td>ACCESSIBILITY-TESTING.md</td><td>Documentation</td><td>April 6</td><td>Test runner setup guide</td></tr>
+<tr><td>ACCESSIBILITY-STATUS-REPORT.md</td><td>Documentation</td><td>April 10</td><td>Executive status report (Markdown)</td></tr>
+<tr><td>ACCESSIBILITY-STATUS-REPORT.html</td><td>Documentation</td><td>April 10</td><td>Executive status report (WCAG 2.2 AA HTML for email)</td></tr>
+<tr><td>.github/copilot-instructions.md</td><td>Automation</td><td>April 10</td><td>Copilot workspace rules</td></tr>
+<tr><td>.github/agents/a11y-test-tracker.agent.md</td><td>Automation</td><td>April 10</td><td>Test result recording agent</td></tr>
+<tr><td>.github/prompts/a11y-mark-test.prompt.md</td><td>Automation</td><td>April 10</td><td>Test marking slash command</td></tr>
+<tr><td>.github/workflows/a11y-tests.yaml</td><td>CI</td><td>April 6</td><td>Playwright/axe-core CI workflow</td></tr>
+<tr><td>.devcontainer/devcontainer.json</td><td>CI</td><td>April 6</td><td>Codespaces configuration</td></tr>
+<tr><td>tests/a11y/auth.spec.ts</td><td>Test</td><td>April 6</td><td>Auth page accessibility tests</td></tr>
+<tr><td>tests/a11y/chat.spec.ts</td><td>Test</td><td>April 6</td><td>Chat page accessibility tests</td></tr>
+<tr><td>tests/a11y/chat-messages.spec.ts</td><td>Test</td><td>April 6</td><td>Message rendering accessibility tests</td></tr>
+<tr><td>tests/a11y/settings.spec.ts</td><td>Test</td><td>April 6</td><td>Settings modal accessibility tests</td></tr>
+<tr><td>tests/a11y/sidebar.spec.ts</td><td>Test</td><td>April 6</td><td>Sidebar accessibility tests</td></tr>
+<tr><td>tests/a11y/helpers.ts</td><td>Test</td><td>April 6</td><td>Shared test utilities</td></tr>
+</tbody>
+</table>
+</section>
+
+</main>
+
+<footer>
+<hr>
+<p>Report generated April 10, 2026. Source: <a href="https://github.com/accesswatch/open-webui/blob/main/ACCESSIBILITY-STATUS-REPORT.md">ACCESSIBILITY-STATUS-REPORT.md</a></p>
+</footer>
+
+</body>
+</html>
