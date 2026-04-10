@@ -62,10 +62,12 @@
 
 <div {id} class={className}>
 	{#if title !== null}
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div
+		<button
+			type="button"
 			class="{buttonClassName} {disabled ? '' : 'cursor-pointer'}"
+			aria-expanded={open}
+			aria-controls="collapsible-{collapsibleId}"
+			{disabled}
 			on:pointerup={() => {
 				if (!disabled) {
 					open = !open;
@@ -126,12 +128,13 @@
 					</div>
 				{/if}
 			</div>
-		</div>
+		</button>
 	{:else}
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<div
+		<button
+			type="button"
 			class="{buttonClassName} cursor-pointer"
+			aria-expanded={open}
+			aria-controls="collapsible-{collapsibleId}"
 			on:click={(e) => {
 				e.stopPropagation();
 			}}
@@ -159,6 +162,7 @@
 				{#if grow}
 					{#if open && !hide}
 						<div
+							id="collapsible-{collapsibleId}"
 							transition:slide={{ duration: 300, easing: quintOut, axis: 'y' }}
 							on:pointerup={(e) => {
 								e.stopPropagation();
@@ -169,12 +173,12 @@
 					{/if}
 				{/if}
 			</div>
-		</div>
+		</button>
 	{/if}
 
 	{#if !grow}
 		{#if open && !hide}
-			<div transition:slide={{ duration: 300, easing: quintOut, axis: 'y' }}>
+			<div id="collapsible-{collapsibleId}" transition:slide={{ duration: 300, easing: quintOut, axis: 'y' }}>
 				<slot name="content" />
 			</div>
 		{/if}
