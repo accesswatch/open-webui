@@ -633,7 +633,6 @@
 											</div>
 										{/if}
 									{:else}
-										<!-- svelte-ignore a11y-no-static-element-interactions -->
 										<div
 											class="max-h-64 overflow-y-auto"
 											id="model-selector-{id}-listbox"

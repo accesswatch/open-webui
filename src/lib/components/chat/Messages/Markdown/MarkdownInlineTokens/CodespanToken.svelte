@@ -9,25 +9,30 @@
 
 	export let token;
 	export let done = true;
+
+	function handleCopy() {
+		copyToClipboard(unescapeHtml(token.text));
+		toast.success($i18n.t('Copied to clipboard'));
+	}
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 {#if done}
 	<code
 		class="codespan cursor-pointer"
-		on:click={() => {
-			copyToClipboard(unescapeHtml(token.text));
-			toast.success($i18n.t('Copied to clipboard'));
-		}}>{unescapeHtml(token.text)}</code
+		role="button"
+		tabindex="0"
+		on:click={handleCopy}
+		on:keydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleCopy(); } }}
+	>{unescapeHtml(token.text)}</code
 	>
 {:else}
 	<code
 		transition:fade={{ duration: 100 }}
 		class="codespan cursor-pointer"
-		on:click={() => {
-			copyToClipboard(unescapeHtml(token.text));
-			toast.success($i18n.t('Copied to clipboard'));
-		}}>{unescapeHtml(token.text)}</code
+		role="button"
+		tabindex="0"
+		on:click={handleCopy}
+		on:keydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleCopy(); } }}
+	>{unescapeHtml(token.text)}</code
 	>
 {/if}

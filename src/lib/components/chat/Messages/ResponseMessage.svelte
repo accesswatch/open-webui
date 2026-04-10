@@ -923,9 +923,10 @@
 											/>/{siblings.length}
 										</div>
 									{:else}
-										<!-- svelte-ignore a11y-no-static-element-interactions -->
 										<div
 											class="text-sm tracking-widest font-semibold self-center dark:text-gray-100 min-w-fit"
+											role="button"
+											tabindex="0"
 											on:dblclick={async () => {
 												messageIndexEdit = true;
 
@@ -934,6 +935,18 @@
 												if (input) {
 													input.focus();
 													input.select();
+												}
+											}}
+											on:keydown={async (e) => {
+												if (e.key === 'Enter') {
+													e.preventDefault();
+													messageIndexEdit = true;
+													await tick();
+													const input = document.getElementById(`message-index-input-${message.id}`);
+													if (input) {
+														input.focus();
+														input.select();
+													}
 												}
 											}}
 										>

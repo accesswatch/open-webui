@@ -121,12 +121,12 @@
 							{port.process ?? ''}
 						</span>
 						<Tooltip content={$i18n.t('Open in new tab')}>
-							<!-- svelte-ignore a11y-click-events-have-key-events -->
 							<span
 								role="button"
-								tabindex="-1"
-								class="text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition shrink-0 p-0.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+								tabindex="0"
+								class="text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 focus:opacity-100 transition shrink-0 p-0.5 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
 								on:click|stopPropagation={() => openPortExternal(port.port)}
+								on:keydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPortExternal(port.port); } }}
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
