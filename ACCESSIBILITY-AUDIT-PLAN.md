@@ -44,25 +44,18 @@ Each sprint has a parent tracking issue with sub-issues linked underneath. All 4
 - **Atomic PRs.** Each sub-issue maps to one PR with one logical change. Maintainers review 20--100 lines, not 500-line refactors.
 - **Upstream-aligned.** The maintainer approved this approach in [Discussion #23212](https://github.com/open-webui/open-webui/discussions/23212): small PRs, handful of files, low triple-digit line changes max.
 
-### Current Status (April 9, 2026)
+### Current Status (April 10, 2026)
 
-**Sprints 1-5: Complete.** All 12 sub-issues have code committed and pushed.
-
-**Sprint 6: 3 of 4 complete.**
-- #20 Convert modal titles to headings -- fix-committed
-- #21 Add heading hierarchy to settings sections -- fix-committed
-- #22 Label settings form inputs -- fix-committed
-- #23 Complete settings tab ARIA pattern -- open (remaining work)
+**Sprints 1-6: Complete.** All 16 sub-issues have code committed and pushed.
 
 **Sprint 7: 15 of 22 complete.**
-- fix-committed: #24, #25, #26, #27, #28, #29, #30, #31, #32, #33, #34, #35, #36, #40, #44, #47
+- fix-committed: #23, #24, #25, #26, #27, #28, #29, #30, #31, #32, #33, #34, #35, #36, #40, #44, #47
 - open: #17 (S4-2 combobox ARIA), #38 (workspace/modal form labels), #41 (color contrast), #42 (resize/reflow), #43 (focus not obscured), #45 (target size), #46 (WCAG 2.2 new criteria)
 
-**Overall: 30 of 38 sub-issues have fix-committed.** 8 remain open:
+**Overall: 31 of 38 sub-issues have fix-committed.** 7 remain open:
 | Issue | Title | Sprint | Notes |
 |---|---|---|---|
 | #17 | Add ARIA combobox pattern to model selector | S4 | Complex ARIA pattern, needs careful implementation |
-| #23 | Complete settings tab ARIA pattern | S6 | Tab panel wiring |
 | #38 | Label workspace and modal form inputs (83 controls) | S7 | Bulk labeling pass |
 | #41 | Run color contrast audit and fix failures | S7 | Needs visual testing |
 | #42 | Verify resize/reflow at 200% zoom and 320px viewport | S7 | Needs visual testing |
@@ -93,7 +86,7 @@ Each sprint has a parent tracking issue with sub-issues linked underneath. All 4
     - [The Problem](#the-problem)
     - [The Plan](#the-plan)
     - [Key Design Decisions](#key-design-decisions)
-    - [Current Status (April 6, 2026)](#current-status-april-6-2026)
+    - [Current Status (April 10, 2026)](#current-status-april-10-2026)
     - [How to Follow Along](#how-to-follow-along)
   - [Table of Contents](#table-of-contents)
   - [Contribution Process Alignment](#contribution-process-alignment)
@@ -299,7 +292,7 @@ Required fields:
 | Metric | Count | Assessment |
 |---|---|---|
 | Total .svelte files | 556 | Large codebase |
-| Svelte a11y-ignore directives | 60 | High -- willful suppression |
+| Svelte a11y-ignore directives | 31 (was 60) | Reduced -- 26 resolved via semantic fixes |
 | `on:click` handlers (Svelte 4) | 922 | Needs keyboard audit |
 | `<button>` elements | 927 | Good usage overall |
 | `<input>` elements | 354 | High form density |
@@ -315,7 +308,7 @@ Required fields:
 | `<table>` elements | 13 | Have headers, missing captions |
 | `<caption>` elements | 0 | Missing for all 13 tables |
 | `<svg>` elements | 395 | CRITICAL: 0 have aria-hidden or aria-label |
-| `<img>` missing alt | 72 | CRITICAL: screen reader noise |
+| `<img>` missing alt | 0 (was 72) | **FIXED**: All images now have meaningful or decorative alt text |
 | `<fieldset>/<legend>` | 0/0 | Missing for radio/checkbox groups |
 | `aria-label` attributes | 256 | Moderate coverage |
 | `aria-live` regions | 3 | CRITICAL for chat app |
@@ -467,9 +460,9 @@ Key interactive patterns missing proper ARIA:
 | Model selector | `combobox` with `listbox` | No ARIA roles, `svelte-ignore` on click |
 | Dropdown menus | `menu` with `menuitem` | Generic `<div>` portaled to body |
 | Sidebar folder tree | `tree` with `treeitem` | Generic `<div>` with click handlers |
-| Collapsible sections | `button` with `aria-expanded` | `<div>` with `on:pointerup` |
-| Settings tabs | `tablist`/`tab`/`tabpanel` | 10 `role="tab"` but needs audit |
-| Confirm dialogs | `alertdialog` | `<div>` overlay |
+| Collapsible sections | `button` with `aria-expanded` | **FIXED**: `<button>` with `aria-expanded` + `aria-controls` |
+| Settings tabs | `tablist`/`tab`/`tabpanel` | **FIXED**: Complete tab pattern with roving tabindex + arrow keys |
+| Confirm dialogs | `alertdialog` | **FIXED**: `role="dialog"` + `aria-modal` + `aria-label` |
 | Toast notifications | `role="alert"` or `role="status"` | Library default (needs verification) |
 
 ### Medium: Motion and Reduced Motion
@@ -499,7 +492,7 @@ Users with vestibular disorders or motion sensitivity have no way to disable the
 - Has `aria-modal="true"` and `role="dialog"` (good)
 - Has Escape key handling (good)
 - Missing: `aria-labelledby` pointing to a dialog title
-- Has 3 `svelte-ignore` directives for the backdrop click handler
+- **FIXED (Phase 5)**: Removed 3 unnecessary `svelte-ignore` directives -- dialog role makes them invalid, Escape via focus-trap is the keyboard equivalent for backdrop dismiss
 
 #### Dropdown.svelte (Needs significant work)
 - Has Escape key handling (good)
@@ -508,28 +501,27 @@ Users with vestibular disorders or motion sensitivity have no way to disable the
 - Missing: `aria-expanded` on trigger
 - Missing: Arrow key navigation within items
 - Missing: `aria-haspopup` on trigger
-- Has 4 `svelte-ignore` directives
+- Has 4 `svelte-ignore` directives (2 justified -- trigger wrapper and content stop-propagation)
 - Click handler on a `<span>` element instead of a `<button>`
 
-#### Collapsible.svelte (Not a button)
-- Uses `<div>` with `on:pointerup` instead of `<button>`
-- Missing: `aria-expanded` state
-- Missing: `aria-controls` pointing to content
-- Has 4 `svelte-ignore` directives
-- Keyboard users cannot toggle collapsible sections
+#### Collapsible.svelte (FIXED - Now a button)
+- **FIXED (Phase 5)**: Converted both `<div>` toggles to `<button>` elements
+- **FIXED**: Added `aria-expanded` state to both toggle buttons
+- **FIXED**: Added `aria-controls` pointing to content region IDs
+- **FIXED**: Removed 4 `svelte-ignore` directives (all resolved)
+- Keyboard users can now toggle with Enter/Space
 
 #### Tooltip.svelte (Partial)
 - Uses tippy.js which has some built-in a11y
 - Missing: keyboard focus trigger (tooltips should show on focus)
-- Has 1 `svelte-ignore` for static element interaction
+- Has 1 `svelte-ignore` for static element interaction (justified -- dynamic element tag)
 - The `<svelte:element>` wrapper may not be focusable
 
-#### Sidebar.svelte (common/Sidebar -- not layout)
+#### Sidebar.svelte (common/Sidebar -- FIXED)
 - Slide-out panel with no ARIA
-- Backdrop has `on:mousedown` only (no keyboard dismiss)
+- **FIXED (Phase 5)**: Backdrop now has `role="presentation"`, 1 `svelte-ignore` removed
 - No focus management on open/close
 - No `aria-label` for the panel
-- Has 1 `svelte-ignore` directive
 
 ---
 
