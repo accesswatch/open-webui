@@ -50,8 +50,9 @@
 
 			<div>
 				<select
-					id="models"
+					id="visibility-select"
 					class="outline-hidden bg-transparent text-sm font-medium block w-fit pr-10 max-w-full placeholder-gray-400"
+					aria-label={$i18n.t('Visibility')}
 					value={state === 'private' ? 'private' : 'public'}
 					on:change={(e) => {
 						if (e.target.value === 'public') {

@@ -60,6 +60,7 @@
 								class="w-full text-3xl font-medium bg-transparent outline-hidden"
 								type="text"
 								bind:value={name}
+								aria-label={$i18n.t('Content title')}
 								placeholder={$i18n.t('Title')}
 								required
 							/>

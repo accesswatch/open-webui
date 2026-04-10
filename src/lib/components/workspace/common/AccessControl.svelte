@@ -490,8 +490,9 @@
 						: ''}
 				>
 					<select
-						id="models"
+						id="access-visibility"
 						class="outline-none bg-transparent text-sm font-medium block w-fit pr-10 max-w-full placeholder-gray-400"
+						aria-label={$i18n.t('Visibility')}
 						value={!hasPublicReadGrant(accessGrants ?? []) ? 'private' : 'public'}
 						on:change={(e) => {
 							setPublic((e.target as HTMLSelectElement).value === 'public');

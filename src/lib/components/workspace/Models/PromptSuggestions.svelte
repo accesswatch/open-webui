@@ -132,6 +132,7 @@
 								<input
 									class="text-sm w-full bg-transparent outline-hidden"
 									placeholder={$i18n.t('Title')}
+									aria-label={$i18n.t('Suggestion title')}
 									bind:value={prompt.title[0]}
 								/>
 							</Tooltip>
@@ -140,6 +141,7 @@
 								<input
 									class="text-sm w-full bg-transparent outline-hidden text-gray-600 dark:text-gray-400"
 									placeholder={$i18n.t('Subtitle')}
+									aria-label={$i18n.t('Suggestion subtitle')}
 									bind:value={prompt.title[1]}
 								/>
 							</Tooltip>
@@ -153,6 +155,7 @@
 							<textarea
 								class="text-sm w-full bg-transparent outline-hidden resize-none"
 								placeholder={$i18n.t('Prompt')}
+								aria-label={$i18n.t('Suggestion prompt')}
 								rows="2"
 								bind:value={prompt.content}
 							/>

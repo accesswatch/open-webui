@@ -23,6 +23,7 @@
 				class="w-full text-sm bg-transparent placeholder:text-gray-300 dark:placeholder:text-gray-700 outline-hidden"
 				type="text"
 				bind:value={name}
+				aria-label={$i18n.t('Group name')}
 				placeholder={$i18n.t('Group Name')}
 				autocomplete="off"
 				required
@@ -60,6 +61,7 @@
 			rows={4}
 			bind:value={description}
 			placeholder={$i18n.t('Group Description')}
+			ariaLabel={$i18n.t('Group description')}
 		/>
 	</div>
 </div>
@@ -78,6 +80,7 @@
 			<div class="flex items-center gap-2 p-1">
 				<select
 					class="text-sm bg-transparent outline-hidden rounded-lg px-2"
+					aria-label={$i18n.t('Who can share to this group')}
 					value={data?.config?.share ?? 'members'}
 					on:change={(e) => {
 						const value = e.target.value;
