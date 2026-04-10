@@ -48,11 +48,11 @@ Each sprint has a parent tracking issue with sub-issues linked underneath. All 4
 
 **Sprints 1-6: Complete.** All 16 sub-issues have code committed and pushed.
 
-**Sprint 7: 18 of 22 complete.**
-- fix-committed: #23, #24, #25, #26, #27, #28, #29, #30, #31, #32, #33, #34, #35, #36, #38, #40, #44, #47
-- open: #41 (color contrast), #42 (resize/reflow), #43 (focus not obscured), #45 (target size), #46 (WCAG 2.2 new criteria)
+**Sprint 7: 19 of 22 complete.**
+- fix-committed: #23, #24, #25, #26, #27, #28, #29, #30, #31, #32, #33, #34, #35, #36, #38, #40, #44, #46, #47
+- open: #41 (color contrast), #42 (resize/reflow), #43 (focus not obscured), #45 (target size)
 
-**Overall: 32 of 38 sub-issues have fix-committed.** 6 remain open:
+**Overall: 33 of 38 sub-issues have fix-committed.** 5 remain open:
 | Issue | Title | Sprint | Notes |
 |---|---|---|---|
 | #17 | Add ARIA combobox pattern to model selector | S4 | Complex ARIA pattern, needs careful implementation |
@@ -60,7 +60,6 @@ Each sprint has a parent tracking issue with sub-issues linked underneath. All 4
 | #42 | Verify resize/reflow at 200% zoom and 320px viewport | S7 | Needs visual testing |
 | #43 | Verify focus not obscured by sticky elements | S7 | Needs visual testing |
 | #45 | Verify minimum target size for interactive controls | S7 | Needs visual testing |
-| #46 | Audit WCAG 2.2 new criteria (3.2.6, 3.3.7, 3.3.8, 1.3.2) | S7 | Manual review needed |
 
 Additionally, svelte-ignore a11y suppressions reduced from 31 to 19 (all remaining are justified).
 
@@ -860,7 +859,7 @@ The following issues were added after a WCAG 2.2 AA gap analysis revealed criter
 18. [**Verify focus not obscured by sticky elements**](https://github.com/accesswatch/open-webui/issues/43) -- sticky navbar, toasts, and floating buttons may cover focused elements (WCAG 2.2 new criterion)
 19. [**Add keyboard alternatives for drag-and-drop**](https://github.com/accesswatch/open-webui/issues/44) -- 44 files use drag-and-drop with no keyboard/button alternative (WCAG 2.2 new criterion)
 20. [**Verify minimum target size for interactive controls**](https://github.com/accesswatch/open-webui/issues/45) -- audit icon buttons and small controls for 24x24px minimum (WCAG 2.2 new criterion)
-21. [**Audit WCAG 2.2 new criteria (3.2.6, 3.3.7, 3.3.8, 1.3.2)**](https://github.com/accesswatch/open-webui/issues/46) -- verify consistent help, redundant entry, accessible authentication, and meaningful sequence
+21. [**Audit WCAG 2.2 new criteria (3.2.6, 3.3.7, 3.3.8, 1.3.2)**](https://github.com/accesswatch/open-webui/issues/46) -- **VERIFIED (April 10, 2026)**: all 4 criteria pass without code changes. 3.2.6: no help mechanism exists to be inconsistent (self-hosted app). 3.3.7: no multi-step forms re-ask info. 3.3.8: no CAPTCHA, no paste blocking, standard email/password + OAuth. 1.3.2: only `flex-col-reverse` for chat scroll-stick; DOM order matches reading order.
 22. [**Add captions to data tables**](https://github.com/accesswatch/open-webui/issues/47) -- 13 tables have headers but 0 `<caption>` elements
 
 ### Additional High-Impact Scenarios
