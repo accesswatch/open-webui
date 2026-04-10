@@ -63,6 +63,8 @@ Each sprint has a parent tracking issue with sub-issues linked underneath. All 4
 
 Additionally, svelte-ignore a11y suppressions reduced from 31 to 19 (all remaining are justified).
 
+**Upstream sync (April 10, 2026):** Fork is current with upstream `v0.8.12` (`9bd84258d`). No merge conflicts. All 9 phase-5 commits pushed to origin.
+
 **Implementation branches:**
 - `a11y/phase-1-semantic-structure` -- merged
 - `a11y/phase-2-labels-and-attributes` -- merged
