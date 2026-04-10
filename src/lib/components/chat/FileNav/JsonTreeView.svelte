@@ -27,14 +27,12 @@
 
 {#if isExpandable}
 	<div class="json-node" class:json-root={root}>
-		<!-- svelte-ignore a11y-click-events-have-key-events -->
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<span class="json-toggle" on:click={toggle}>
+		<button type="button" class="json-toggle" aria-expanded={expanded} on:click={toggle}>
 			<span class="json-arrow" class:json-expanded={expanded}>▶</span>
 			{#if key !== null}<span class="json-key">{key}</span><span class="json-colon">: </span>{/if}
 			{#if !expanded}<span class="json-preview">{bracket[0]} {preview} {bracket[1]}</span>{/if}
 			{#if expanded}<span class="json-bracket">{bracket[0]}</span>{/if}
-		</span>
+		</button>
 		{#if expanded}
 			<div class="json-children">
 				{#each entries as [k, v], i}

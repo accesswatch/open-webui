@@ -259,8 +259,7 @@
 						>
 							{#each Object.keys(groupedMessageIds) as modelIdx}
 								{#if groupedMessageIdsIdx[modelIdx] !== undefined && (groupedMessageIds[modelIdx]?.messageIds ?? []).length > 0}
-									<!-- svelte-ignore a11y-no-static-element-interactions -->
-									<!-- svelte-ignore a11y-click-events-have-key-events -->
+
 
 									{@const _messageId =
 										groupedMessageIds[modelIdx].messageIds[groupedMessageIdsIdx[modelIdx]]}
@@ -329,13 +328,12 @@
 			{:else}
 				{#each Object.keys(groupedMessageIds) as modelIdx}
 					{#if groupedMessageIdsIdx[modelIdx] !== undefined && groupedMessageIds[modelIdx].messageIds.length > 0}
-						<!-- svelte-ignore a11y-no-static-element-interactions -->
-						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						{@const _messageId =
 							groupedMessageIds[modelIdx].messageIds[groupedMessageIdsIdx[modelIdx]]}
 
-						<div
-							class=" snap-center w-full max-w-full m-1 border {history.messages[messageId]
+						<button
+							type="button"
+							class=" snap-center w-full max-w-full m-1 border text-left {history.messages[messageId]
 								?.modelIdx == modelIdx
 								? `bg-gray-50 dark:bg-gray-850 border-gray-100 dark:border-gray-800 border-2 ${
 										$mobile ? 'min-w-full' : 'min-w-80'
@@ -381,7 +379,7 @@
 									/>
 								{/if}
 							{/key}
-						</div>
+						</button>
 					{/if}
 				{/each}
 			{/if}
