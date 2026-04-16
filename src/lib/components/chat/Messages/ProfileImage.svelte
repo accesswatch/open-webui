@@ -17,6 +17,5 @@
 			? src
 			: `${WEBUI_BASE_URL}/user.png`}
 	class=" {className} object-cover rounded-full"
-	alt="profile"
 	draggable="false"
 />
