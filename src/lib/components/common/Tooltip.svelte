@@ -58,6 +58,7 @@
 					placement,
 					allowHTML,
 					touch,
+					trigger: 'mouseenter focus',
 					...(theme !== '' ? { theme } : { theme: 'dark' }),
 					arrow: false,
 					offset,
@@ -76,7 +77,13 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<svelte:element this={as} bind:this={tooltipElement} class={className} on:click={onClick}>
+<svelte:element
+	this={as}
+	bind:this={tooltipElement}
+	class={className}
+	tabindex={as === 'button' ? undefined : 0}
+	on:click={onClick}
+>
 	<slot />
 </svelte:element>
 
