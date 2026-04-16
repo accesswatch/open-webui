@@ -587,7 +587,7 @@
 <Modal size="2xl" bind:show>
 	<div class="text-gray-700 dark:text-gray-100 mx-1">
 		<div class=" flex justify-between dark:text-gray-300 px-4 md:px-4.5 pt-4.5 pb-0.5 md:pb-2.5">
-			<h2 class=" text-lg font-medium self-center">{$i18n.t('Settings')}</h2>
+			<h1 class=" text-lg font-medium self-center m-0">{$i18n.t('Settings')}</h1>
 			<button
 				aria-label={$i18n.t('Close settings modal')}
 				class="self-center"
@@ -602,22 +602,8 @@
 		<div class="flex flex-col md:flex-row w-full pt-1 pb-4">
 			<div
 				role="tablist"
-				aria-label={$i18n.t('Settings')}
 				id="settings-tabs-container"
 				class="tabs flex flex-row overflow-x-auto gap-2.5 mx-3 md:pr-4 md:gap-1 md:flex-col flex-1 md:flex-none md:w-50 md:min-h-[42rem] md:max-h-[42rem] dark:text-gray-200 text-sm text-left mb-1 md:mb-0 -translate-y-1"
-				on:keydown={(e) => {
-					if (!['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
-					e.preventDefault();
-					const tabs = /** @type {HTMLElement[]} */ ([...e.currentTarget.querySelectorAll('[role="tab"]')]);
-					const idx = tabs.indexOf(/** @type {HTMLElement} */ (document.activeElement));
-					if (idx === -1) return;
-					let next;
-					if (e.key === 'ArrowDown' || e.key === 'ArrowRight') next = (idx + 1) % tabs.length;
-					else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') next = (idx - 1 + tabs.length) % tabs.length;
-					else if (e.key === 'Home') next = 0;
-					else if (e.key === 'End') next = tabs.length - 1;
-					tabs[next]?.focus();
-				}}
 			>
 				<div
 					class="hidden md:flex w-full rounded-full px-2.5 gap-2 bg-gray-100/80 dark:bg-gray-850/80 backdrop-blur-2xl my-1 mb-1.5"
@@ -644,10 +630,8 @@
 						{#if tabId === 'general'}
 							<button
 								role="tab"
-								id="settings-tab-general"
 								aria-controls="tab-general"
 								aria-selected={selectedTab === 'general'}
-								tabindex={selectedTab === 'general' ? 0 : -1}
 								class={`px-0.5 md:px-2.5 py-1 min-w-fit rounded-xl flex-1 md:flex-none flex text-left transition
 								${
 									selectedTab === 'general'
@@ -670,10 +654,8 @@
 						{:else if tabId === 'interface'}
 							<button
 								role="tab"
-								id="settings-tab-interface"
 								aria-controls="tab-interface"
 								aria-selected={selectedTab === 'interface'}
-								tabindex={selectedTab === 'interface' ? 0 : -1}
 								class={`px-0.5 md:px-2.5 py-1 min-w-fit rounded-xl flex-1 md:flex-none flex text-left transition
 								${
 									selectedTab === 'interface'
@@ -697,10 +679,8 @@
 							{#if $user?.role === 'admin' || ($user?.role === 'user' && $config?.features?.enable_direct_connections)}
 								<button
 									role="tab"
-									id="settings-tab-connections"
 									aria-controls="tab-connections"
 									aria-selected={selectedTab === 'connections'}
-								tabindex={selectedTab === 'connections' ? 0 : -1}
 									class={`px-0.5 md:px-2.5 py-1 min-w-fit rounded-xl flex-1 md:flex-none flex text-left transition
 								${
 									selectedTab === 'connections'
@@ -725,10 +705,8 @@
 							{#if $user?.role === 'admin' || ($user?.role === 'user' && $user?.permissions?.features?.direct_tool_servers)}
 								<button
 									role="tab"
-									id="settings-tab-tools"
 									aria-controls="tab-tools"
 									aria-selected={selectedTab === 'tools'}
-								tabindex={selectedTab === 'tools' ? 0 : -1}
 									class={`px-0.5 md:px-2.5 py-1 min-w-fit rounded-xl flex-1 md:flex-none flex text-left transition
 								${
 									selectedTab === 'tools'
@@ -752,10 +730,8 @@
 						{:else if tabId === 'personalization'}
 							<button
 								role="tab"
-								id="settings-tab-personalization"
 								aria-controls="tab-personalization"
 								aria-selected={selectedTab === 'personalization'}
-								tabindex={selectedTab === 'personalization' ? 0 : -1}
 								class={`px-0.5 md:px-2.5 py-1 min-w-fit rounded-xl flex-1 md:flex-none flex text-left transition
 								${
 									selectedTab === 'personalization'
@@ -778,10 +754,8 @@
 						{:else if tabId === 'audio'}
 							<button
 								role="tab"
-								id="settings-tab-audio"
 								aria-controls="tab-audio"
 								aria-selected={selectedTab === 'audio'}
-								tabindex={selectedTab === 'audio' ? 0 : -1}
 								class={`px-0.5 md:px-2.5 py-1 min-w-fit rounded-xl flex-1 md:flex-none flex text-left transition
 								${
 									selectedTab === 'audio'
@@ -804,10 +778,8 @@
 						{:else if tabId === 'data_controls'}
 							<button
 								role="tab"
-								id="settings-tab-data_controls"
 								aria-controls="tab-data-controls"
 								aria-selected={selectedTab === 'data_controls'}
-								tabindex={selectedTab === 'data_controls' ? 0 : -1}
 								class={`px-0.5 md:px-2.5 py-1 min-w-fit rounded-xl flex-1 md:flex-none flex text-left transition
 								${
 									selectedTab === 'data_controls'
@@ -830,10 +802,8 @@
 						{:else if tabId === 'account'}
 							<button
 								role="tab"
-								id="settings-tab-account"
 								aria-controls="tab-account"
 								aria-selected={selectedTab === 'account'}
-								tabindex={selectedTab === 'account' ? 0 : -1}
 								class={`px-0.5 md:px-2.5 py-1 min-w-fit rounded-xl flex-1 md:flex-none flex text-left transition
 								${
 									selectedTab === 'account'
@@ -856,10 +826,8 @@
 						{:else if tabId === 'about'}
 							<button
 								role="tab"
-								id="settings-tab-about"
 								aria-controls="tab-about"
 								aria-selected={selectedTab === 'about'}
-								tabindex={selectedTab === 'about' ? 0 : -1}
 								class={`px-0.5 md:px-2.5 py-1 min-w-fit rounded-xl flex-1 md:flex-none flex text-left transition
 								${
 									selectedTab === 'about'
@@ -906,12 +874,7 @@
 					</a>
 				{/if}
 			</div>
-			<div
-				role="tabpanel"
-				id="tab-{selectedTab}"
-				aria-labelledby="settings-tab-{selectedTab}"
-				class="flex-1 px-3.5 md:pl-0 md:pr-4.5 md:min-h-[42rem] max-h-[42rem]"
-			>
+			<div class="flex-1 px-3.5 md:pl-0 md:pr-4.5 md:min-h-[42rem] max-h-[42rem]">
 				{#if selectedTab === 'general'}
 					<General
 						{getModels}

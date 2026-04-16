@@ -197,7 +197,7 @@
 <div class="flex flex-col h-full justify-between text-sm" id="tab-general">
 	<div class="  overflow-y-scroll max-h-[28rem] md:max-h-full">
 		<div class="">
-			<h3 class=" mb-1 text-sm font-medium">{$i18n.t('WebUI Settings')}</h3>
+			<h2 class=" mb-1 text-sm font-medium">{$i18n.t('WebUI Settings')}</h2>
 
 			<div class="flex w-full justify-between">
 				<div class=" self-center text-xs font-medium">{$i18n.t('Theme')}</div>
@@ -206,8 +206,7 @@
 						class="w-fit pr-8 rounded-sm py-2 px-2 text-xs bg-transparent text-right {$settings.highContrastMode
 							? ''
 							: 'outline-hidden'}"
-						bind:value={selectedTheme}
-						placeholder={$i18n.t('Select a theme')}
+						bind:value={selectedTheme}					aria-label={$i18n.t('Theme')}						placeholder={$i18n.t('Select a theme')}
 						on:change={() => themeChangeHandler(selectedTheme)}
 					>
 						<option value="system">⚙️ {$i18n.t('System')}</option>
@@ -228,8 +227,7 @@
 						class="w-fit pr-8 rounded-sm py-2 px-2 text-xs bg-transparent text-right {$settings.highContrastMode
 							? ''
 							: 'outline-hidden'}"
-						bind:value={lang}
-						placeholder={$i18n.t('Select a language')}
+						bind:value={lang}					aria-label={$i18n.t('Language')}						placeholder={$i18n.t('Select a language')}
 						on:change={(e) => {
 							changeLanguage(lang);
 						}}
@@ -286,9 +284,10 @@
 			<hr class="border-gray-100/30 dark:border-gray-850/30 my-3" />
 
 			<div>
-				<h3 class=" my-2.5 text-sm font-medium">{$i18n.t('System Prompt')}</h3>
+				<div class=" my-2.5 text-sm font-medium">{$i18n.t('System Prompt')}</div>
 				<Textarea
 					bind:value={system}
+					aria-label={$i18n.t('System Prompt')}
 					className={'w-full text-sm outline-hidden resize-vertical' +
 						($settings.highContrastMode
 							? ' p-2.5 border-2 border-gray-300 dark:border-gray-700 rounded-lg bg-transparent text-gray-900 dark:text-gray-100 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 overflow-y-hidden'

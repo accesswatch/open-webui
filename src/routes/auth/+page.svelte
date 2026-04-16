@@ -41,6 +41,7 @@
 	let email = '';
 	let password = '';
 	let confirmPassword = '';
+	let passwordMismatch = false;
 
 	let ldapUsername = '';
 
@@ -82,10 +83,12 @@
 	const signUpHandler = async () => {
 		if ($config?.features?.enable_signup_password_confirmation) {
 			if (password !== confirmPassword) {
+				passwordMismatch = true;
 				toast.error($i18n.t('Passwords do not match.'));
 				return;
 			}
 		}
+		passwordMismatch = false;
 
 		const sessionUser = await userSignUp(name, email, password, generateInitialsImage(name)).catch(
 			(error) => {
@@ -257,17 +260,18 @@
 								}}
 							>
 								<div class="mb-1">
-											<h1 class=" text-2xl font-medium">
-												{#if $config?.onboarding ?? false}
-													{$i18n.t(`Get started with {{WEBUI_NAME}}`, { WEBUI_NAME: $WEBUI_NAME })}
-												{:else if mode === 'ldap'}
-													{$i18n.t(`Sign in to {{WEBUI_NAME}} with LDAP`, { WEBUI_NAME: $WEBUI_NAME })}
-												{:else if mode === 'signin'}
-													{$i18n.t(`Sign in to {{WEBUI_NAME}}`, { WEBUI_NAME: $WEBUI_NAME })}
-												{:else}
-													{$i18n.t(`Sign up to {{WEBUI_NAME}}`, { WEBUI_NAME: $WEBUI_NAME })}
-												{/if}
-											</h1>
+									<h1 class=" text-2xl font-medium m-0">
+										{#if $config?.onboarding ?? false}
+											{$i18n.t(`Get started with {{WEBUI_NAME}}`, { WEBUI_NAME: $WEBUI_NAME })}
+										{:else if mode === 'ldap'}
+											{$i18n.t(`Sign in to {{WEBUI_NAME}} with LDAP`, { WEBUI_NAME: $WEBUI_NAME })}
+										{:else if mode === 'signin'}
+											{$i18n.t(`Sign in to {{WEBUI_NAME}}`, { WEBUI_NAME: $WEBUI_NAME })}
+										{:else}
+											{$i18n.t(`Sign up to {{WEBUI_NAME}}`, { WEBUI_NAME: $WEBUI_NAME })}
+										{/if}
+									</h1>
+
 									{#if $config?.onboarding ?? false}
 										<div class="mt-1 text-xs font-medium text-gray-600 dark:text-gray-500">
 											ⓘ {$WEBUI_NAME}
@@ -365,7 +369,14 @@
 													autocomplete="new-password"
 													name="confirm-password"
 													required
+													aria-invalid={passwordMismatch}
+													aria-describedby={passwordMismatch ? 'password-error' : undefined}
 												/>
+												{#if passwordMismatch}
+													<p id="password-error" class="text-red-500 text-xs mt-1" role="alert">
+														{$i18n.t('Passwords do not match.')}
+													</p>
+												{/if}
 											</div>
 										{/if}
 									</div>

@@ -66,9 +66,9 @@
 			type="button"
 			class="{buttonClassName} {disabled ? '' : 'cursor-pointer'}"
 			aria-expanded={open}
-			aria-controls="collapsible-{collapsibleId}"
+			aria-controls={collapsibleId}
 			{disabled}
-			on:pointerup={() => {
+			on:click={() => {
 				if (!disabled) {
 					open = !open;
 				}
@@ -134,11 +134,9 @@
 			type="button"
 			class="{buttonClassName} cursor-pointer"
 			aria-expanded={open}
-			aria-controls="collapsible-{collapsibleId}"
+			aria-controls={collapsibleId}
 			on:click={(e) => {
 				e.stopPropagation();
-			}}
-			on:pointerup={(e) => {
 				if (!disabled) {
 					open = !open;
 				}
@@ -162,7 +160,7 @@
 				{#if grow}
 					{#if open && !hide}
 						<div
-							id="collapsible-{collapsibleId}"
+							id={collapsibleId}
 							transition:slide={{ duration: 300, easing: quintOut, axis: 'y' }}
 							on:pointerup={(e) => {
 								e.stopPropagation();
@@ -178,7 +176,7 @@
 
 	{#if !grow}
 		{#if open && !hide}
-			<div id="collapsible-{collapsibleId}" transition:slide={{ duration: 300, easing: quintOut, axis: 'y' }}>
+			<div id={collapsibleId} transition:slide={{ duration: 300, easing: quintOut, axis: 'y' }}>
 				<slot name="content" />
 			</div>
 		{/if}
