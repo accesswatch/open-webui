@@ -221,6 +221,7 @@
 		use:portal
 		bind:this={contentEl}
 		role="menu"
+		tabindex="-1"
 		class={contentClass}
 		transition:flyAndScale
 		on:click|stopPropagation

@@ -165,6 +165,7 @@
 					<button
 						class="p-1 self-start"
 						type="button"
+						aria-label={$i18n.t('Remove prompt suggestion')}
 						on:click={() => {
 							promptSuggestions.splice(promptIdx, 1);
 							promptSuggestions = promptSuggestions;

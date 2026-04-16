@@ -419,6 +419,23 @@
 		document.documentElement.style.setProperty('--sidebar-width', `${newSidebarWidth}px`);
 	};
 
+	const resizeKeyboardHandler = (e: KeyboardEvent) => {
+		if ($mobile) return;
+		const step = e.shiftKey ? 50 : 10;
+		let delta = 0;
+		if (e.key === 'ArrowLeft') delta = -step;
+		else if (e.key === 'ArrowRight') delta = step;
+		else if (e.key === 'Home') delta = MIN_WIDTH - ($sidebarWidth ?? 260);
+		else if (e.key === 'End') delta = MAX_WIDTH - ($sidebarWidth ?? 260);
+		else return;
+		e.preventDefault();
+		const current = $sidebarWidth ?? 260;
+		const next = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, current + delta));
+		sidebarWidth.set(next);
+		document.documentElement.style.setProperty('--sidebar-width', `${next}px`);
+		localStorage.setItem('sidebarWidth', String(next));
+	};
+
 	onMount(() => {
 		try {
 			const width = Number(localStorage.getItem('sidebarWidth'));
@@ -672,6 +689,7 @@
 <button
 	id="sidebar-new-chat-button"
 	class="hidden"
+	aria-label={$i18n.t('New chat')}
 	on:click={() => {
 		goto('/');
 		newChatHandler();
@@ -1451,7 +1469,14 @@
 			class="relative flex items-center justify-center group border-l border-gray-50 dark:border-gray-850/30 hover:border-gray-200 dark:hover:border-gray-800 transition z-20"
 			id="sidebar-resizer"
 			on:mousedown={resizeStartHandler}
-			role="separator"
+			on:keydown={resizeKeyboardHandler}
+			role="slider"
+			aria-orientation="vertical"
+			aria-label={$i18n.t('Resize sidebar')}
+			aria-valuemin={MIN_WIDTH}
+			aria-valuemax={MAX_WIDTH}
+			aria-valuenow={$sidebarWidth ?? 260}
+			tabindex="0"
 		>
 			<div
 				class=" absolute -left-1.5 -right-1.5 -top-0 -bottom-0 z-20 cursor-col-resize bg-transparent"

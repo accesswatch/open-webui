@@ -458,6 +458,7 @@
 											deletePipelineHandler();
 										}}
 										type="button"
+										aria-label={$i18n.t('Delete pipeline')}
 									>
 										<svg
 											xmlns="http://www.w3.org/2000/svg"

@@ -17,22 +17,22 @@
 </script>
 
 {#if done}
-	<code
-		class="codespan cursor-pointer"
-		role="button"
-		tabindex="0"
+	<button
+		type="button"
+		class="codespan-button cursor-pointer inline p-0 bg-transparent border-0 font-mono text-inherit align-baseline"
+		aria-label={$i18n.t('Copy code')}
 		on:click={handleCopy}
-		on:keydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleCopy(); } }}
-	>{unescapeHtml(token.text)}</code
 	>
+		<code class="codespan">{unescapeHtml(token.text)}</code>
+	</button>
 {:else}
-	<code
+	<button
+		type="button"
 		transition:fade={{ duration: 100 }}
-		class="codespan cursor-pointer"
-		role="button"
-		tabindex="0"
+		class="codespan-button cursor-pointer inline p-0 bg-transparent border-0 font-mono text-inherit align-baseline"
+		aria-label={$i18n.t('Copy code')}
 		on:click={handleCopy}
-		on:keydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleCopy(); } }}
-	>{unescapeHtml(token.text)}</code
 	>
+		<code class="codespan">{unescapeHtml(token.text)}</code>
+	</button>
 {/if}

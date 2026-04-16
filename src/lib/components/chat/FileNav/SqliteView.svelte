@@ -257,6 +257,7 @@
 				>
 					<button
 						class="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30"
+						aria-label={$i18n.t('Previous page')}
 						disabled={page === 0}
 						on:click={() => {
 							page--;
@@ -279,6 +280,7 @@
 					<span>{page + 1} / {totalPages} ({totalRows.toLocaleString()} rows)</span>
 					<button
 						class="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30"
+						aria-label={$i18n.t('Next page')}
 						disabled={page >= totalPages - 1}
 						on:click={() => {
 							page++;

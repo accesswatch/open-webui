@@ -161,6 +161,7 @@
 					{#if open && !hide}
 						<div
 							id={collapsibleId}
+							role="presentation"
 							transition:slide={{ duration: 300, easing: quintOut, axis: 'y' }}
 							on:pointerup={(e) => {
 								e.stopPropagation();

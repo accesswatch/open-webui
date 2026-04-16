@@ -614,6 +614,7 @@
 									<div class="flex items-center justify-center gap-3 pb-3 text-sm text-gray-500">
 										<button
 											class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30"
+											aria-label={$i18n.t('Previous slide')}
 											disabled={pptxCurrentSlide === 0}
 											on:click={() => (pptxCurrentSlide = Math.max(0, pptxCurrentSlide - 1))}
 										>
@@ -633,6 +634,7 @@
 										<span>{pptxCurrentSlide + 1} / {pptxSlides.length}</span>
 										<button
 											class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-30"
+											aria-label={$i18n.t('Next slide')}
 											disabled={pptxCurrentSlide === pptxSlides.length - 1}
 											on:click={() =>
 												(pptxCurrentSlide = Math.min(pptxSlides.length - 1, pptxCurrentSlide + 1))}

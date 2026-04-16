@@ -56,6 +56,7 @@
 		bind:this={modalElement}
 		role="dialog"
 		aria-modal="true"
+		tabindex="-1"
 		class="modal fixed right-0 bottom-0 left-0 z-999 flex h-screen max-h-[100dvh] w-full justify-center overflow-hidden overscroll-contain bg-black/60"
 		in:fly={{ y: 100, duration: 100 }}
 		on:mousedown={() => {
@@ -64,6 +65,7 @@
 	>
 		<div
 			class=" mt-auto w-full bg-gray-50 dark:bg-gray-900 dark:text-gray-100 {className} scrollbar-hidden max-h-[100dvh] overflow-y-auto"
+			role="presentation"
 			on:mousedown={(e) => {
 				e.stopPropagation();
 			}}

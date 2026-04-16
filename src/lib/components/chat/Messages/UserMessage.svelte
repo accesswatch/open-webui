@@ -479,6 +479,7 @@
 
 								<button
 									class="self-center p-1 hover:bg-black/5 dark:hover:bg-white/5 dark:hover:text-white hover:text-black rounded-md transition"
+									aria-label={$i18n.t('Next message')}
 									on:click={() => {
 										showNextMessage(message);
 									}}
@@ -507,6 +508,7 @@
 								class="{($settings?.highContrastMode ?? false)
 									? ''
 									: 'invisible group-hover:visible focus-within:visible'} p-1.5 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg dark:hover:text-white hover:text-black transition edit-user-message-button"
+								aria-label={$i18n.t('Edit')}
 								on:click={() => {
 									editMessageHandler();
 								}}
@@ -535,6 +537,7 @@
 								class="{($settings?.highContrastMode ?? false)
 									? ''
 									: 'invisible group-hover:visible focus-within:visible'} p-1.5 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg dark:hover:text-white hover:text-black transition"
+								aria-label={$i18n.t('Copy')}
 								on:click={() => {
 									copyToClipboard(message.content);
 								}}
@@ -564,6 +567,7 @@
 									class="{($settings?.highContrastMode ?? false)
 										? ''
 										: 'invisible group-hover:visible focus-within:visible'} p-1 rounded-sm dark:hover:text-white hover:text-black transition"
+									aria-label={$i18n.t('Delete')}
 									on:click={() => {
 										showDeleteConfirm = true;
 									}}
@@ -591,8 +595,7 @@
 						{#if siblings.length > 1}
 							<div class="flex self-center" dir="ltr">
 								<button
-									class="self-center p-1 hover:bg-black/5 dark:hover:bg-white/5 dark:hover:text-white hover:text-black rounded-md transition"
-									on:click={() => {
+									class="self-center p-1 hover:bg-black/5 dark:hover:bg-white/5 dark:hover:text-white hover:text-black rounded-md transition"								aria-label={$i18n.t('Previous message')}									on:click={() => {
 										showPreviousMessage(message);
 									}}
 								>
@@ -673,6 +676,7 @@
 
 								<button
 									class="self-center p-1 hover:bg-black/5 dark:hover:bg-white/5 dark:hover:text-white hover:text-black rounded-md transition"
+									aria-label={$i18n.t('Next message')}
 									on:click={() => {
 										showNextMessage(message);
 									}}

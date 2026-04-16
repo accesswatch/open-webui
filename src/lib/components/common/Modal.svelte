@@ -103,6 +103,7 @@
 		bind:this={modalElement}
 		aria-modal="true"
 		role="dialog"
+		tabindex="-1"
 		aria-labelledby={labelId || undefined}
 		class="modal fixed top-0 right-0 left-0 bottom-0 bg-black/30 dark:bg-black/60 w-full h-screen max-h-[100dvh] {containerClassName}  flex justify-center z-9999 overflow-y-auto overscroll-contain"
 		style="scrollbar-gutter: stable;"
@@ -116,6 +117,7 @@
 				? 'mx-2'
 				: ''} shadow-3xl min-h-fit scrollbar-hidden {className} border border-white dark:border-gray-850"
 			in:flyAndScale
+			role="presentation"
 			on:mousedown={(e) => {
 				e.stopPropagation();
 			}}

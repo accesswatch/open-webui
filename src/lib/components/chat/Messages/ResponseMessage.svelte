@@ -1295,6 +1295,7 @@
 											<button
 												type="button"
 												class="hidden regenerate-response-button"
+												aria-label={$i18n.t('Regenerate response')}
 												on:click={() => {
 													showRateComment = false;
 													regenerateResponse(message);

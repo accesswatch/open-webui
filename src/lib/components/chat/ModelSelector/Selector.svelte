@@ -419,6 +419,7 @@
 			false)
 				? 'dark:placeholder-gray-100 placeholder-gray-800'
 				: 'placeholder-gray-400'}"
+			role="presentation"
 			on:mouseenter={async () => {
 				models.set(
 					await getModels(
@@ -453,7 +454,6 @@
 						<div
 							{...props}
 							role="presentation"
-							aria-orientation={undefined}
 							class="{props.class} z-40 {$mobile
 								? `w-full`
 								: `${className}`} max-w-[calc(100vw-1rem)] justify-start rounded-2xl bg-white dark:bg-gray-850 dark:text-white shadow-lg outline-hidden"
