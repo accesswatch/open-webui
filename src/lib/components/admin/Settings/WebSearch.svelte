@@ -156,6 +156,7 @@
 						</div>
 						<div class="flex items-center relative">
 							<select
+								aria-label={$i18n.t('Web Search Engine')}
 								class="w-fit pr-8 rounded-sm px-2 p-1 text-xs bg-transparent outline-hidden text-right"
 								bind:value={webConfig.WEB_SEARCH_ENGINE}
 								placeholder={$i18n.t('Select a engine')}
@@ -201,6 +202,7 @@
 									<div class="flex w-full">
 										<div class="flex-1">
 											<input
+												aria-label={$i18n.t('Perplexity Search API URL')}
 												class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 												type="text"
 												placeholder={$i18n.t('Enter Perplexity Search API URL')}
@@ -238,6 +240,7 @@
 									<div class="flex w-full">
 										<div class="flex-1">
 											<input
+												aria-label={$i18n.t('Searxng Query URL')}
 												class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 												type="text"
 												placeholder={$i18n.t('Enter Searxng Query URL')}
@@ -256,6 +259,7 @@
 									<div class="flex w-full">
 										<div class="flex-1">
 											<input
+												aria-label={$i18n.t('Searxng search language (all, en, es, de, fr, etc.)')}
 												class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 												type="text"
 												placeholder={$i18n.t('Enter Searxng search language')}
@@ -277,6 +281,7 @@
 									<div class="flex w-full">
 										<div class="flex-1">
 											<input
+												aria-label={$i18n.t('Yacy Instance URL')}
 												class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 												type="text"
 												placeholder={$i18n.t('Enter Yacy URL (e.g. http://yacy.example.com:8090)')}
@@ -295,6 +300,7 @@
 										</div>
 
 										<input
+											aria-label={$i18n.t('Yacy Username')}
 											class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 											placeholder={$i18n.t('Enter Yacy Username')}
 											bind:value={webConfig.YACY_USERNAME}
@@ -334,6 +340,7 @@
 									<div class="flex w-full">
 										<div class="flex-1">
 											<input
+												aria-label={$i18n.t('Google PSE Engine Id')}
 												class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 												type="text"
 												placeholder={$i18n.t('Enter Google PSE Engine Id')}
@@ -468,6 +475,7 @@
 									<div class="flex w-full">
 										<div class="flex-1">
 											<input
+												aria-label={$i18n.t('SearchApi Engine')}
 												class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 												type="text"
 												placeholder={$i18n.t('Enter SearchApi Engine')}
@@ -498,6 +506,7 @@
 									<div class="flex w-full">
 										<div class="flex-1">
 											<input
+												aria-label={$i18n.t('SerpApi Engine')}
 												class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 												type="text"
 												placeholder={$i18n.t('Enter SerpApi Engine')}
@@ -518,6 +527,7 @@
 									<div class="flex w-full">
 										<div class="flex-1">
 											<input
+												aria-label={$i18n.t('Jina API Base URL')}
 												class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 												type="text"
 												placeholder={$i18n.t('Enter Jina API Base URL')}
@@ -549,6 +559,7 @@
 									<div class="flex w-full">
 										<div class="flex-1">
 											<input
+												aria-label={$i18n.t('Bing Search V7 Endpoint')}
 												class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 												type="text"
 												placeholder={$i18n.t('Enter Bing Search V7 Endpoint')}
@@ -603,6 +614,7 @@
 										{$i18n.t('Perplexity Model')}
 									</div>
 									<input
+										aria-label={$i18n.t('Perplexity Model')}
 										list="perplexity-model-list"
 										class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 										bind:value={webConfig.PERPLEXITY_MODEL}
@@ -624,6 +636,7 @@
 										{$i18n.t('Perplexity Search Context Usage')}
 									</div>
 									<select
+										aria-label={$i18n.t('Perplexity Search Context Usage')}
 										class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 										bind:value={webConfig.PERPLEXITY_SEARCH_CONTEXT_USAGE}
 									>
@@ -668,6 +681,7 @@
 									<div class="flex w-full">
 										<div class="flex-1">
 											<input
+												aria-label={$i18n.t('Firecrawl API Base URL')}
 												class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 												type="text"
 												placeholder={$i18n.t('Enter Firecrawl API Base URL')}
@@ -697,6 +711,7 @@
 									<div class="flex w-full">
 										<div class="flex-1">
 											<input
+												aria-label={$i18n.t('Firecrawl Timeout (s)')}
 												class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 												type="number"
 												placeholder={$i18n.t('Enter Firecrawl Timeout')}
@@ -717,6 +732,7 @@
 									<div class="flex w-full">
 										<div class="flex-1">
 											<input
+												aria-label={$i18n.t('External Web Search URL')}
 												class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 												type="text"
 												placeholder={$i18n.t('Enter External Web Search URL')}
@@ -748,6 +764,7 @@
 									<div class="flex w-full">
 										<div class="flex-1">
 											<input
+												aria-label={$i18n.t('Yandex Web Search URL')}
 												class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 												type="text"
 												placeholder={$i18n.t('Enter Yandex Web Search URL')}
@@ -779,6 +796,7 @@
 										placement="top-start"
 									>
 										<Textarea
+											aria-label={$i18n.t('Yandex Web Search config')}
 											bind:value={webConfig.YANDEX_WEB_SEARCH_CONFIG}
 											placeholder={$i18n.t(
 												'Leave empty to use the default config, or enter a valid json (see https://yandex.cloud/en/docs/search-api/api-ref/WebSearch/search#yandex.cloud.searchapi.v2.WebSearchRequest)'
@@ -812,6 +830,7 @@
 									<div class="flex w-full">
 										<div class="flex-1">
 											<select
+												aria-label={$i18n.t('DDGS Backend')}
 												class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 												bind:value={webConfig.DDGS_BACKEND}
 											>
@@ -842,6 +861,7 @@
 									</div>
 
 									<input
+										aria-label={$i18n.t('Search Result Count')}
 										class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 										placeholder={$i18n.t('Search Result Count')}
 										bind:value={webConfig.WEB_SEARCH_RESULT_COUNT}
@@ -862,6 +882,7 @@
 									</div>
 
 									<input
+										aria-label={$i18n.t('Concurrent Requests')}
 										class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 										placeholder={$i18n.t('Concurrent Requests')}
 										bind:value={webConfig.WEB_SEARCH_CONCURRENT_REQUESTS}
@@ -885,6 +906,7 @@
 							</div>
 
 							<input
+								aria-label={$i18n.t('Fetch URL Content Length Limit')}
 								class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 								placeholder={$i18n.t('No limit')}
 								bind:value={webConfig.WEB_FETCH_MAX_CONTENT_LENGTH}
@@ -899,6 +921,7 @@
 							</div>
 
 							<input
+								aria-label={$i18n.t('Domain Filter List')}
 								class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 								placeholder={$i18n.t(
 									'Enter domains separated by commas (e.g., example.com,site.org,!excludedsite.com)'
@@ -971,6 +994,7 @@
 						</div>
 						<div class="flex items-center relative">
 							<select
+								aria-label={$i18n.t('Web Loader Engine')}
 								class="w-fit pr-8 rounded-sm px-2 p-1 text-xs bg-transparent outline-hidden text-right"
 								bind:value={webConfig.WEB_LOADER_ENGINE}
 								placeholder={$i18n.t('Select a engine')}
@@ -990,6 +1014,7 @@
 							</div>
 							<div class="flex items-center relative">
 								<input
+									aria-label={$i18n.t('Timeout')}
 									class="flex-1 w-full text-sm bg-transparent outline-hidden"
 									placeholder={$i18n.t('Timeout')}
 									bind:value={webConfig.WEB_LOADER_TIMEOUT}
@@ -1015,6 +1040,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('Playwright WebSocket URL')}
 											class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 											type="text"
 											placeholder={$i18n.t('Enter Playwright WebSocket URL')}
@@ -1033,6 +1059,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('Playwright Timeout (ms)')}
 											class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 											placeholder={$i18n.t('Enter Playwright Timeout')}
 											bind:value={webConfig.PLAYWRIGHT_TIMEOUT}
@@ -1052,6 +1079,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('Firecrawl API Base URL')}
 											class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 											type="text"
 											placeholder={$i18n.t('Enter Firecrawl API Base URL')}
@@ -1083,6 +1111,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('Tavily Extract Depth')}
 											class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 											type="text"
 											placeholder={$i18n.t('Enter Tavily Extract Depth')}
@@ -1116,6 +1145,7 @@
 								<div class="flex w-full">
 									<div class="flex-1">
 										<input
+											aria-label={$i18n.t('External Web Loader URL')}
 											class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 											type="text"
 											placeholder={$i18n.t('Enter External Web Loader URL')}
@@ -1145,6 +1175,7 @@
 						</div>
 
 						<input
+							aria-label={$i18n.t('Concurrent Requests')}
 							class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 							placeholder={$i18n.t('Concurrent Requests')}
 							bind:value={webConfig.WEB_LOADER_CONCURRENT_REQUESTS}
@@ -1158,6 +1189,7 @@
 						</div>
 						<div class="flex items-center relative">
 							<input
+								aria-label={$i18n.t('Youtube Language')}
 								class="flex-1 w-full rounded-lg text-sm bg-transparent outline-hidden"
 								type="text"
 								placeholder={$i18n.t('Enter language codes')}
@@ -1173,6 +1205,7 @@
 						</div>
 						<div class="flex items-center relative">
 							<input
+								aria-label={$i18n.t('Youtube Proxy URL')}
 								class="flex-1 w-full rounded-lg text-sm bg-transparent outline-hidden"
 								type="text"
 								placeholder={$i18n.t('Enter proxy URL (e.g. https://user:password@host:port)')}

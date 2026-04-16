@@ -234,6 +234,7 @@
 					<div class="flex gap-2">
 						<div class="flex-1">
 							<select
+								aria-label={$i18n.t('Manage Pipelines')}
 								class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 								bind:value={selectedPipelinesUrlIdx}
 								placeholder={$i18n.t('Select a pipeline url')}
@@ -263,6 +264,7 @@
 					<div class="flex w-full">
 						<div class="flex-1 mr-2">
 							<input
+								aria-label={$i18n.t('Upload Pipeline')}
 								id="pipelines-upload-input"
 								bind:files={pipelineFiles}
 								type="file"
@@ -348,6 +350,7 @@
 					<div class="flex w-full">
 						<div class="flex-1 mr-2">
 							<input
+								aria-label={$i18n.t('Install from Github URL')}
 								class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 								placeholder={$i18n.t('Enter Github Raw URL')}
 								bind:value={pipelineDownloadUrl}
@@ -432,6 +435,7 @@
 								<div class="flex gap-2">
 									<div class="flex-1">
 										<select
+											aria-label={$i18n.t('Pipelines Valves')}
 											class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 											bind:value={selectedPipelineIdx}
 											placeholder={$i18n.t('Select a pipeline')}
@@ -502,6 +506,7 @@
 														<div class=" flex-1">
 															{#if valves_spec.properties[property]?.enum ?? null}
 																<select
+																	aria-label={$i18n.t('Custom')}
 																	class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 																	bind:value={valves[property]}
 																>
@@ -523,6 +528,7 @@
 																</div>
 															{:else}
 																<input
+																	aria-label={$i18n.t('Custom')}
 																	class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 																	type="text"
 																	placeholder={valves_spec.properties[property].title}

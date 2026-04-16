@@ -124,6 +124,7 @@
 					<div class="flex-1">
 						<div class=" text-xs mb-1">{$i18n.t('Local Task Model')}</div>
 						<select
+							aria-label={$i18n.t('Local Task Model')}
 							class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 							bind:value={taskConfig.TASK_MODEL}
 							placeholder={$i18n.t('Select a model')}
@@ -167,6 +168,7 @@
 					<div class="flex-1">
 						<div class=" text-xs mb-1">{$i18n.t('External Task Model')}</div>
 						<select
+							aria-label={$i18n.t('External Task Model')}
 							class="w-full rounded-lg py-2 px-4 text-sm bg-gray-50 dark:text-gray-300 dark:bg-gray-850 outline-hidden"
 							bind:value={taskConfig.TASK_MODEL_EXTERNAL}
 							placeholder={$i18n.t('Select a model')}
@@ -225,6 +227,7 @@
 							placement="top-start"
 						>
 							<Textarea
+								aria-label={$i18n.t('Title Generation Prompt')}
 								bind:value={taskConfig.TITLE_GENERATION_PROMPT_TEMPLATE}
 								placeholder={$i18n.t(
 									'Leave empty to use the default prompt, or enter a custom prompt'
@@ -260,6 +263,7 @@
 							placement="top-start"
 						>
 							<Textarea
+								aria-label={$i18n.t('Voice Mode Prompt')}
 								bind:value={taskConfig.VOICE_MODE_PROMPT_TEMPLATE}
 								placeholder={$i18n.t(
 									'Leave empty to use the default prompt, or enter a custom prompt'
@@ -286,6 +290,7 @@
 							placement="top-start"
 						>
 							<Textarea
+								aria-label={$i18n.t('Follow Up Generation Prompt')}
 								bind:value={taskConfig.FOLLOW_UP_GENERATION_PROMPT_TEMPLATE}
 								placeholder={$i18n.t(
 									'Leave empty to use the default prompt, or enter a custom prompt'
@@ -312,6 +317,7 @@
 							placement="top-start"
 						>
 							<Textarea
+								aria-label={$i18n.t('Tags Generation Prompt')}
 								bind:value={taskConfig.TAGS_GENERATION_PROMPT_TEMPLATE}
 								placeholder={$i18n.t(
 									'Leave empty to use the default prompt, or enter a custom prompt'
@@ -345,6 +351,7 @@
 						placement="top-start"
 					>
 						<Textarea
+							aria-label={$i18n.t('Query Generation Prompt')}
 							bind:value={taskConfig.QUERY_GENERATION_PROMPT_TEMPLATE}
 							placeholder={$i18n.t(
 								'Leave empty to use the default prompt, or enter a custom prompt'
@@ -374,6 +381,7 @@
 							placement="top-start"
 						>
 							<input
+								aria-label={$i18n.t('Autocomplete Generation Input Max Length')}
 								class="w-full outline-hidden bg-transparent"
 								bind:value={taskConfig.AUTOCOMPLETE_GENERATION_INPUT_MAX_LENGTH}
 								placeholder={$i18n.t('-1 for no limit, or a positive integer for a specific limit')}
@@ -390,6 +398,7 @@
 						placement="top-start"
 					>
 						<Textarea
+							aria-label={$i18n.t('Image Prompt Generation Prompt')}
 							bind:value={taskConfig.IMAGE_PROMPT_GENERATION_PROMPT_TEMPLATE}
 							placeholder={$i18n.t(
 								'Leave empty to use the default prompt, or enter a custom prompt'
@@ -406,6 +415,7 @@
 						placement="top-start"
 					>
 						<Textarea
+							aria-label={$i18n.t('Tools Function Calling Prompt')}
 							bind:value={taskConfig.TOOLS_FUNCTION_CALLING_PROMPT_TEMPLATE}
 							placeholder={$i18n.t(
 								'Leave empty to use the default prompt, or enter a custom prompt'

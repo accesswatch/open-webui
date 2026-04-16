@@ -425,6 +425,7 @@
 										<input
 											id="message-index-input-{message.id}"
 											type="number"
+											aria-label={$i18n.t('Message version number')}
 											value={siblings.indexOf(message.id) + 1}
 											min="1"
 											max={siblings.length}
@@ -605,6 +606,7 @@
 										<input
 											id="message-index-input-{message.id}"
 											type="number"
+											aria-label={$i18n.t('Message version number')}
 											value={siblings.indexOf(message.id) + 1}
 											min="1"
 											max={siblings.length}
