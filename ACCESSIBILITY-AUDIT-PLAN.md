@@ -234,6 +234,17 @@ Each sprint has a parent tracking issue with sub-issues linked underneath. All 4
 ## Table of Contents
 
 - [Open WebUI Accessibility Audit and Remediation Plan](#open-webui-accessibility-audit-and-remediation-plan)
+  - [Start Here (Contributor Onboarding)](#start-here-contributor-onboarding)
+  - [Progress Dashboard](#progress-dashboard)
+    - [At a Glance](#at-a-glance)
+    - [Sprint Completion Status](#sprint-completion-status)
+    - [Implementation Branches](#implementation-branches)
+  - [Upstream PR Tracking](#upstream-pr-tracking)
+  - [Risk and Blocker Register](#risk-and-blocker-register)
+    - [Active Risks](#active-risks)
+    - [Active Blockers](#active-blockers)
+    - [Resolved Risks](#resolved-risks)
+  - [Definition of Done](#definition-of-done)
   - [Leadership Summary](#leadership-summary)
     - [The Problem](#the-problem)
     - [The Plan](#the-plan)
