@@ -278,7 +278,7 @@
 		<div class=" pb-2">
 			<div class="flex items-start justify-between">
 				<div>
-					<div class=" font-medium text-lg dark:text-gray-100">
+					<h2 class=" font-medium text-lg dark:text-gray-100">
 						<a
 							href="#"
 							class="hover:underline line-clamp-1"
@@ -297,7 +297,7 @@
 						>
 							{item?.name ?? 'File'}
 						</a>
-					</div>
+					</h2>
 				</div>
 
 				<div>
@@ -528,7 +528,9 @@
 							class="w-full border-0 rounded-lg mb-2"
 							controls
 							playsinline
-						/>
+						>
+							<track kind="captions" />
+						</audio>
 					{:else if isPDF}
 						<PDFViewer
 							url={`${WEBUI_API_BASE_URL}/files/${item.id}/content`}

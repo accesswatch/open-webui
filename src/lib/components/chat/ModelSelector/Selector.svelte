@@ -408,6 +408,7 @@
 		class="relative w-full {($settings?.highContrastMode ?? false)
 			? ''
 			: 'outline-hidden focus:outline-hidden'}"
+		aria-haspopup="listbox"
 		aria-label={selectedModel
 			? $i18n.t('Selected model: {{modelName}}', { modelName: selectedModel.label })
 			: placeholder}
@@ -451,6 +452,8 @@
 					<div {...wrapperProps}>
 						<div
 							{...props}
+							role="presentation"
+							aria-orientation={undefined}
 							class="{props.class} z-40 {$mobile
 								? `w-full`
 								: `${className}`} max-w-[calc(100vw-1rem)] justify-start rounded-2xl bg-white dark:bg-gray-850 dark:text-white shadow-lg outline-hidden"
@@ -467,21 +470,42 @@
 											class="w-full text-sm bg-transparent outline-hidden"
 											placeholder={searchPlaceholder}
 											autocomplete="off"
+											role="combobox"
+											aria-autocomplete="list"
+											aria-expanded={show}
+											aria-controls="model-selector-{id}-listbox"
+											aria-activedescendant={selectedModelIdx >= 0 && filteredItems.length > 0
+												? `model-option-${id}-${selectedModelIdx}`
+												: undefined}
 											aria-label={$i18n.t('Search In Models')}
 											on:keydown={(e) => {
 												if (e.code === 'Enter' && filteredItems.length > 0) {
 													value = filteredItems[selectedModelIdx].value;
 													show = false;
 													return; // dont need to scroll on selection
+												} else if (e.code === 'Escape') {
+													e.preventDefault();
+													e.stopPropagation();
+													show = false;
+													document.getElementById(`model-selector-${id}-button`)?.focus();
+													return;
 												} else if (e.code === 'ArrowDown') {
+													e.preventDefault();
 													e.stopPropagation();
 													selectedModelIdx = Math.min(
 														selectedModelIdx + 1,
 														filteredItems.length - 1
 													);
 												} else if (e.code === 'ArrowUp') {
+													e.preventDefault();
 													e.stopPropagation();
 													selectedModelIdx = Math.max(selectedModelIdx - 1, 0);
+												} else if (e.code === 'Home') {
+													e.preventDefault();
+													selectedModelIdx = 0;
+												} else if (e.code === 'End') {
+													e.preventDefault();
+													selectedModelIdx = Math.max(filteredItems.length - 1, 0);
 												} else {
 													// if the user types something, reset to the top selection.
 													selectedModelIdx = 0;
@@ -626,9 +650,9 @@
 											</div>
 										{/if}
 									{:else}
-										<!-- svelte-ignore a11y-no-static-element-interactions -->
 										<div
 											class="max-h-64 overflow-y-auto"
+											id="model-selector-{id}-listbox"
 											role="listbox"
 											aria-label={$i18n.t('Available models')}
 											bind:this={listContainer}
@@ -644,6 +668,7 @@
 													{item}
 													{index}
 													{value}
+													optionId="model-option-{id}-{index}"
 													{pinModelHandler}
 													{unloadModelHandler}
 													onClick={() => {

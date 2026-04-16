@@ -213,14 +213,34 @@ Each sprint has a parent tracking issue with sub-issues linked underneath. All 4
 - **Atomic PRs.** Each sub-issue maps to one PR with one logical change. Maintainers review 20--100 lines, not 500-line refactors.
 - **Upstream-aligned.** The maintainer approved this approach in [Discussion #23212](https://github.com/open-webui/open-webui/discussions/23212): small PRs, handful of files, low triple-digit line changes max.
 
-### Current Status (April 6, 2026)
+### Current Status (April 10, 2026)
 
-- Audit complete, plan documented
-- 45 GitHub issues created with sub-issue hierarchy (28 original + 10 gap-analysis additions)
-- Project board live with sprint tracking
-- Maintainer approval received
-- Gap analysis complete -- all WCAG 2.2 AA criteria now tracked
-- Ready to begin Sprint 1 implementation
+**Sprints 1-6: Complete.** All 16 sub-issues have code committed and pushed.
+
+**Sprint 7: 19 of 22 complete.**
+- fix-committed: #23, #24, #25, #26, #27, #28, #29, #30, #31, #32, #33, #34, #35, #36, #38, #40, #44, #46, #47
+- open: #41 (color contrast), #42 (resize/reflow), #43 (focus not obscured), #45 (target size)
+
+**Sprint 4: Complete.** #17 (combobox ARIA) resolved April 10 -- overrode bits-ui DropdownMenu role conflict, added Home/End/Escape keys.
+
+**Overall: 34 of 38 sub-issues have fix-committed.** 4 remain open:
+| Issue | Title | Sprint | Notes |
+|---|---|---|---|
+| #41 | Run color contrast audit and fix failures | S7 | Needs visual testing |
+| #42 | Verify resize/reflow at 200% zoom and 320px viewport | S7 | Needs visual testing |
+| #43 | Verify focus not obscured by sticky elements | S7 | Needs visual testing |
+| #45 | Verify minimum target size for interactive controls | S7 | Needs visual testing |
+
+Additionally, svelte-ignore a11y suppressions reduced from 31 to 19 (all remaining are justified).
+
+**Upstream sync (April 10, 2026):** Fork is current with upstream `v0.8.12` (`9bd84258d`). No merge conflicts. All 9 phase-5 commits pushed to origin.
+
+**Implementation branches:**
+- `a11y/phase-1-semantic-structure` -- merged
+- `a11y/phase-2-labels-and-attributes` -- merged
+- `a11y/phase-3-component-fixes` -- merged
+- `a11y/phase-4-behavioral-changes` -- merged
+- `a11y/phase-5-interactive-patterns` -- active (current work)
 
 ### How to Follow Along
 
@@ -249,7 +269,7 @@ Each sprint has a parent tracking issue with sub-issues linked underneath. All 4
     - [The Problem](#the-problem)
     - [The Plan](#the-plan)
     - [Key Design Decisions](#key-design-decisions)
-    - [Current Status (April 6, 2026)](#current-status-april-6-2026)
+    - [Current Status (April 10, 2026)](#current-status-april-10-2026)
     - [How to Follow Along](#how-to-follow-along)
   - [Table of Contents](#table-of-contents)
   - [Contribution Process Alignment](#contribution-process-alignment)
@@ -455,7 +475,7 @@ Required fields:
 | Metric | Count | Assessment |
 |---|---|---|
 | Total .svelte files | 556 | Large codebase |
-| Svelte a11y-ignore directives | 60 | High -- willful suppression |
+| Svelte a11y-ignore directives | 31 (was 60) | Reduced -- 26 resolved via semantic fixes |
 | `on:click` handlers (Svelte 4) | 922 | Needs keyboard audit |
 | `<button>` elements | 927 | Good usage overall |
 | `<input>` elements | 354 | High form density |
@@ -471,7 +491,7 @@ Required fields:
 | `<table>` elements | 13 | Have headers, missing captions |
 | `<caption>` elements | 0 | Missing for all 13 tables |
 | `<svg>` elements | 395 | CRITICAL: 0 have aria-hidden or aria-label |
-| `<img>` missing alt | 72 | CRITICAL: screen reader noise |
+| `<img>` missing alt | 0 (was 72) | **FIXED**: All images now have meaningful or decorative alt text |
 | `<fieldset>/<legend>` | 0/0 | Missing for radio/checkbox groups |
 | `aria-label` attributes | 256 | Moderate coverage |
 | `aria-live` regions | 3 | CRITICAL for chat app |
@@ -483,7 +503,7 @@ Required fields:
 | `role="dialog"` | 1 | Low vs. actual modal count |
 | `role="alert"` | 0 | CRITICAL: No alert role |
 | `role="menu"` | 0 | CRITICAL: Menus unlabeled |
-| `role="combobox"` | 0 | CRITICAL: Model selector |
+| `role="combobox"` | 1 | Resolved: Model selector (Selector.svelte) |
 | Skip links | 0 | CRITICAL: Missing |
 | `sr-only` (screen reader text) | 13 | Low |
 | `prefers-reduced-motion` | 0 | Missing |
@@ -623,9 +643,9 @@ Key interactive patterns missing proper ARIA:
 | Model selector | `combobox` with `listbox` | No ARIA roles, `svelte-ignore` on click |
 | Dropdown menus | `menu` with `menuitem` | Generic `<div>` portaled to body |
 | Sidebar folder tree | `tree` with `treeitem` | Generic `<div>` with click handlers |
-| Collapsible sections | `button` with `aria-expanded` | `<div>` with `on:pointerup` |
-| Settings tabs | `tablist`/`tab`/`tabpanel` | 10 `role="tab"` but needs audit |
-| Confirm dialogs | `alertdialog` | `<div>` overlay |
+| Collapsible sections | `button` with `aria-expanded` | **FIXED**: `<button>` with `aria-expanded` + `aria-controls` |
+| Settings tabs | `tablist`/`tab`/`tabpanel` | **FIXED**: Complete tab pattern with roving tabindex + arrow keys |
+| Confirm dialogs | `alertdialog` | **FIXED**: `role="dialog"` + `aria-modal` + `aria-label` |
 | Toast notifications | `role="alert"` or `role="status"` | Library default (needs verification) |
 
 ### Medium: Motion and Reduced Motion
@@ -655,7 +675,7 @@ Users with vestibular disorders or motion sensitivity have no way to disable the
 - Has `aria-modal="true"` and `role="dialog"` (good)
 - Has Escape key handling (good)
 - Missing: `aria-labelledby` pointing to a dialog title
-- Has 3 `svelte-ignore` directives for the backdrop click handler
+- **FIXED (Phase 5)**: Removed 3 unnecessary `svelte-ignore` directives -- dialog role makes them invalid, Escape via focus-trap is the keyboard equivalent for backdrop dismiss
 
 #### Dropdown.svelte (Needs significant work)
 - Has Escape key handling (good)
@@ -664,28 +684,27 @@ Users with vestibular disorders or motion sensitivity have no way to disable the
 - Missing: `aria-expanded` on trigger
 - Missing: Arrow key navigation within items
 - Missing: `aria-haspopup` on trigger
-- Has 4 `svelte-ignore` directives
+- Has 4 `svelte-ignore` directives (2 justified -- trigger wrapper and content stop-propagation)
 - Click handler on a `<span>` element instead of a `<button>`
 
-#### Collapsible.svelte (Not a button)
-- Uses `<div>` with `on:pointerup` instead of `<button>`
-- Missing: `aria-expanded` state
-- Missing: `aria-controls` pointing to content
-- Has 4 `svelte-ignore` directives
-- Keyboard users cannot toggle collapsible sections
+#### Collapsible.svelte (FIXED - Now a button)
+- **FIXED (Phase 5)**: Converted both `<div>` toggles to `<button>` elements
+- **FIXED**: Added `aria-expanded` state to both toggle buttons
+- **FIXED**: Added `aria-controls` pointing to content region IDs
+- **FIXED**: Removed 4 `svelte-ignore` directives (all resolved)
+- Keyboard users can now toggle with Enter/Space
 
 #### Tooltip.svelte (Partial)
 - Uses tippy.js which has some built-in a11y
 - Missing: keyboard focus trigger (tooltips should show on focus)
-- Has 1 `svelte-ignore` for static element interaction
+- Has 1 `svelte-ignore` for static element interaction (justified -- dynamic element tag)
 - The `<svelte:element>` wrapper may not be focusable
 
-#### Sidebar.svelte (common/Sidebar -- not layout)
+#### Sidebar.svelte (common/Sidebar -- FIXED)
 - Slide-out panel with no ARIA
-- Backdrop has `on:mousedown` only (no keyboard dismiss)
+- **FIXED (Phase 5)**: Backdrop now has `role="presentation"`, 1 `svelte-ignore` removed
 - No focus management on open/close
 - No `aria-label` for the panel
-- Has 1 `svelte-ignore` directive
 
 ---
 
@@ -905,8 +924,14 @@ This approach ensures maintainers can merge heading PRs with confidence -- they 
 **Changes**:
 - Add `role="combobox"`, `aria-expanded`, `aria-activedescendant`, `aria-autocomplete`
 - Label the search input within the selector
-**WCAG**: 4.1.2
+- Override bits-ui DropdownMenu `role="menu"` with `role="presentation"` on content wrapper
+- Override `aria-haspopup="menu"` to `aria-haspopup="listbox"` on trigger
+- Add Home/End key support (jump to first/last option)
+- Add explicit Escape key to close listbox and return focus to trigger
+- Add `e.preventDefault()` on ArrowDown/ArrowUp to prevent default scrolling
+**WCAG**: 4.1.2, 2.1.1
 **Risk**: Medium -- full combobox ARIA is complex
+**Status**: **Fix-committed (April 10, 2026)**
 
 **After Sprint 4**: A user can search, arrow through, and select a model entirely by keyboard.
 
@@ -1005,7 +1030,7 @@ Remaining items from the original phases that do not block any specific journey 
 5. [**Dropdown ARIA**](https://github.com/accesswatch/open-webui/issues/28) -- full menu pattern (Phase 4, PR 4.1)
 6. [**Modal `aria-labelledby`**](https://github.com/accesswatch/open-webui/issues/29) -- point to the new `<h1>` in each modal (Phase 3, PR 3.1)
 7. [**Tooltip focus behavior**](https://github.com/accesswatch/open-webui/issues/30) -- show on keyboard focus (Phase 3, PR 3.2)
-8. [**Resolve svelte-ignore a11y suppressions**](https://github.com/accesswatch/open-webui/issues/31) -- audit and fix 60 suppressed accessibility warnings across the codebase (48 removed, 12 retained with justification)
+8. [**Resolve svelte-ignore a11y suppressions**](https://github.com/accesswatch/open-webui/issues/31) -- audit and fix 57 suppressed accessibility warnings across 37 files (reduced from 60 to 19; remaining 19 are justified)
 9. [**Form validation errors**](https://github.com/accesswatch/open-webui/issues/32) -- `aria-invalid`, error announcements (Phase 4, PR 4.3)
 10. [**Focus-visible indicators**](https://github.com/accesswatch/open-webui/issues/33) -- replace 44 `outline-none` instances with `focus-visible` focus rings
 11. [**Sidebar panel focus management**](https://github.com/accesswatch/open-webui/issues/34) -- Escape key, focus return (Phase 4, PR 4.2)
@@ -1016,14 +1041,14 @@ Remaining items from the original phases that do not block any specific journey 
 The following issues were added after a WCAG 2.2 AA gap analysis revealed criteria not covered by the original 28 sub-issues:
 
 13. [**Label admin panel form inputs (221 controls)**](https://github.com/accesswatch/open-webui/issues/36) -- 221 inputs/selects/textareas across 29 admin files with no programmatic labels
-14. [**Label workspace and modal form inputs (83 controls)**](https://github.com/accesswatch/open-webui/issues/38) -- 83 controls in workspace editors, standalone modals, and common components
+14. [**Label workspace and modal form inputs (83 controls)**](https://github.com/accesswatch/open-webui/issues/38) -- 83 controls in workspace editors, standalone modals, and common components (batch 1 complete: 25 inputs labeled across 17 files)
 15. [**Add aria-hidden to decorative SVG icons (395 SVGs)**](https://github.com/accesswatch/open-webui/issues/40) -- 395 `<svg>` elements with zero ARIA treatment; decorative icons need `aria-hidden="true"`
 16. [**Run color contrast audit and fix failures**](https://github.com/accesswatch/open-webui/issues/41) -- no contrast audit has been performed; covers all themes (dark, light, rosepine, rosepine-dawn)
 17. [**Verify resize/reflow at 200% zoom and 320px viewport**](https://github.com/accesswatch/open-webui/issues/42) -- verify content reflows without horizontal scrolling; test text spacing overrides
 18. [**Verify focus not obscured by sticky elements**](https://github.com/accesswatch/open-webui/issues/43) -- sticky navbar, toasts, and floating buttons may cover focused elements (WCAG 2.2 new criterion)
 19. [**Add keyboard alternatives for drag-and-drop**](https://github.com/accesswatch/open-webui/issues/44) -- 44 files use drag-and-drop with no keyboard/button alternative (WCAG 2.2 new criterion)
 20. [**Verify minimum target size for interactive controls**](https://github.com/accesswatch/open-webui/issues/45) -- audit icon buttons and small controls for 24x24px minimum (WCAG 2.2 new criterion)
-21. [**Audit WCAG 2.2 new criteria (3.2.6, 3.3.7, 3.3.8, 1.3.2)**](https://github.com/accesswatch/open-webui/issues/46) -- verify consistent help, redundant entry, accessible authentication, and meaningful sequence
+21. [**Audit WCAG 2.2 new criteria (3.2.6, 3.3.7, 3.3.8, 1.3.2)**](https://github.com/accesswatch/open-webui/issues/46) -- **VERIFIED (April 10, 2026)**: all 4 criteria pass without code changes. 3.2.6: no help mechanism exists to be inconsistent (self-hosted app). 3.3.7: no multi-step forms re-ask info. 3.3.8: no CAPTCHA, no paste blocking, standard email/password + OAuth. 1.3.2: only `flex-col-reverse` for chat scroll-stick; DOM order matches reading order.
 22. [**Add captions to data tables**](https://github.com/accesswatch/open-webui/issues/47) -- 13 tables have headers but 0 `<caption>` elements
 
 ### Additional High-Impact Scenarios

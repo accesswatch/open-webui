@@ -184,6 +184,7 @@
 					class=" w-full text-sm text-start text-gray-500 dark:text-gray-400 max-w-full rounded-xl"
 					dir="auto"
 				>
+					<caption class="sr-only">{$i18n.t('Data Table')}</caption>
 					<thead
 						class="text-xs text-gray-700 uppercase bg-white dark:bg-gray-900 dark:text-gray-400 border-none"
 					>
@@ -238,7 +239,7 @@
 				</table>
 			</div>
 
-			<div class=" absolute top-1 right-1.5 z-20 invisible group-hover:visible flex gap-0.5">
+			<div class=" absolute top-1 right-1.5 z-20 invisible group-hover:visible focus-within:visible flex gap-0.5">
 				<Tooltip content={$i18n.t('Copy')}>
 					<button
 						class="p-1 rounded-lg bg-transparent transition"

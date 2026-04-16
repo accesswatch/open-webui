@@ -62,9 +62,9 @@
 	{#if model}
 		<div class="flex justify-between dark:text-gray-300 px-5 pt-4 pb-2">
 			<Tooltip content={`${model.name} (${model.id})`} placement="top-start">
-				<div class="text-lg font-medium self-center line-clamp-1">
+				<h2 class="text-lg font-medium self-center line-clamp-1">
 					{model.name}
-				</div>
+				</h2>
 			</Tooltip>
 			<button class="self-center" on:click={close} aria-label="Close">
 				<XMark className={'size-5'} />

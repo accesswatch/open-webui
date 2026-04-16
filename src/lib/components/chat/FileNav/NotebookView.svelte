@@ -289,12 +289,12 @@
 						}}
 					></textarea>
 				{:else}
-					<!-- svelte-ignore a11y-click-events-have-key-events -->
 					<div
 						class="nb-markdown prose dark:prose-invert max-w-full text-sm cursor-text"
 						role="textbox"
 						tabindex="0"
 						on:dblclick={() => startEditing(i)}
+						on:keydown={(e) => { if (e.key === 'Enter') { e.preventDefault(); startEditing(i); } }}
 					>
 						{@html renderMarkdown(toStr(cell.source))}
 					</div>
@@ -347,12 +347,12 @@
 								on:cancel={() => cancelEditing(i)}
 							/>
 						{:else}
-							<!-- svelte-ignore a11y-click-events-have-key-events -->
 							<div
 								class="nb-code-source-clickable"
 								role="textbox"
 								tabindex="0"
 								on:dblclick={() => startEditing(i)}
+								on:keydown={(e) => { if (e.key === 'Enter') { e.preventDefault(); startEditing(i); } }}
 							>
 								{#if highlightedCells[i]}
 									<div class="nb-code-source shiki-preview">

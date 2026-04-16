@@ -806,7 +806,7 @@
 				</div>
 
 				<div>
-					<div class=" mb-2 text-sm font-medium">{$i18n.t('Delete a model')}</div>
+					<h3 class=" mb-2 text-sm font-medium">{$i18n.t('Delete a model')}</h3>
 					<div class="flex w-full">
 						<div
 							class="flex-1 mr-2 pr-1.5 rounded-lg bg-gray-50 dark:text-gray-300 dark:bg-gray-850"
@@ -851,7 +851,7 @@
 				</div>
 
 				<div>
-					<div class=" mb-2 text-sm font-medium">{$i18n.t('Create a model')}</div>
+					<h3 class=" mb-2 text-sm font-medium">{$i18n.t('Create a model')}</h3>
 					<div class="flex w-full">
 						<div class="flex-1 mr-2 flex flex-col gap-2">
 							<input

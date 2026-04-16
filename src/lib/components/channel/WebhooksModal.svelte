@@ -101,10 +101,10 @@
 		<div>
 			<div class="flex justify-between dark:text-gray-100 px-5 pt-4 mb-1.5">
 				<div class="flex w-full justify-between items-center mr-3">
-					<div class="self-center text-base flex gap-1.5 items-center">
+					<h2 class="self-center text-base flex gap-1.5 items-center">
 						<div>{$i18n.t('Webhooks')}</div>
 						<span class="text-sm text-gray-500">{webhooks.length}</span>
-					</div>
+					</h2>
 
 					<button
 						type="button"

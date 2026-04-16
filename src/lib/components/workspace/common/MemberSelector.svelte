@@ -188,6 +188,7 @@
 						class=" w-full text-sm pr-4 py-1 rounded-r-xl outline-hidden bg-transparent"
 						bind:value={query}
 						placeholder={$i18n.t('Search')}
+						aria-label={$i18n.t('Search members')}
 					/>
 				</div>
 			</div>
@@ -266,7 +267,7 @@
 														<img
 															class="rounded-2xl w-6 h-6 object-cover flex-shrink-0"
 															src={`${WEBUI_API_BASE_URL}/users/${user.id}/profile/image`}
-															alt="user"
+															alt=""
 														/>
 													</ProfilePreview>
 													<Tooltip content={user.email} placement="top-start">

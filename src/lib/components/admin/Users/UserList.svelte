@@ -231,6 +231,7 @@
 
 	<div class="scrollbar-hidden relative whitespace-nowrap overflow-x-auto max-w-full">
 		<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 table-auto max-w-full">
+			<caption class="sr-only">{$i18n.t('User List')}</caption>
 			<thead class="text-xs text-gray-800 uppercase bg-transparent dark:text-gray-200">
 				<tr class=" border-b-[1.5px] border-gray-50 dark:border-gray-850/30">
 					<th
@@ -377,7 +378,7 @@
 									<img
 										class="rounded-full w-6 min-w-6 h-6 object-cover mr-0.5 flex-shrink-0"
 										src={`${WEBUI_API_BASE_URL}/users/${user.id}/profile/image`}
-										alt="user"
+										alt=""
 										on:error={(e) => {
 											e.currentTarget.src = '/favicon.png';
 										}}

@@ -648,10 +648,9 @@
 	}}
 />
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-
 {#if $showSidebar}
 	<div
+		role="presentation"
 		class=" {$isApp
 			? ' ml-[4.5rem] md:ml-0'
 			: ''} fixed md:hidden z-40 top-0 right-0 left-0 bottom-0 bg-black/60 w-full min-h-screen h-screen flex justify-center overflow-hidden overscroll-contain"
@@ -1318,7 +1317,7 @@
 							{#if $chats}
 								{#each $chats as chat, idx (`chat-${chat?.id ?? idx}`)}
 									{#if idx === 0 || (idx > 0 && chat.time_range !== $chats[idx - 1].time_range)}
-										<div
+										<h3
 											class="w-full pl-2.5 text-xs text-gray-500 dark:text-gray-500 font-medium {idx ===
 											0
 												? ''
@@ -1343,7 +1342,7 @@
 							{$i18n.t('November')}
 							{$i18n.t('December')}
 							-->
-										</div>
+										</h3>
 									{/if}
 
 									<ChatItem

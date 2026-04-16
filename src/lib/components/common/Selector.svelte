@@ -55,6 +55,7 @@
 						bind:value={searchValue}
 						class="w-full text-sm bg-transparent outline-hidden"
 						placeholder={searchPlaceholder}
+						aria-label={searchPlaceholder}
 						on:click|stopPropagation
 					/>
 				</div>

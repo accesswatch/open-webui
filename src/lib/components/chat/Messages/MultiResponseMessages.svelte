@@ -259,8 +259,7 @@
 						>
 							{#each Object.keys(groupedMessageIds) as modelIdx}
 								{#if groupedMessageIdsIdx[modelIdx] !== undefined && (groupedMessageIds[modelIdx]?.messageIds ?? []).length > 0}
-									<!-- svelte-ignore a11y-no-static-element-interactions -->
-									<!-- svelte-ignore a11y-click-events-have-key-events -->
+
 
 									{@const _messageId =
 										groupedMessageIds[modelIdx].messageIds[groupedMessageIdsIdx[modelIdx]]}
@@ -329,13 +328,12 @@
 			{:else}
 				{#each Object.keys(groupedMessageIds) as modelIdx}
 					{#if groupedMessageIdsIdx[modelIdx] !== undefined && groupedMessageIds[modelIdx].messageIds.length > 0}
-						<!-- svelte-ignore a11y-no-static-element-interactions -->
-						<!-- svelte-ignore a11y-click-events-have-key-events -->
 						{@const _messageId =
 							groupedMessageIds[modelIdx].messageIds[groupedMessageIdsIdx[modelIdx]]}
 
-						<div
-							class=" snap-center w-full max-w-full m-1 border {history.messages[messageId]
+						<button
+							type="button"
+							class=" snap-center w-full max-w-full m-1 border text-left {history.messages[messageId]
 								?.modelIdx == modelIdx
 								? `bg-gray-50 dark:bg-gray-850 border-gray-100 dark:border-gray-800 border-2 ${
 										$mobile ? 'min-w-full' : 'min-w-80'
@@ -381,7 +379,7 @@
 									/>
 								{/if}
 							{/key}
-						</div>
+						</button>
 					{/if}
 				{/each}
 			{/if}
@@ -404,7 +402,7 @@
 
 									{#if message.timestamp}
 										<span
-											class=" self-center invisible group-hover:visible text-gray-400 text-xs font-medium uppercase ml-0.5 -mt-0.5"
+											class=" self-center invisible group-hover:visible focus-within:visible text-gray-400 text-xs font-medium uppercase ml-0.5 -mt-0.5"
 										>
 											{dayjs(message.timestamp * 1000).format('LT')}
 										</span>
@@ -430,7 +428,7 @@
 									id="merge-response-button"
 									class="{true
 										? 'visible'
-										: 'invisible group-hover:visible'} p-1 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg dark:hover:text-white hover:text-black transition"
+										: 'invisible group-hover:visible focus-within:visible'} p-1 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg dark:hover:text-white hover:text-black transition"
 									on:click={() => {
 										mergeResponsesHandler();
 									}}

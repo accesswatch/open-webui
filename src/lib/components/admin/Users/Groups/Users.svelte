@@ -107,6 +107,7 @@
 				class=" w-full text-sm pr-4 rounded-r-xl outline-hidden bg-transparent"
 				bind:value={query}
 				placeholder={$i18n.t('Search')}
+				aria-label={$i18n.t('Search users in group')}
 			/>
 		</div>
 	</div>
@@ -121,6 +122,7 @@
 				<table
 					class="w-full text-sm text-left text-gray-500 dark:text-gray-400 table-auto max-w-full"
 				>
+					<caption class="sr-only">{$i18n.t('Group Members')}</caption>
 					<thead class="text-xs text-gray-800 uppercase bg-transparent dark:text-gray-200">
 						<tr class=" border-b-[1.5px] border-gray-50/50 dark:border-gray-800/10">
 							<th
@@ -250,7 +252,7 @@
 											<img
 												class="rounded-full w-6 h-6 object-cover mr-2.5 flex-shrink-0"
 												src={`${WEBUI_API_BASE_URL}/users/${user.id}/profile/image`}
-												alt="user"
+												alt=""
 											/>
 
 											<div class="font-medium truncate">{user.name}</div>

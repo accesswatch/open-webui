@@ -90,7 +90,7 @@
 <Modal size="lg" bind:show>
 	<div>
 		<div class=" flex justify-between dark:text-gray-300 px-5 pt-4 pb-1">
-			<div class=" text-lg font-medium self-center">{title}</div>
+			<h2 class=" text-lg font-medium self-center">{title}</h2>
 			<button
 				class="self-center"
 				on:click={() => {
@@ -419,6 +419,7 @@
 									<table
 										class="w-full text-sm text-left text-gray-600 dark:text-gray-400 table-auto"
 									>
+										<caption class="sr-only">{$i18n.t('Chats')}</caption>
 										<thead
 											class="text-xs text-gray-700 uppercase bg-transparent dark:text-gray-200 border-b-1 border-gray-50 dark:border-gray-850/30"
 										>

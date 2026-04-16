@@ -109,9 +109,10 @@
 		</div>
 	{:else}
 		<!-- Tool call display -->
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<div
+		<button
+			type="button"
 			class="{buttonClassName} cursor-pointer"
+			aria-expanded={open}
 			on:pointerup={() => {
 				open = !open;
 			}}
@@ -169,7 +170,7 @@
 					{/if}
 				</div>
 			</div>
-		</div>
+		</button>
 
 		{#if open}
 			<div transition:slide={{ duration: 300, easing: quintOut, axis: 'y' }}>

@@ -51,11 +51,11 @@
 	});
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
 {#if show}
 	<div
 		bind:this={modalElement}
+		role="dialog"
+		aria-modal="true"
 		class="modal fixed right-0 bottom-0 left-0 z-999 flex h-screen max-h-[100dvh] w-full justify-center overflow-hidden overscroll-contain bg-black/60"
 		in:fly={{ y: 100, duration: 100 }}
 		on:mousedown={() => {

@@ -303,8 +303,8 @@
 		</div>
 	{:else if fileVideoUrl !== null}
 		<div class="w-full h-full flex items-center justify-center bg-black">
-			<!-- svelte-ignore a11y-media-has-caption -->
 			<video src={fileVideoUrl} controls class="max-w-full max-h-full">
+				<track kind="captions" />
 				{$i18n.t('Your browser does not support the video tag.')}
 			</video>
 		</div>
@@ -442,6 +442,7 @@
 		{:else if isCsv && !showRaw && csvRows.length > 0}
 			<div class="absolute inset-0 overflow-auto px-3 pb-3">
 				<table class="csv-table text-xs font-mono border-collapse">
+					<caption class="sr-only">{$i18n.t('CSV Preview')}</caption>
 					<thead>
 						<tr>
 							<th class="csv-row-num">#</th>

@@ -258,9 +258,9 @@
 				</div>
 
 				<div class=" my-2">
-					<div class=" mb-2 text-sm font-medium">
+					<h3 class=" mb-2 text-sm font-medium">
 						{$i18n.t('Upload Pipeline')}
-					</div>
+					</h3>
 					<div class="flex w-full">
 						<div class="flex-1 mr-2">
 							<input
@@ -344,9 +344,9 @@
 				</div>
 
 				<div class=" my-2">
-					<div class=" mb-2 text-sm font-medium">
+					<h3 class=" mb-2 text-sm font-medium">
 						{$i18n.t('Install from Github URL')}
-					</div>
+					</h3>
 					<div class="flex w-full">
 						<div class="flex-1 mr-2">
 							<input

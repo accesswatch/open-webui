@@ -322,6 +322,7 @@ class Pipe:
 									class="w-full text-2xl font-medium bg-transparent outline-hidden font-primary"
 									type="text"
 									placeholder={$i18n.t('Function Name')}
+									aria-label={$i18n.t('Function Name')}
 									bind:value={name}
 									required
 								/>
@@ -344,6 +345,7 @@ class Pipe:
 									class="w-full text-sm disabled:text-gray-500 bg-transparent outline-hidden"
 									type="text"
 									placeholder={$i18n.t('Function ID')}
+									aria-label={$i18n.t('Function ID')}
 									bind:value={id}
 									required
 									disabled={edit}
@@ -360,6 +362,7 @@ class Pipe:
 								class="w-full text-sm bg-transparent outline-hidden"
 								type="text"
 								placeholder={$i18n.t('Function Description')}
+								aria-label={$i18n.t('Function Description')}
 								bind:value={meta.description}
 								required
 							/>

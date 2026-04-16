@@ -43,9 +43,9 @@
 	{#if selectedFeedback}
 		<div>
 			<div class="flex justify-between dark:text-gray-300 px-5 pt-4 pb-2">
-				<div class="text-lg font-medium self-center">
+				<h2 class="text-lg font-medium self-center">
 					{$i18n.t('Feedback Details')}
-				</div>
+				</h2>
 				<button class="self-center" on:click={close} aria-label="Close">
 					<XMark className={'size-5'} />
 				</button>

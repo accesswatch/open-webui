@@ -207,6 +207,7 @@
 		<input
 			id="search-input"
 			class="w-full rounded-r-xl py-1.5 pl-2.5 text-sm bg-transparent dark:text-gray-300 outline-hidden"
+			aria-label={$i18n.t('Search chats')}
 			placeholder={placeholder ? placeholder : $i18n.t('Search')}
 			aria-label={$i18n.t('Search chats')}
 			autocomplete="off"

@@ -160,7 +160,7 @@
 							class="self-center text-xs font-medium first-letter:capitalize ml-0.5 translate-y-[1px] {($settings?.highContrastMode ??
 							false)
 								? 'dark:text-gray-900 text-gray-100'
-								: 'invisible group-hover:visible transition'}"
+								: 'invisible group-hover:visible focus-within:visible transition'}"
 						>
 							<Tooltip content={dayjs(message.timestamp * 1000).format('LLLL')}>
 								<!-- $i18n.t('Today at {{LOCALIZED_TIME}}') -->
@@ -184,7 +184,7 @@
 					class="text-[0.65rem] font-medium first-letter:capitalize mb-0.5 {($settings?.highContrastMode ??
 					false)
 						? 'dark:text-gray-100 text-gray-900'
-						: 'invisible group-hover:visible transition text-gray-400'}"
+						: 'invisible group-hover:visible focus-within:visible transition text-gray-400'}"
 				>
 					<Tooltip content={dayjs(message.timestamp * 1000).format('LLLL')}>
 						<span class="line-clamp-1"
@@ -446,9 +446,10 @@
 										/>/{siblings.length}
 									</div>
 								{:else}
-									<!-- svelte-ignore a11y-no-static-element-interactions -->
 									<div
 										class="text-sm tracking-widest font-semibold self-center dark:text-gray-100 min-w-fit"
+										role="button"
+										tabindex="0"
 										on:dblclick={async () => {
 											messageIndexEdit = true;
 
@@ -457,6 +458,18 @@
 											if (input) {
 												input.focus();
 												input.select();
+											}
+										}}
+										on:keydown={async (e) => {
+											if (e.key === 'Enter') {
+												e.preventDefault();
+												messageIndexEdit = true;
+												await tick();
+												const input = document.getElementById(`message-index-input-${message.id}`);
+												if (input) {
+													input.focus();
+													input.select();
+												}
 											}
 										}}
 									>
@@ -493,7 +506,7 @@
 							<button
 								class="{($settings?.highContrastMode ?? false)
 									? ''
-									: 'invisible group-hover:visible'} p-1.5 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg dark:hover:text-white hover:text-black transition edit-user-message-button"
+									: 'invisible group-hover:visible focus-within:visible'} p-1.5 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg dark:hover:text-white hover:text-black transition edit-user-message-button"
 								on:click={() => {
 									editMessageHandler();
 								}}
@@ -521,7 +534,7 @@
 							<button
 								class="{($settings?.highContrastMode ?? false)
 									? ''
-									: 'invisible group-hover:visible'} p-1.5 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg dark:hover:text-white hover:text-black transition"
+									: 'invisible group-hover:visible focus-within:visible'} p-1.5 hover:bg-black/5 dark:hover:bg-white/5 rounded-lg dark:hover:text-white hover:text-black transition"
 								on:click={() => {
 									copyToClipboard(message.content);
 								}}
@@ -550,7 +563,7 @@
 								<button
 									class="{($settings?.highContrastMode ?? false)
 										? ''
-										: 'invisible group-hover:visible'} p-1 rounded-sm dark:hover:text-white hover:text-black transition"
+										: 'invisible group-hover:visible focus-within:visible'} p-1 rounded-sm dark:hover:text-white hover:text-black transition"
 									on:click={() => {
 										showDeleteConfirm = true;
 									}}
@@ -627,9 +640,10 @@
 										/>/{siblings.length}
 									</div>
 								{:else}
-									<!-- svelte-ignore a11y-no-static-element-interactions -->
 									<div
 										class="text-sm tracking-widest font-semibold self-center dark:text-gray-100 min-w-fit"
+										role="button"
+										tabindex="0"
 										on:dblclick={async () => {
 											messageIndexEdit = true;
 
@@ -638,6 +652,18 @@
 											if (input) {
 												input.focus();
 												input.select();
+											}
+										}}
+										on:keydown={async (e) => {
+											if (e.key === 'Enter') {
+												e.preventDefault();
+												messageIndexEdit = true;
+												await tick();
+												const input = document.getElementById(`message-index-input-${message.id}`);
+												if (input) {
+													input.focus();
+													input.select();
+												}
 											}
 										}}
 									>

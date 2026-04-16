@@ -355,7 +355,7 @@
 			</div>
 		{:else}
 			<div class="flex justify-between px-5 pt-4 pb-0.5">
-				<div class="text-lg font-medium self-center">{$i18n.t('Sync Usage Stats')}</div>
+				<h2 class="text-lg font-medium self-center">{$i18n.t('Sync Usage Stats')}</h2>
 				<button
 					class="self-center"
 					aria-label={$i18n.t('Close modal')}

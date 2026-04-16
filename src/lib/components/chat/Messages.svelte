@@ -439,7 +439,34 @@
 			}, 100);
 		}
 	};
+
+	const handleMessageNavigation = (e: KeyboardEvent) => {
+		// Only handle J/K when no input/textarea/contenteditable is focused
+		const tag = (e.target as HTMLElement)?.tagName;
+		if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target as HTMLElement)?.isContentEditable) {
+			return;
+		}
+		if (e.key !== 'j' && e.key !== 'k') return;
+
+		e.preventDefault();
+		const messageElements = Array.from(
+			document.querySelectorAll('[id^="message-"]')
+		) as HTMLElement[];
+		if (messageElements.length === 0) return;
+
+		const currentIdx = messageElements.findIndex((el) => el === document.activeElement);
+		let nextIdx: number;
+		if (e.key === 'j') {
+			nextIdx = currentIdx < messageElements.length - 1 ? currentIdx + 1 : currentIdx;
+		} else {
+			nextIdx = currentIdx > 0 ? currentIdx - 1 : 0;
+		}
+		messageElements[nextIdx]?.focus();
+		messageElements[nextIdx]?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+	};
 </script>
+
+<svelte:window on:keydown={handleMessageNavigation} />
 
 <div class={className}>
 	{#if Object.keys(history?.messages ?? {}).length == 0}

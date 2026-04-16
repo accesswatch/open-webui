@@ -494,13 +494,13 @@
 									{#if info.meta.profile_image_url}
 										<img
 											src={info.meta.profile_image_url}
-											alt="model profile"
+											alt=""
 											class="rounded-xl size-20 md:size-48 object-cover shrink-0"
 										/>
 									{:else}
 										<img
 											src="{WEBUI_BASE_URL}/static/favicon.png"
-											alt="model profile"
+											alt=""
 											class=" rounded-xl size-20 md:size-48 object-cover shrink-0"
 										/>
 									{/if}
@@ -552,6 +552,7 @@
 										<input
 											class="text-3xl w-full bg-transparent outline-hidden"
 											placeholder={$i18n.t('Model Name')}
+											aria-label={$i18n.t('Model Name')}
 											bind:value={name}
 											required
 										/>
@@ -562,6 +563,7 @@
 											<input
 												class="text-xs w-full bg-transparent outline-hidden"
 												placeholder={$i18n.t('Model ID')}
+												aria-label={$i18n.t('Model ID')}
 												bind:value={id}
 												disabled={edit}
 												required
@@ -596,8 +598,7 @@
 									<div>
 										<select
 											class="text-sm w-full bg-transparent outline-hidden"
-											placeholder={$i18n.t('Select a base model (e.g. llama3, gpt-4o)')}
-											bind:value={info.base_model_id}
+											placeholder={$i18n.t('Select a base model (e.g. llama3, gpt-4o)')}										aria-label={$i18n.t('Base Model (From)')}											bind:value={info.base_model_id}
 											required
 										>
 											<option value={null} class=" text-gray-900"
@@ -836,8 +837,7 @@
 						</div>
 						<input
 							class="w-full text-sm bg-transparent outline-hidden"
-							type="text"
-							bind:value={tts.voice}
+							type="text"								aria-label={$i18n.t('TTS Voice')}							bind:value={tts.voice}
 							placeholder={$i18n.t('e.g. alloy, echo, shimmer')}
 						/>
 					</div>

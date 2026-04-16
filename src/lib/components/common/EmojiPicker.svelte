@@ -127,6 +127,7 @@
 					type="text"
 					class="w-full text-sm bg-transparent outline-hidden"
 					placeholder={$i18n.t('Search all emojis')}
+					aria-label={$i18n.t('Search all emojis')}
 					bind:value={search}
 				/>
 			</div>

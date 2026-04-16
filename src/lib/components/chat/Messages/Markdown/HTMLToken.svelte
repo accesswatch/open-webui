@@ -22,7 +22,6 @@
 		{@const video = html.match(/<video[^>]*>([\s\S]*?)<\/video>/)}
 		{@const videoSrc = video && video[1]}
 		{#if videoSrc}
-			<!-- svelte-ignore a11y-media-has-caption -->
 			<video
 				class="w-full my-2"
 				src={videoSrc.replaceAll('&amp;', '&')}
@@ -31,7 +30,9 @@
 				referrerpolicy="strict-origin-when-cross-origin"
 				controls
 				allowfullscreen
-			></video>
+			>
+				<track kind="captions" />
+			</video>
 		{:else}
 			{token.text}
 		{/if}
@@ -39,13 +40,14 @@
 		{@const audio = html.match(/<audio[^>]*>([\s\S]*?)<\/audio>/)}
 		{@const audioSrc = audio && audio[1]}
 		{#if audioSrc}
-			<!-- svelte-ignore a11y-media-has-caption -->
 			<audio
 				class="w-full my-2"
 				src={audioSrc.replaceAll('&amp;', '&')}
 				title="Audio player"
 				controls
-			></audio>
+			>
+				<track kind="captions" />
+			</audio>
 		{:else}
 			{token.text}
 		{/if}
